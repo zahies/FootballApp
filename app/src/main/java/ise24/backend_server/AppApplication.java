@@ -1,6 +1,7 @@
 package ise24.backend_server;
 
 import API.GuestRestController;
+import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Team;
 import Domain.Users.Member;
 import Domain.Users.Player;
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.ComponentScan;
 public class AppApplication {
 
     public static void main(String[] args) {
-
         Member member = new Player("Ohana","FSAF",416,"123",214,"GSDG",null);
         Member teamowner = new TeamOwner("Moshe","DASD",123,"asd");
         Team team = new Team("Bet",((TeamOwner)teamowner));

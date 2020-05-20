@@ -2,6 +2,9 @@
   <library name="activation">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/activation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/javafx.base.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/smtp-1.6.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
