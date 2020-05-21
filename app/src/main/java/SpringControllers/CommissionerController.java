@@ -1,15 +1,15 @@
 package SpringControllers;
 
-import Domain.SeasonManagment.ICommissionerRule;
-import Domain.SeasonManagment.IPlaceTeamsPolicy;
-import Domain.SeasonManagment.IScorePolicy;
-import Domain.SeasonManagment.Leaugue;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.SeasonManagmentDAL.GamesDAL;
+import Domain.SeasonManagment.*;
 import Domain.Users.Commissioner;
 import Domain.Users.Referee;
 import FootballExceptions.*;
 import javafx.util.Pair;
 
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 
 public class CommissionerController extends MemberController {
 
@@ -71,16 +71,66 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.5
      */
-    public void setNewScorePolicy(Commissioner commissioner, int idLeg, int year, IScorePolicy sp) {
-        commissioner.setNewScorePolicy(idLeg, year, sp);
+    public void setNewScorePolicy(String username,int idLeg, int year,int winVal, int loseVal, int drawVal) {
+        IScorePolicy sp = new IScorePolicy(){
+
+            @Override
+            public int winVal() {
+                return winVal;
+            }
+
+            @Override
+            public int looseVal() {
+                return loseVal;
+            }
+
+            @Override
+            public int drowVal() {
+                return drawVal;
+            }
+        };
+
+//        try {
+//            Commissioner commissioner = new CommissionerDAL().select(username);
+//            commissioner.setNewScorePolicy(idLeg, year, sp);
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        } catch (NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (NoPermissionException e) {
+//            e.printStackTrace();
+//        }
     }
 
 
     /**
      * uc 9.6
      */
-    public void setNewPlaceTeamsPolicy(Commissioner commissioner, int idLeg, int year, IPlaceTeamsPolicy pp) {
-        commissioner.setNewPlaceTeamsPolicy(idLeg, year, pp);
+    public void setNewPlaceTeamsPolicy(String username, int idLeg, int year, int numGames) {
+        IPlaceTeamsPolicy pp = new IPlaceTeamsPolicy() {
+            @Override
+            public int numOfGamesWithEachTeam() {
+                return numGames;
+            }
+        };
+//        try {
+//            Commissioner commissioner = new CommissionerDAL().select(username);
+//            commissioner.setNewPlaceTeamsPolicy(idLeg, year, pp);
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        } catch (NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (NoPermissionException e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -100,8 +150,30 @@ public class CommissionerController extends MemberController {
     /**
      * UC 9.8 - Define rules about BUDGET CONTROL
      */
-    public void defineBudgetControl(Commissioner commissioner, ICommissionerRule newRule) {
-        commissioner.defineBudgetControl(newRule);
+    public void defineBudgetControl(String username, int ruleAmount) {
+        ICommissionerRule newRule = new ICommissionerRule() {
+            @Override
+            public int payRule() {
+                return ruleAmount;
+            }
+        };
+
+//        try {
+//            Commissioner commissioner = new CommissionerDAL().select(username);
+//            commissioner.defineBudgetControl(newRule);
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        } catch (NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (NoPermissionException e) {
+//            e.printStackTrace();
+//        }
+
+
     }
 
 

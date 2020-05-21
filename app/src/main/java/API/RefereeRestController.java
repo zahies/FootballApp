@@ -9,10 +9,7 @@ import FootballExceptions.UserIsNotThisKindOfMemberException;
 import SpringControllers.RefereeController;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -28,6 +25,12 @@ public class RefereeRestController {
         refereeController = new RefereeController();
     }
 
+
+    @GetMapping
+    public String get(){
+        System.out.println("DSDDASD");
+        return "reffff";
+    }
 
     @PostMapping("/addEvent")
     public boolean addEventToGame(@RequestBody Map<String,String> body){

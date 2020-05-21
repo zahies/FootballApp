@@ -59,9 +59,9 @@ public class GuestRestController {
     }
 
 
-    @GetMapping("/{instance}")
-    public String getHomepageByInstance(@PathVariable Member instance){
-        return "FSD";
+    @GetMapping("/{username}")
+    public String getHomepageByInstance(@PathVariable String username){
+        return username;
     }
 
 }
