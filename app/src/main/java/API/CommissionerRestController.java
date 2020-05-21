@@ -60,6 +60,7 @@ public class CommissionerRestController {
     public void addCommissionerRule(@RequestBody Map<String,String> body){
         String commissionerUsername = body.get("username");
         int ruleAmount = Integer.parseInt(body.get("ruleAmount"));
+        
         comController.defineBudgetControl(commissionerUsername,ruleAmount);
     }
 
