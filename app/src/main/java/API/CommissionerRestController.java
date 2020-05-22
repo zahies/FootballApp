@@ -29,7 +29,7 @@ public class CommissionerRestController {
 
 
 
-
+    @CrossOrigin
     @PostMapping("/addScorePolicy")
     public void addScorePolicy(@RequestBody Map<String,String> body){
         String commissionerUsername = body.get("username");
@@ -41,7 +41,7 @@ public class CommissionerRestController {
         comController.setNewScorePolicy(commissionerUsername,leagueId,year,winVal,loseVal,drawVal);
     }
 
-
+    @CrossOrigin
     @PostMapping("/addTeamsPolicy")
     public void addPlaceTeamsPolicy(@RequestBody Map<String,String> body){
         String commissionerUsername = body.get("username");
@@ -56,11 +56,12 @@ public class CommissionerRestController {
     /**
      * UC 9.8 - Define rules about BUDGET CONTROL
      */
+    @CrossOrigin
     @PostMapping("/addCommissionerRule")
     public void addCommissionerRule(@RequestBody Map<String,String> body){
         String commissionerUsername = body.get("username");
         int ruleAmount = Integer.parseInt(body.get("ruleAmount"));
-        
+
         comController.defineBudgetControl(commissionerUsername,ruleAmount);
     }
 
