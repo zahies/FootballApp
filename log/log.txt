@@ -7566,3 +7566,21 @@ Fri May 22 17:53:46 EEST 2020 New teamBet has been added to system by owner: Mos
 Fri May 22 17:53:46 EEST 2020 Ohanahas become team manager of : Bet
 Fri May 22 17:59:57 EEST 2020 New teamBet has been added to system by owner: Moshe
 Fri May 22 17:59:57 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 23 12:53:51 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 23 12:53:51 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 23 12:59:04 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 23 12:59:04 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 23 13:01:42 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 23 13:01:42 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 23 14:35:06 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 23 14:35:06 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 23 14:39:10 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 23 14:39:10 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 23 14:41:31 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 23 14:41:32 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 23 14:41:50 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 23 14:41:50 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 23 14:48:01 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 23 14:48:01 EEST 2020 Ohanahas become team manager of : Bet
+Mon May 25 12:24:33 IDT 2020 New teamBet has been added to system by owner: Moshe
+Mon May 25 12:24:33 IDT 2020 Ohanahas become team manager of : Bet

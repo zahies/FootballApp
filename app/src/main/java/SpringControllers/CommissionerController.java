@@ -71,7 +71,8 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.5
      */
-    public void setNewScorePolicy(String username,int idLeg, int year,int winVal, int loseVal, int drawVal) {
+    public boolean setNewScorePolicy(String username,int idLeg, int year,int winVal, int loseVal, int drawVal) {
+        boolean succeeded = false;
         IScorePolicy sp = new IScorePolicy(){
 
             @Override
@@ -93,6 +94,7 @@ public class CommissionerController extends MemberController {
 //        try {
 //            Commissioner commissioner = new CommissionerDAL().select(username);
 //            commissioner.setNewScorePolicy(idLeg, year, sp);
+//            succeeded = true;
 //        } catch (SQLException throwables) {
 //            throwables.printStackTrace();
 //        } catch (UserInformationException e) {
@@ -104,13 +106,15 @@ public class CommissionerController extends MemberController {
 //        } catch (NoPermissionException e) {
 //            e.printStackTrace();
 //        }
+    return succeeded;
     }
 
 
     /**
      * uc 9.6
      */
-    public void setNewPlaceTeamsPolicy(String username, int idLeg, int year, int numGames) {
+    public boolean setNewPlaceTeamsPolicy(String username, int idLeg, int year, int numGames) {
+        boolean succeeded = false;
         IPlaceTeamsPolicy pp = new IPlaceTeamsPolicy() {
             @Override
             public int numOfGamesWithEachTeam() {
@@ -120,6 +124,7 @@ public class CommissionerController extends MemberController {
 //        try {
 //            Commissioner commissioner = new CommissionerDAL().select(username);
 //            commissioner.setNewPlaceTeamsPolicy(idLeg, year, pp);
+//            succeeded = true;
 //        } catch (SQLException throwables) {
 //            throwables.printStackTrace();
 //        } catch (UserInformationException e) {
@@ -131,6 +136,7 @@ public class CommissionerController extends MemberController {
 //        } catch (NoPermissionException e) {
 //            e.printStackTrace();
 //        }
+        return succeeded;
     }
 
 
@@ -150,7 +156,8 @@ public class CommissionerController extends MemberController {
     /**
      * UC 9.8 - Define rules about BUDGET CONTROL
      */
-    public void defineBudgetControl(String username, int ruleAmount) {
+    public boolean defineBudgetControl(String username, int ruleAmount) {
+        boolean succeeded = false;
         ICommissionerRule newRule = new ICommissionerRule() {
             @Override
             public int payRule() {
@@ -161,6 +168,7 @@ public class CommissionerController extends MemberController {
 //        try {
 //            Commissioner commissioner = new CommissionerDAL().select(username);
 //            commissioner.defineBudgetControl(newRule);
+//            succeeded = true;
 //        } catch (SQLException throwables) {
 //            throwables.printStackTrace();
 //        } catch (UserInformationException e) {
@@ -173,6 +181,7 @@ public class CommissionerController extends MemberController {
 //            e.printStackTrace();
 //        }
 
+        return succeeded;
 
     }
 

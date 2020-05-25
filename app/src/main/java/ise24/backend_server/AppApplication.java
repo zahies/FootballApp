@@ -1,7 +1,6 @@
 package ise24.backend_server;
 
 import API.GuestRestController;
-import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Team;
 import Domain.Users.Member;
 import Domain.Users.Player;
@@ -38,7 +37,7 @@ public class AppApplication {
         }
         SpringApplication app = new SpringApplication(AppApplication.class);
         app.setDefaultProperties(Collections
-                .singletonMap("server.port", "8083"));
+                .singletonMap("server.port", "8082"));
         app.run(args);
     }
 

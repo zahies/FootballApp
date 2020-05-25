@@ -209,12 +209,13 @@ public class TeamOwner extends Member {
         this.team = team;
     }
 
-    public void sendRegisterRequest(Leaugue leaugue, int year){
+    public void sendRegisterRequestForNewTeam(String teamName,Leaugue leaugue, int year){
+        Team newTeam = new Team(teamName,this);
         HashMap<String, LinkedList<Member>> members = system.getMembers();
         for (String name : members.keySet()) {
             for (int i = 0; i < members.get(name).size(); i++) {
                 if (members.get(name).get(i) instanceof Commissioner) {
-                    members.get(name).get(i).handleAlert(new RegistrationRequestAlert(team,leaugue,year));
+                    members.get(name).get(i).handleAlert(new RegistrationRequestAlert(newTeam,leaugue,year));
                 }
             }
         }

@@ -47,6 +47,16 @@ public class GuestRestController {
                     returnVal.put("Player","true");
                 }else if(member instanceof TeamManager){
                     returnVal.put("TeamManager","true");
+                }else if(member instanceof TeamManager){
+                    returnVal.put("TeamManager","true");
+                }else if(member instanceof TeamManager){
+                    returnVal.put("TeamManager","true");
+                }else if(member instanceof TeamManager){
+                    returnVal.put("TeamManager","true");
+                }else if(member instanceof TeamManager){
+                    returnVal.put("TeamManager","true");
+                }else if(member instanceof TeamManager){
+                    returnVal.put("TeamManager","true");
                 }
             }
 
@@ -59,9 +69,9 @@ public class GuestRestController {
     }
 
 
-    @GetMapping("/{username}")
-    public String getHomepageByInstance(@PathVariable String username){
-        return username;
+    @GetMapping("/{user}")
+    public String getHomepageByInstance(@PathVariable String user){
+        return user;
     }
 
 }

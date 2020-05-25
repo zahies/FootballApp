@@ -35,7 +35,6 @@ public class RefereeRestController {
     @PostMapping("/addEvent")
     public boolean addEventToGame(@RequestBody Map<String,String> body){
         int gameID = Integer.parseInt(body.get("gameID"));
-
         try {
             Game game = new GamesDAL().select(gameID);
         } catch (SQLException throwables) {
