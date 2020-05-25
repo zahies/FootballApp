@@ -34,6 +34,7 @@ public class GuestRestController {
         return "ASDF";
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     @JsonIgnore
     public Map<String, String> login(@RequestBody Map <String,String> body, final HttpServletResponse response) throws IOException {

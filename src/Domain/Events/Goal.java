@@ -10,4 +10,10 @@ public class Goal extends AGameEvent implements IEvent {
     public Goal(double gameMinute) {
         super(gameMinute);
     }
+
+
+    @Override
+    public String toString() {
+        return (getClass().getName());
+    }
 }

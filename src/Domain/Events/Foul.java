@@ -11,4 +11,10 @@ public class Foul extends AGameEvent implements IEvent {
     public Foul(double gameMinute) {
         super(gameMinute);
     }
+
+
+    @Override
+    public String toString() {
+        return (getClass().getName());
+    }
 }

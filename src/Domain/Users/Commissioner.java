@@ -59,7 +59,8 @@ public class Commissioner extends Member {
             throw new RefereeEmailWasNotEntered("set the email for the referee first & try again");
         }
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
-        system.sendInvitationByMail(ref.getEmail(), "Invitation For FootballApp", "Hello " + ref.getName() + "\nWe're excited to invite you to use our FootballApp.\nCome and join us :)");
+      //  system.sendInvitationByMail(ref.getEmail(), "Invitation For FootballApp", "Hello " + ref.getName() + "\nWe're excited to invite you to use our FootballApp.\nCome and join us :)");
+        system.sendInvitationByMail("shira.wert@gmail.com");
         system.addReferee(ref);
     }
 

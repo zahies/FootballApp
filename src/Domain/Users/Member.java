@@ -57,11 +57,8 @@ public abstract class Member extends GeneralUser {
     public void handleAlert(IAlert newAlert) {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         if (alertViaMail) {
-            try {
-                system.sendInvitationByMail(this.mailAddress, "You have A new Alert in Football App", newAlert.toString());
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
+            //system.sendInvitationByMail(this.mailAddress, "You have A new Alert in Football App", newAlert.toString());
+            system.sendInvitationByMail("shira.wert@gmail.cpm");
             return;
         }
         if (isActive) {

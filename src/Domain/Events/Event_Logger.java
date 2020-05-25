@@ -25,4 +25,11 @@ public class Event_Logger {
     }
 
 
+    @Override
+    public String toString() {
+        return "Event_Logger{" +
+                "events=" + events +
+//                ", game=" + game +
+                '}';
+    }
 }

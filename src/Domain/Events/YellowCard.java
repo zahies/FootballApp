@@ -10,4 +10,10 @@ public class YellowCard extends AGameEvent implements IEvent {
     public YellowCard(double gameMinute) {
         super(gameMinute);
     }
+
+
+    @Override
+    public String toString() {
+        return (getClass().getName());
+    }
 }

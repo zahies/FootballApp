@@ -10,4 +10,10 @@ public class Injury extends AGameEvent implements IEvent {
     public Injury(double gameMinute) {
         super(gameMinute);
     }
+
+
+    @Override
+    public String toString() {
+        return (getClass().getName());
+    }
 }
