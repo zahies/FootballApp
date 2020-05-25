@@ -10,4 +10,9 @@ public interface IEvent {
 
     public double getGameMinute();
 
+
+
+
+
+
 }

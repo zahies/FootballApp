@@ -13,10 +13,8 @@ import FootballExceptions.LeagueIDAlreadyExist;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
@@ -24,6 +22,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+
 
 
 public class FootballManagmentSystem extends TimerTask {
@@ -694,6 +698,7 @@ public class FootballManagmentSystem extends TimerTask {
     }
 
 
+/*
     public void sendInvitationByMail(String emailRecipient, String subject, String content) throws UnknownHostException, UnknownHostException {
         InetAddress ip = InetAddress.getLocalHost();
         System.out.println(ip);
@@ -716,6 +721,57 @@ public class FootballManagmentSystem extends TimerTask {
             mex.printStackTrace();
         }
     }
+*/
+
+    public void sendInvitationByMail(String recipent, String subject, String content) {
+        System.out.println("prepare");
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+       // properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        String myAccountEmail = "footballappteam@gmail.com";
+        String password = "bestTeam123";
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(myAccountEmail, password);
+            }
+        });
+
+        Message message = prepareMessage(session,myAccountEmail, recipent, subject, content);
+        try {
+            Transport t = session.getTransport("smtp");
+            t.connect(myAccountEmail, password);
+            t.sendMessage(message, message.getAllRecipients());
+            t.close();
+            System.out.println("Message sent!");
+        }
+        catch(MessagingException ms){
+            ms.printStackTrace();
+        }
+
+    }
+
+    private Message prepareMessage(Session session, String myAccountEmail, String recipent, String subject, String content) {
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(myAccountEmail));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipent));
+            message.setSubject(subject);
+            message.setText(content);
+            return message;
+        }
+        catch(MessagingException ex){
+         //   Logger.getLogger(JavaMailUtil.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return null;
+    }
+
 
     public LinkedList<PersonalInfo> getPersonalPages() {
         LinkedList<PersonalInfo> pi = new LinkedList<PersonalInfo>();
@@ -723,3 +779,6 @@ public class FootballManagmentSystem extends TimerTask {
         return (pi);
     }
 }
+
+
+

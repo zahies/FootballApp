@@ -222,4 +222,11 @@ public class TeamOwner extends Member {
     }
 
 
+    @Override
+    public String toString() {
+        return "TeamOwner{" +
+//                "team=" + team +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -191,4 +191,15 @@ public class Referee extends Member implements Observer {
     public void setGames(List<Game> games) {
         this.games = games;
     }
+
+
+    @Override
+    public String toString() {
+        return "Referee{" +
+                "email='" + email + '\'' +
+                ", type=" + type +
+//                ", games=" + games +
+//                ", system=" + system +
+                '}';
+    }
 }

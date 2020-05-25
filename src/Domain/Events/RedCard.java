@@ -10,4 +10,9 @@ public class RedCard extends AGameEvent implements IEvent {
     public RedCard(double gameMinute) {
         super(gameMinute);
     }
+
+    @Override
+    public String toString() {
+        return (getClass().getName());
+    }
 }
