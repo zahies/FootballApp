@@ -60,7 +60,7 @@ public class RefereeRestController {
         int gameID = Integer.parseInt(body.get("gameID"));
         String playerUserName = body.get("playerusername");
         flag = refereeController.addEventToGame(refereeUserName, eventType, minute, gameID, playerUserName);
-        if (flag){ //todo
+        if (flag){ //todo pop up success
 
         }
         else{
@@ -74,7 +74,7 @@ public class RefereeRestController {
     @GetMapping ("/games")
     public Map<String,String> getGames(final HttpServletResponse response) {
         HashMap<String, String> ans = new HashMap<String,String>();
-        ans.put("check", game.toString());
+        ans.put("id", game.toString());
         return ans;
     }
 

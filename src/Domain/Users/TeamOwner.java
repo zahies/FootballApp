@@ -1,13 +1,14 @@
 package Domain.Users;
 
+import Domain.Alerts.FinancialAlert;
+import Domain.Alerts.RegistrationRequestAlert;
 import Domain.FootballManagmentSystem;
-import Domain.SeasonManagment.BudgetActivity;
-import Domain.SeasonManagment.IAsset;
-import Domain.SeasonManagment.Team;
-import Domain.SeasonManagment.TeamStatus;
+import Domain.SeasonManagment.*;
 import FootballExceptions.*;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class TeamOwner extends Member {
 
@@ -206,6 +207,18 @@ public class TeamOwner extends Member {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public void sendRegisterRequestForNewTeam(String teamName,Leaugue leaugue, int year){
+        Team newTeam = new Team(teamName,this);
+        HashMap<String, LinkedList<Member>> members = system.getMembers();
+        for (String name : members.keySet()) {
+            for (int i = 0; i < members.get(name).size(); i++) {
+                if (members.get(name).get(i) instanceof Commissioner) {
+                    members.get(name).get(i).handleAlert(new RegistrationRequestAlert(newTeam,leaugue,year));
+                }
+            }
+        }
     }
 
 

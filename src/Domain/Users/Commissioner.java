@@ -1,5 +1,7 @@
 package Domain.Users;
 
+import Domain.Alerts.IAlert;
+import Domain.Alerts.RegistrationRequestAlert;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.*;
 import FootballExceptions.*;
@@ -9,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class Commissioner extends Member {
 
@@ -195,6 +198,16 @@ public class Commissioner extends Member {
             throw new FinanceAssActivityNotFound("there is not activity such that !");
         }
 
+    }
+
+    public void responseToRegisterTeamByAlert(){
+        Queue<IAlert> alerts = getAlertsList();
+        FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+        for (IAlert alert : alerts) {
+            if (alert instanceof RegistrationRequestAlert){
+                system.addTeam(((RegistrationRequestAlert) alert).getTeam());
+            }
+        }
     }
 
 

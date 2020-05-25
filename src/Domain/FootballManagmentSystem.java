@@ -723,7 +723,7 @@ public class FootballManagmentSystem extends TimerTask {
     }
 */
 
-    public void sendInvitationByMail(String recipent) {
+    public void sendInvitationByMail(String recipent, String subject, String content) {
         System.out.println("prepare");
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
@@ -742,7 +742,7 @@ public class FootballManagmentSystem extends TimerTask {
             }
         });
 
-        Message message = prepareMessage(session,myAccountEmail, recipent);
+        Message message = prepareMessage(session,myAccountEmail, recipent, subject, content);
         try {
             Transport t = session.getTransport("smtp");
             t.connect(myAccountEmail, password);
@@ -756,13 +756,13 @@ public class FootballManagmentSystem extends TimerTask {
 
     }
 
-    private Message prepareMessage(Session session, String myAccountEmail, String recipent) {
+    private Message prepareMessage(Session session, String myAccountEmail, String recipent, String subject, String content) {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipent));
-            message.setSubject("Hello");
-            message.setText("Hi there, \n Look my email");
+            message.setSubject(subject);
+            message.setText(content);
             return message;
         }
         catch(MessagingException ex){

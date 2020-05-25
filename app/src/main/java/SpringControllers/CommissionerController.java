@@ -1,15 +1,15 @@
 package SpringControllers;
 
-import Domain.SeasonManagment.ICommissionerRule;
-import Domain.SeasonManagment.IPlaceTeamsPolicy;
-import Domain.SeasonManagment.IScorePolicy;
-import Domain.SeasonManagment.Leaugue;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.SeasonManagmentDAL.GamesDAL;
+import Domain.SeasonManagment.*;
 import Domain.Users.Commissioner;
 import Domain.Users.Referee;
 import FootballExceptions.*;
 import javafx.util.Pair;
 
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 
 public class CommissionerController extends MemberController {
 
@@ -71,16 +71,72 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.5
      */
-    public void setNewScorePolicy(Commissioner commissioner, int idLeg, int year, IScorePolicy sp) {
-        commissioner.setNewScorePolicy(idLeg, year, sp);
+    public boolean setNewScorePolicy(String username,int idLeg, int year,int winVal, int loseVal, int drawVal) {
+        boolean succeeded = false;
+        IScorePolicy sp = new IScorePolicy(){
+
+            @Override
+            public int winVal() {
+                return winVal;
+            }
+
+            @Override
+            public int looseVal() {
+                return loseVal;
+            }
+
+            @Override
+            public int drowVal() {
+                return drawVal;
+            }
+        };
+
+//        try {
+//            Commissioner commissioner = new CommissionerDAL().select(username);
+//            commissioner.setNewScorePolicy(idLeg, year, sp);
+//            succeeded = true;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        } catch (NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (NoPermissionException e) {
+//            e.printStackTrace();
+//        }
+    return succeeded;
     }
 
 
     /**
      * uc 9.6
      */
-    public void setNewPlaceTeamsPolicy(Commissioner commissioner, int idLeg, int year, IPlaceTeamsPolicy pp) {
-        commissioner.setNewPlaceTeamsPolicy(idLeg, year, pp);
+    public boolean setNewPlaceTeamsPolicy(String username, int idLeg, int year, int numGames) {
+        boolean succeeded = false;
+        IPlaceTeamsPolicy pp = new IPlaceTeamsPolicy() {
+            @Override
+            public int numOfGamesWithEachTeam() {
+                return numGames;
+            }
+        };
+//        try {
+//            Commissioner commissioner = new CommissionerDAL().select(username);
+//            commissioner.setNewPlaceTeamsPolicy(idLeg, year, pp);
+//            succeeded = true;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        } catch (NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (NoPermissionException e) {
+//            e.printStackTrace();
+//        }
+        return succeeded;
     }
 
 
@@ -100,8 +156,33 @@ public class CommissionerController extends MemberController {
     /**
      * UC 9.8 - Define rules about BUDGET CONTROL
      */
-    public void defineBudgetControl(Commissioner commissioner, ICommissionerRule newRule) {
-        commissioner.defineBudgetControl(newRule);
+    public boolean defineBudgetControl(String username, int ruleAmount) {
+        boolean succeeded = false;
+        ICommissionerRule newRule = new ICommissionerRule() {
+            @Override
+            public int payRule() {
+                return ruleAmount;
+            }
+        };
+
+//        try {
+//            Commissioner commissioner = new CommissionerDAL().select(username);
+//            commissioner.defineBudgetControl(newRule);
+//            succeeded = true;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        } catch (NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (NoPermissionException e) {
+//            e.printStackTrace();
+//        }
+
+        return succeeded;
+
     }
 
 
