@@ -11,8 +11,7 @@ public class FinancialAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "FinancialAlert{" +
-                "minus=" + minus +
+        return "minus=" + minus +
                 '}';
     }
 

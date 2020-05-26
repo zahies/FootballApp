@@ -23,8 +23,7 @@ public class TeamManagmentAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "TeamManagmentAlert{" +
-                "team status = " + teamStatus + " , message = " + message +
+        return "team status = " + teamStatus + " , message = " + message +
                 " }";
     }
 

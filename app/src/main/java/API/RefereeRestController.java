@@ -1,29 +1,18 @@
 package API;
 
-import DataAccess.Exceptions.NoConnectionException;
-import DataAccess.SeasonManagmentDAL.GamesDAL;
-import DataAccess.UsersDAL.PlayersDAL;
 import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.Team;
 import Domain.Users.Player;
 import Domain.Users.Referee;
 import Domain.Users.RefereeType;
 import Domain.Users.TeamOwner;
-import FootballExceptions.NoPermissionException;
 import FootballExceptions.PersonalPageYetToBeCreatedException;
-import FootballExceptions.UserInformationException;
-import FootballExceptions.UserIsNotThisKindOfMemberException;
 import SpringControllers.RefereeController;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import javafx.util.Pair;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.*;
 
 @RequestMapping("footballapp/referee")
@@ -75,14 +64,8 @@ public class RefereeRestController {
     }
 
 
-    @GetMapping ("/games")
-    public Map<String,String> getGames(final HttpServletResponse response) {
-        HashMap<String, String> ans = new HashMap<String,String>();
-        ans.put("id", game.toString());
-        return ans;
-    }
 
-    @GetMapping("/test")
+    @GetMapping("/games")
     public String test() {
         games.add(game);
         games.add(game);
@@ -103,8 +86,6 @@ public class RefereeRestController {
             }
         }
         Message+="]";
-
-
         return Message;
     }
 

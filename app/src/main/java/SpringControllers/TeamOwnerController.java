@@ -1,13 +1,17 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.UsersDAL.TeamOwnersDAL;
 import Domain.SeasonManagment.BudgetActivity;
 import Domain.SeasonManagment.IAsset;
+import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.TeamStatus;
 import Domain.Users.Member;
 import Domain.Users.TeamManager;
 import Domain.Users.TeamOwner;
 import FootballExceptions.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 public class TeamOwnerController extends MemberController {
@@ -172,5 +176,27 @@ public class TeamOwnerController extends MemberController {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+
+    public boolean sendRegisterRequestForNewTeam(String username, String teamName, int leaugueID, int year){
+        boolean succeeded = false;
+//        try {
+//            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(username);
+//            Leaugue league = new LeaugueDAL().select(leaugueID);
+//            teamOwner.sendRegisterRequestForNewTeam(teamName,league,year);
+//            succeeded = true;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        } catch (NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (NoPermissionException e) {
+//            e.printStackTrace();
+//        }
+        return succeeded;
     }
 }

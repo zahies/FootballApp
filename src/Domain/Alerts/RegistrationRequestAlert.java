@@ -17,8 +17,7 @@ public class RegistrationRequestAlert implements IAlert{
 
     @Override
     public String toString() {
-        return "RegistrationRequestAlert{" +
-                "team name = " + team.getName() + " , is willing to register to league = " + leaugue.getID() +" , inside season at year = " + year +
+        return "team name = " + team.getName() + " , is willing to register to league = " + leaugue.getID() +" , inside season at year = " + year +
                 " }";
     }
 

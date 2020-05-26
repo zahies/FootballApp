@@ -2,12 +2,17 @@ package API;
 
 
 
+import Domain.FootballManagmentSystem;
+import Domain.SeasonManagment.Leaugue;
 import SpringControllers.CommissionerController;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("footballapp/commissioner")
@@ -80,8 +85,9 @@ public class CommissionerRestController {
     public void addCommissionerRule(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {
         boolean succeeded;
         String commissionerUsername = body.get("username");
+        String description = body.get("description");
         int ruleAmount = Integer.parseInt(body.get("ruleAmount"));
-        succeeded =  comController.defineBudgetControl(commissionerUsername,ruleAmount);
+        succeeded =  comController.defineBudgetControl(commissionerUsername,ruleAmount,description);
         if (succeeded){
             /**pop up success*/
             response.setStatus(HttpServletResponse.SC_ACCEPTED, "Your Rule Added Successfully ! ");
@@ -91,6 +97,32 @@ public class CommissionerRestController {
         }
     }
 
+    @CrossOrigin
+    @GetMapping("/leagues")
+    public String getLeagues(){
+        FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+        List<Leaugue> leaugues = system.getAllLeagus();
+        Leaugue leaugue = new Leaugue();
+        leaugue.setId(2);
+        Leaugue leaugue1 = new Leaugue();
+        leaugue1.setId(22);
+        leaugues.add(leaugue);
+        leaugues.add(leaugue1);
 
+        String message = "[";
+        int i = 0;
+        for (Leaugue league:leaugues) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("leagueID", league.getID());
+            message+= jsonObject.toString(2);
+            i++;
+            if (i<leaugues.size()){
+                message+=",";
+            }
+        }
+        message += "]";
+
+        return message;
+    }
 
 }

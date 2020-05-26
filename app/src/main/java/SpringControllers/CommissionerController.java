@@ -156,12 +156,17 @@ public class CommissionerController extends MemberController {
     /**
      * UC 9.8 - Define rules about BUDGET CONTROL
      */
-    public boolean defineBudgetControl(String username, int ruleAmount) {
+    public boolean defineBudgetControl(String username, int ruleAmount,String desc) {
         boolean succeeded = false;
         ICommissionerRule newRule = new ICommissionerRule() {
             @Override
             public int payRule() {
                 return ruleAmount;
+            }
+
+            @Override
+            public String getDescription() {
+                return desc;
             }
         };
 

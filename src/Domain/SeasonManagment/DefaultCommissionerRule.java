@@ -13,6 +13,11 @@ public class DefaultCommissionerRule implements ICommissionerRule {
     }
 
     @Override
+    public String getDescription() {
+        return toString();
+    }
+
+    @Override
     public String toString() {
         return "Default Commissioner Rule - Opening Tax";
     }
