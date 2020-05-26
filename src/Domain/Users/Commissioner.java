@@ -63,7 +63,7 @@ public class Commissioner extends Member {
         }
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
       //  system.sendInvitationByMail(ref.getEmail(), "Invitation For FootballApp", "Hello " + ref.getName() + "\nWe're excited to invite you to use our FootballApp.\nCome and join us :)");
-        system.sendInvitationByMail("shira.wert@gmail.com");
+        system.sendInvitationByMail("shira.wert@gmail.com","HII" , "HEYY");
         system.addReferee(ref);
     }
 

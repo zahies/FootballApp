@@ -12,6 +12,7 @@ import java.util.LinkedList;
 
 public class GuestController {
     public LinkedList<Member> login(String username, String password) throws UserInformationException {
+
         return new Guest().login(username, password);
 
     }

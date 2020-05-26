@@ -58,7 +58,7 @@ public abstract class Member extends GeneralUser {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         if (alertViaMail) {
             //system.sendInvitationByMail(this.mailAddress, "You have A new Alert in Football App", newAlert.toString());
-            system.sendInvitationByMail("shira.wert@gmail.cpm");
+            system.sendInvitationByMail("shira.wert@gmail.cpm","hi there","nice");
             return;
         }
         if (isActive) {

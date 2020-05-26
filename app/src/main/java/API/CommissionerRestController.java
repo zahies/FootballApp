@@ -45,6 +45,7 @@ public class CommissionerRestController {
         succeeded = comController.setNewScorePolicy(commissionerUsername,leagueId,year,winVal,loseVal,drawVal);
         if (succeeded){
             /**pop up success*/
+            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Score Policy Added Successfully ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
@@ -62,6 +63,7 @@ public class CommissionerRestController {
         succeeded = comController.setNewPlaceTeamsPolicy(commissionerUsername,leagueId,year,numGames);
         if (succeeded){
             /**pop up success*/
+            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Place Teams Policy Added Successfully ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
@@ -82,6 +84,7 @@ public class CommissionerRestController {
         succeeded =  comController.defineBudgetControl(commissionerUsername,ruleAmount);
         if (succeeded){
             /**pop up success*/
+            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Your Rule Added Successfully ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");

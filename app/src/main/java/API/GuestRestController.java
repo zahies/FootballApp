@@ -1,14 +1,13 @@
 package API;
 
-import Domain.Users.Member;
-import Domain.Users.Player;
-import Domain.Users.TeamManager;
+import Domain.Users.*;
 import FootballExceptions.UserInformationException;
 import SpringControllers.GuestController;
 import SpringControllers.MemberController;
 import SpringControllers.PlayerController;
 import SpringControllers.TeamManagerController;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,32 +36,34 @@ public class GuestRestController {
     @CrossOrigin
     @PostMapping("/login")
     @JsonIgnore
-    public Map<String, String> login(@RequestBody Map <String,String> body, final HttpServletResponse response) throws IOException {
+    public String login(@RequestBody Map <String,String> body, final HttpServletResponse response) throws IOException {
         try {
-            LinkedList <MemberController> memberControllers = new LinkedList<>();
+            LinkedList<String> usersWhoAreLoggedIn = new LinkedList<>(); /** username */
             LinkedList<Member> membersAccounts = guestController.login(body.get("username"),body.get("password"));
-            Map <String,String> returnVal = new HashMap<>();
-
+            JSONObject json2 = new JSONObject();
             for (Member member : membersAccounts) {
                 if(member instanceof Player){
-                    returnVal.put("Player","true");
+                    json2.put("Player","true");
                 }else if(member instanceof TeamManager){
-                    returnVal.put("TeamManager","true");
-                }else if(member instanceof TeamManager){
-                    returnVal.put("TeamManager","true");
-                }else if(member instanceof TeamManager){
-                    returnVal.put("TeamManager","true");
-                }else if(member instanceof TeamManager){
-                    returnVal.put("TeamManager","true");
-                }else if(member instanceof TeamManager){
-                    returnVal.put("TeamManager","true");
-                }else if(member instanceof TeamManager){
-                    returnVal.put("TeamManager","true");
+                    json2.put("TeamManager","true");
+                }else if(member instanceof Referee){
+                    json2.put("Referee","true");
+                }else if(member instanceof Fan){
+                    json2.put("Fan","true");
+                }else if(member instanceof TeamOwner){
+                    json2.put("TeamOwner","true");
+                }else if(member instanceof Commissioner){
+                    json2.put("Commissioner","true");
+                }else if(member instanceof SystemManager){
+                    json2.put("SystemManager","true");
+                }else if(member instanceof Coach){
+                    json2.put("Coach","true");
                 }
             }
-
-
-            return returnVal;
+            json2.put("username", body.get("username"));
+            String message = json2.toString(2);
+            usersWhoAreLoggedIn.add(body.get("username"));
+            return message;
         } catch (UserInformationException e) {
            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Login Details");
            return null;
@@ -73,6 +74,13 @@ public class GuestRestController {
     @GetMapping("/{user}")
     public String getHomepageByInstance(@PathVariable String user){
         return user;
+    }
+
+
+
+    @RequestMapping
+    public String wrongPath(){
+        return "Wrong Request !! ";
     }
 
 }

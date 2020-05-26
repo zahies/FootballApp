@@ -15,15 +15,16 @@ import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 import SpringControllers.RefereeController;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import javafx.util.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("footballapp/referee")
 @RestController
@@ -42,6 +43,9 @@ public class RefereeRestController {
     Team teamOut = new Team("Haifa", ownerOut);
     Date  date1 =  new Date("31/03/2020");
     Game game = new Game(teamOut, teamHome, date1, ref, refereeTest2, null);
+    List<Game> games = new LinkedList<>();
+
+
 
 
 
@@ -78,6 +82,31 @@ public class RefereeRestController {
         return ans;
     }
 
+    @GetMapping("/test")
+    public String test() {
+        games.add(game);
+        games.add(game);
+        String Message = "[";
+        for (Game game:games) {
+            int i = 0;
+            JSONObject jsonTemp = new JSONObject();
+            jsonTemp.put("game-id", game.getObjectId());
+            jsonTemp.put("away", game.getAway());
+            jsonTemp.put("home", game.getHome());
+            jsonTemp.put("score-home", game.getScoreHome());
+            jsonTemp.put("score-away", game.getScoreAway());
+            jsonTemp.put("date", game.getDateGame());
+            Message+=jsonTemp.toString(2);
+            i++;
+            if (i<games.size()){
+                Message+=",";
+            }
+        }
+        Message+="]";
+
+
+        return Message;
+    }
 
     @CrossOrigin
     @PostMapping("/addreport")

@@ -172,7 +172,7 @@ public class Main {
         commissioner.runPlacingAlgo(333,222);
         FootballManagmentSystem footballManagmentSystem =  FootballManagmentSystem.getInstance();
       //  footballManagmentSystem.sendInvitationByMail("shira.wert@gmail.com", "bla", "bla");
-        footballManagmentSystem.sendInvitationByMail("kaprizahi@gmail.com");
+        footballManagmentSystem.sendInvitationByMail("kaprizahi@gmail.com","hi there","nice");
 
 
     }
