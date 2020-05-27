@@ -99,14 +99,16 @@ public class CommissionerRestController {
 
     @CrossOrigin
     @GetMapping("/leagues")
-    public String getLeagues(){
+    public List<Integer> getLeagues(){
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> leaugues = system.getAllLeagus();
+        List<Integer> leauguesID = new LinkedList<>();
         Leaugue leaugue = new Leaugue();
         leaugue.setId(2);
         Leaugue leaugue1 = new Leaugue();
         leaugue1.setId(22);
-        leaugues.add(leaugue);
+        leauguesID.add(leaugue.getID());
+        leauguesID.add(leaugue1.getID());
         leaugues.add(leaugue1);
 
         String message = "[";
@@ -122,7 +124,7 @@ public class CommissionerRestController {
         }
         message += "]";
 
-        return message;
+        return leauguesID;
     }
 
 }
