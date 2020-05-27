@@ -4,15 +4,19 @@ import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Team;
 
+import java.util.UUID;
+
 public class RegistrationRequestAlert implements IAlert{
     private Team team;
     private Leaugue leaugue;
     private int year;
+    private UUID objectID;
 
     public RegistrationRequestAlert(Team team, Leaugue leaugue, int year) {
         this.team = team;
         this.leaugue = leaugue;
         this.year = year;
+        this.objectID = UUID.randomUUID();
     }
 
     @Override
@@ -24,6 +28,16 @@ public class RegistrationRequestAlert implements IAlert{
     @Override
     public String view() {
         return this.toString();
+    }
+
+    @Override
+    public String getType() {
+        return getClass().getName();
+    }
+
+    @Override
+    public UUID getObjectID() {
+        return objectID;
     }
 
     public Team getTeam() {

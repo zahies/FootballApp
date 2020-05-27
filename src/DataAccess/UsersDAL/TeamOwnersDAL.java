@@ -23,22 +23,24 @@ public class TeamOwnersDAL implements DAL<Member, String> {
     @Override
     public boolean insert(Member member) throws SQLException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
 
-        if (!checkExist(member.getName(), "teamowners", "UserName","")) {
-            new MembersDAL().insert(member);
-            member = ((TeamOwner) member);
-            connection = this.connect();
-            if (connection == null) {
-                throw new NoConnectionException();
-            }
-            String statement = "INSERT INTO teamowners (UserName) VALUES (?);";
-            PreparedStatement preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setString(1, member.getName());
-            preparedStatement.execute();
-            connection.close();
-            return true;
-        } else {
-            throw new UserInformationException();
-        }
+//        if (!checkExist(member.getName(), "teamowners", "UserName","")) {
+//            new MembersDAL().insert(member);
+//            member = ((TeamOwner) member);
+//            connection = this.connect();
+//            if (connection == null) {
+//                throw new NoConnectionException();
+//            }
+//            String statement = "INSERT INTO teamowners (UserName) VALUES (?);";
+//            PreparedStatement preparedStatement = connection.prepareStatement(statement);
+//            preparedStatement.setString(1, member.getName());
+//            preparedStatement.execute();
+//            connection.close();
+//            return true;
+//        } else {
+//            throw new UserInformationException();
+//        }
+
+        return true;//fixme delete
     }
 
     @Override

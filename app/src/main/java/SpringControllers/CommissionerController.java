@@ -10,6 +10,8 @@ import javafx.util.Pair;
 
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.util.Random;
+import java.util.UUID;
 
 public class CommissionerController extends MemberController {
 
@@ -74,10 +76,16 @@ public class CommissionerController extends MemberController {
     public boolean setNewScorePolicy(String username,int idLeg, int year,int winVal, int loseVal, int drawVal) {
         boolean succeeded = false;
         IScorePolicy sp = new IScorePolicy(){
+            private UUID spID = UUID.randomUUID();
 
             @Override
             public int winVal() {
                 return winVal;
+            }
+
+            @Override
+            public UUID getId() {
+                return spID;
             }
 
             @Override
@@ -106,7 +114,7 @@ public class CommissionerController extends MemberController {
 //        } catch (NoPermissionException e) {
 //            e.printStackTrace();
 //        }
-    return succeeded;
+        return succeeded;
     }
 
 
@@ -116,9 +124,17 @@ public class CommissionerController extends MemberController {
     public boolean setNewPlaceTeamsPolicy(String username, int idLeg, int year, int numGames) {
         boolean succeeded = false;
         IPlaceTeamsPolicy pp = new IPlaceTeamsPolicy() {
+
+            private UUID ppID = UUID.randomUUID();
+
             @Override
             public int numOfGamesWithEachTeam() {
                 return numGames;
+            }
+
+            @Override
+            public UUID getId() {
+                return ppID;
             }
         };
 //        try {
@@ -159,9 +175,16 @@ public class CommissionerController extends MemberController {
     public boolean defineBudgetControl(String username, int ruleAmount,String desc) {
         boolean succeeded = false;
         ICommissionerRule newRule = new ICommissionerRule() {
+            private UUID newruleID = UUID.randomUUID();
+
             @Override
             public int payRule() {
                 return ruleAmount;
+            }
+
+            @Override
+            public UUID getObjectID() {
+                return newruleID;
             }
 
             @Override

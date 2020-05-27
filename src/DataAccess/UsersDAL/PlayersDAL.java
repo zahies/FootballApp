@@ -30,35 +30,35 @@ public class PlayersDAL implements DAL<Member, String> {
     @Override
     public boolean insert(Member member) throws SQLException, NoConnectionException, UserInformationException, mightBeSQLInjectionException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
 
-        new MembersDAL().insert(member);
-        member = ((Player) member);
-        new AssetsDAL().insert((IAsset) member);
-
-        connection = this.connect();
-
-        String statement = "INSERT INTO players (UserName,DateOfBirth,Team,PersonalPage,Role, AssetID,FootballRate) VALUES (?,?,?,?,?,?,?);";
-        PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        preparedStatement.setString(1, member.getName());
-
-        java.util.Date date = ((Player) member).getDateOfBirth();
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        preparedStatement.setDate(2, sqlDate);
-
-        if (((Player) member).getMyTeam() == null) {
-            preparedStatement.setString(3, "0");
-        } else {
-            preparedStatement.setString(3, ((Player) member).getMyTeam().getId().toString());
-        }
-        if (((Player) member).getInfo() != null) {
-            preparedStatement.setInt(4, ((Player) member).getInfo().getPageID());
-        } else {
-            preparedStatement.setInt(4, 0);
-        }
-        preparedStatement.setString(5, ((Player) member).getRole());
-        preparedStatement.setInt(6, ((Player) member).getAssetID());
-        preparedStatement.setDouble(7, ((Player) member).getFootballRate());
-        preparedStatement.execute();
-        connection.close();
+//        new MembersDAL().insert(member);
+//        member = ((Player) member);
+//        new AssetsDAL().insert((IAsset) member);
+//
+//        connection = this.connect();
+//
+//        String statement = "INSERT INTO players (UserName,DateOfBirth,Team,PersonalPage,Role, AssetID,FootballRate) VALUES (?,?,?,?,?,?,?);";
+//        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+//        preparedStatement.setString(1, member.getName());
+//
+//        java.util.Date date = ((Player) member).getDateOfBirth();
+//        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+//        preparedStatement.setDate(2, sqlDate);
+//
+//        if (((Player) member).getMyTeam() == null) {
+//            preparedStatement.setString(3, "0");
+//        } else {
+//            preparedStatement.setString(3, ((Player) member).getMyTeam().getId().toString());
+//        }
+//        if (((Player) member).getInfo() != null) {
+//            preparedStatement.setInt(4, ((Player) member).getInfo().getPageID());
+//        } else {
+//            preparedStatement.setInt(4, 0);
+//        }
+//        preparedStatement.setString(5, ((Player) member).getRole());
+//        preparedStatement.setInt(6, ((Player) member).getAssetID());
+//        preparedStatement.setDouble(7, ((Player) member).getFootballRate());
+//        preparedStatement.execute();
+//        connection.close();
         return true;
     }
 

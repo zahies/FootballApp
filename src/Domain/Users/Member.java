@@ -60,14 +60,6 @@ public abstract class Member extends GeneralUser {
         this.alertViaMail = alertViaMail;
     }
 
-    public String getMailAddress() {
-        return mailAddress;
-    }
-
-    public boolean isAlertViaMail() {
-        return alertViaMail;
-    }
-
     /**
      * this func address the requirement to get alerts when offline. when offline alerts will be added to the queue that will be shown to user once online.
      *
