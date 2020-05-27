@@ -31,8 +31,7 @@ public class ChangedGameAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "ChangedGameAlert{" +
-                "matchDate=" + matchDate +
+        return "matchDate=" + matchDate +
                 ", game=" + game +
                 '}';
     }

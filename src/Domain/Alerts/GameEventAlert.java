@@ -40,8 +40,7 @@ public class GameEventAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "GameEventAlert{" +
-                "event minute = " + eventMin + ", event Type = " + event.getClass().getSimpleName() +
+        return "event minute = " + eventMin + ", event Type = " + event.getClass().getSimpleName() +
                 " }";
     }
 }

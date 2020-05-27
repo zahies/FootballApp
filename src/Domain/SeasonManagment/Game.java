@@ -59,6 +59,31 @@ public class Game extends Observable {
     }
 
 
+//    @Override
+//    public String toString() {
+//        String ans ="";
+//
+//    }
+
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "objectId=" + objectId +
+                ", away=" + away +
+                ", home=" + home +
+                ", dateGame=" + dateGame +
+                ", mainReferee=" + mainReferee +
+                ", seconderyReferee=" + seconderyReferee +
+                ", scoreHome=" + scoreHome +
+                ", scoreAway=" + scoreAway +
+                ", season=" + season +
+                ", event_logger=" + event_logger +
+                ", referees=" + referees +
+                ", alert=" + alert +
+                '}';
+    }
+
     public void run() {
 
     }

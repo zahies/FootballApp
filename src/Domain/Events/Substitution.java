@@ -24,4 +24,9 @@ public class Substitution extends AGameEvent implements IEvent {
     public Substitution(double gameMinute) {
         super(gameMinute);
     }
+
+    @Override
+    public String toString() {
+        return (getClass().getName());
+    }
 }

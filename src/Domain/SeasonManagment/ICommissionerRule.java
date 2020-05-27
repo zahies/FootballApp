@@ -7,4 +7,6 @@ public interface ICommissionerRule {
 
     public int payRule();
     public UUID getObjectID();
+
+    public String getDescription();
 }

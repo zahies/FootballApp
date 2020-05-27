@@ -1,17 +1,18 @@
 package API;
 
-import Domain.Users.Member;
-import Domain.Users.Player;
-import Domain.Users.TeamManager;
+import Domain.Users.*;
 import FootballExceptions.UserInformationException;
 import SpringControllers.GuestController;
 import SpringControllers.MemberController;
 import SpringControllers.PlayerController;
 import SpringControllers.TeamManagerController;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +24,8 @@ import java.util.Map;
 public class GuestRestController {
 
     private final GuestController guestController;
+    private LinkedList<String> usersWhoAreLoggedIn;
+
     @Autowired
     public GuestRestController() {
         guestController = new GuestController();
@@ -34,24 +37,15 @@ public class GuestRestController {
         return "ASDF";
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     @JsonIgnore
-    public Map<String, String> login(@RequestBody Map <String,String> body, final HttpServletResponse response) throws IOException {
+    public String login(@RequestBody Map <String,String> body, final HttpServletResponse response) throws IOException {
         try {
-            LinkedList <MemberController> memberControllers = new LinkedList<>();
-            LinkedList<Member> membersAccounts = guestController.login(body.get("username"),body.get("password"));
-            Map <String,String> returnVal = new HashMap<>();
-
-            for (Member member : membersAccounts) {
-                if(member instanceof Player){
-                    returnVal.put("Player","true");
-                }else if(member instanceof TeamManager){
-                    returnVal.put("TeamManager","true");
-                }
-            }
-
-
-            return returnVal;
+            usersWhoAreLoggedIn = new LinkedList<>(); /** username */
+            String json = guestController.login(body.get("username"),body.get("password"));
+            usersWhoAreLoggedIn.add(body.get("username"));
+            return json;
         } catch (UserInformationException e) {
            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Login Details");
            return null;
@@ -59,9 +53,23 @@ public class GuestRestController {
     }
 
 
-    @GetMapping("/{instance}")
-    public String getHomepageByInstance(@PathVariable Member instance){
-        return "FSD";
+    @GetMapping("/{user}")
+    public String getHomepageByInstance(@PathVariable String user){
+        return user;
     }
+
+
+
+    @RequestMapping
+    public String wrongPath(){
+        return "Wrong Request !! ";
+    }
+
+    public LinkedList<String> getUsersWhoAreLoggedIn() {
+        return usersWhoAreLoggedIn;
+    }
+
+
+
 
 }

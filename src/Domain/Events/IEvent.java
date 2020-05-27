@@ -12,4 +12,9 @@ public interface IEvent {
     public Event_Logger getEvent_logger();
     public double getGameMinute();
 
+
+
+
+
+
 }

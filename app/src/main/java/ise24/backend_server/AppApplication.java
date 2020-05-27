@@ -11,6 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.Collections;
+
 @SpringBootApplication
 @ComponentScan(basePackageClasses = GuestRestController.class)
 public class AppApplication {
@@ -34,7 +36,10 @@ public class AppApplication {
         } catch (InactiveTeamException e) {
             e.printStackTrace();
         }
-        SpringApplication.run(AppApplication.class, args);
+        SpringApplication app = new SpringApplication(AppApplication.class);
+        app.setDefaultProperties(Collections
+                .singletonMap("server.port", "8082"));
+        app.run(args);
     }
 
 }

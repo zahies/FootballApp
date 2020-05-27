@@ -6,56 +6,41 @@ import DataAccess.UsersDAL.MembersDAL;
 import DataAccess.UsersDAL.PlayersDAL;
 import DataAccess.UsersDAL.TeamManagerDAL;
 import DataAccess.UsersDAL.TeamOwnersDAL;
+import Domain.FootballManagmentSystem;
+import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.Team;
 import Domain.Users.*;
 import FootballExceptions.*;
 
+import javax.mail.MessagingException;
 import java.net.UnknownHostException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.UUID;
 
 public class Main {
 
 
-    public static void main(String[] args) throws ParseException, UnknownHostException, UserInformationException, NotEnoughTeamsInLeague, EventNotMatchedException, PersonalPageYetToBeCreatedException, TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserIsNotThisKindOfMemberException {
-        String url = "jdbc:mysql://132.72.65.125:3306/footballappdb";
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url, "root", "ISE2424!");
-            String Statemet = "INSERT INTO coaches (UserName, Team) VALUES (?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(Statemet);
-            preparedStatement.setString(2, UUID.randomUUID().toString());
-            preparedStatement.setString(1, "MOSHE");
-
-            preparedStatement.execute();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-
-        MembersDAL membersDAL = new MembersDAL();
-//        AssetsDAL assetsDAL = new AssetsDAL();
-//        TeamOwnersDAL teamOwnersDAL = new TeamOwnersDAL();
-//        TeamsDAL teamsDAL = new TeamsDAL();
-//        PlayersDAL dal = new PlayersDAL();
-        TeamManagerDAL teamManagerDAL = new TeamManagerDAL();
+    public static void main(String[] args) throws ParseException, UnknownHostException, UserInformationException, NotEnoughTeamsInLeague, EventNotMatchedException, PersonalPageYetToBeCreatedException, TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserIsNotThisKindOfMemberException, MessagingException {
+//        MembersDAL membersDAL = new MembersDAL();
+////        AssetsDAL assetsDAL = new AssetsDAL();
+////        TeamOwnersDAL teamOwnersDAL = new TeamOwnersDAL();
+////        TeamsDAL teamsDAL = new TeamsDAL();
+////        PlayersDAL dal = new PlayersDAL();
+//        TeamManagerDAL teamManagerDAL = new TeamManagerDAL();
+////
+////        Member member1 = new TeamOwner("Moshe", "Hogeg", 213412, "123456");
+////        Team team = new Team("Maccabi333", ((TeamOwner) member1));
+////        //boolean ans=((Player)member).createPersonalPage();
+////        Member member = new TeamManager("Ohana", "Eli", 12341, "WQESD", 3123, team, ((TeamOwner) member1));
 //
-//        Member member1 = new TeamOwner("Moshe", "Hogeg", 213412, "123456");
-//        Team team = new Team("Maccabi333", ((TeamOwner) member1));
-//        //boolean ans=((Player)member).createPersonalPage();
-//        Member member = new TeamManager("Ohana", "Eli", 12341, "WQESD", 3123, team, ((TeamOwner) member1));
-
-//        try {
-//            ((TeamOwner)member1).assignNewTeamManager(FootballManagmentSystem.getInstance().getMemberInstanceByKind(((Player) member).getName(),"Player"),989874);
-//
-//        } catch (MemberIsAlreadyTeamOwnerException e) {
-//            e.printStackTrace();
-//        } catch (MemberIsAlreadyTeamManagerException e) {
-//            e.printStackTrace();
-//        }
+////        try {
+////            ((TeamOwner)member1).assignNewTeamManager(FootballManagmentSystem.getInstance().getMemberInstanceByKind(((Player) member).getName(),"Player"),989874);
+////
+////        } catch (MemberIsAlreadyTeamOwnerException e) {
+////            e.printStackTrace();
+////        } catch (MemberIsAlreadyTeamManagerException e) {
+////            e.printStackTrace();
+////        }
 //        try {
 //
 //
@@ -182,5 +167,13 @@ public class Main {
 //        timer1.schedule(task, date2);
 //        timer.schedule(task, date3);
 //        timer.schedule(task, date4);
+
+        Commissioner commissioner = new Commissioner("Shira", 313, "222", "Tzahi");
+        commissioner.runPlacingAlgo(333,222);
+        FootballManagmentSystem footballManagmentSystem =  FootballManagmentSystem.getInstance();
+      //  footballManagmentSystem.sendInvitationByMail("shira.wert@gmail.com", "bla", "bla");
+        footballManagmentSystem.sendInvitationByMail("kaprizahi@gmail.com","hi there","nice");
+
+
     }
 }

@@ -35,8 +35,7 @@ public class ComplaintAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "ComplaintAlert{" +
-                "response = " + response +
+        return "response = " + response +
                 " }";
     }
 }

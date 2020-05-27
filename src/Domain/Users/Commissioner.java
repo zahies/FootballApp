@@ -1,5 +1,7 @@
 package Domain.Users;
 
+import Domain.Alerts.IAlert;
+import Domain.Alerts.RegistrationRequestAlert;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.*;
 import FootballExceptions.*;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Queue;
 
 public class Commissioner extends Member {
 
@@ -60,7 +63,8 @@ public class Commissioner extends Member {
             throw new RefereeEmailWasNotEntered("set the email for the referee first & try again");
         }
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
-        system.sendInvitationByMail(ref.getEmail(), "Invitation For FootballApp", "Hello " + ref.getName() + "\nWe're excited to invite you to use our FootballApp.\nCome and join us :)");
+      //  system.sendInvitationByMail(ref.getEmail(), "Invitation For FootballApp", "Hello " + ref.getName() + "\nWe're excited to invite you to use our FootballApp.\nCome and join us :)");
+        system.sendInvitationByMail("shira.wert@gmail.com","HII" , "HEYY");
         system.addReferee(ref);
     }
 
@@ -199,5 +203,15 @@ public class Commissioner extends Member {
 
     public LinkedList<Pair<String, Integer>> getFinanceAssociationActivity() {
         return financeAssociationActivity;
+    }
+
+    public void responseToRegisterTeamByAlert(){
+        Queue<IAlert> alerts = getAlertsList();
+        FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+        for (IAlert alert : alerts) {
+            if (alert instanceof RegistrationRequestAlert){
+                system.addTeam(((RegistrationRequestAlert) alert).getTeam());
+            }
+        }
     }
 }
