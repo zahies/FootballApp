@@ -16,15 +16,20 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 public class FanFollowingPagesDAL implements DAL<Pair<Pair<String, Integer>, Boolean>, Pair<String, Integer>> {
+    /**
+     * T - objectToInsert - key = pair (key = fan user name , value = pageID)
+     * Value = T/F - alerts on
+     * E - objectIdentifier - key = pair (key = fan user name , value = pageID)
+     */
+
+
     Connection connection = null;
 
     @Override
     public boolean insert(Pair<Pair<String, Integer>, Boolean> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         connection = connect();
-        if (connection == null) {
-            throw new NoConnectionException();
-        }
-        String statement = "INSERT INTO fan_following_pages (fan, page, alerts) VALUES (?,?,?);";
+
+        String statement = "INSERT INTO fan_following_pages (MemberUserName, PersonalPageID, alerts) VALUES (?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1, objectToInsert.getKey().getKey());
         preparedStatement.setInt(2, objectToInsert.getKey().getValue());
@@ -35,8 +40,21 @@ public class FanFollowingPagesDAL implements DAL<Pair<Pair<String, Integer>, Boo
     }
 
     @Override
-    public boolean update(Pair<Pair<String, Integer>, Boolean> objectToUpdate, Pair<String, Object> valToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        return false;
+    public boolean update(Pair<Pair<String, Integer>, Boolean> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+        connection = connect();
+        String statement = "";
+        if(checkExist(objectToUpdate.getKey(),"fan_following_pages","MemberUserName","PersonalPageID")){
+            statement = " UPDATE fan_following_pages SET Alerts = ? WHERE memberUserName = ? AND PersonalPageID =? ";
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setBoolean(1,objectToUpdate.getValue());
+            preparedStatement.setString(2,objectToUpdate.getKey().getKey());
+            preparedStatement.setInt(3,(objectToUpdate.getKey().getValue()));
+            preparedStatement.executeUpdate();
+        }else{
+            this.insert(objectToUpdate);
+        }
+        connection.close();
+        return true;
     }
 
     @Override
@@ -48,4 +66,6 @@ public class FanFollowingPagesDAL implements DAL<Pair<Pair<String, Integer>, Boo
     public boolean delete(Pair<String, Integer> objectIdentifier) {
         return false;
     }
+
+
 }

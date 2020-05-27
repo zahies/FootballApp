@@ -11,13 +11,31 @@ import Domain.Users.*;
 import FootballExceptions.*;
 
 import java.net.UnknownHostException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.UUID;
 
 public class Main {
 
 
     public static void main(String[] args) throws ParseException, UnknownHostException, UserInformationException, NotEnoughTeamsInLeague, EventNotMatchedException, PersonalPageYetToBeCreatedException, TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserIsNotThisKindOfMemberException {
+        String url = "jdbc:mysql://132.72.65.125:3306/footballappdb";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(url, "root", "ISE2424!");
+            String Statemet = "INSERT INTO coaches (UserName, Team) VALUES (?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(Statemet);
+            preparedStatement.setString(2, UUID.randomUUID().toString());
+            preparedStatement.setString(1, "MOSHE");
+
+            preparedStatement.execute();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
         MembersDAL membersDAL = new MembersDAL();
 //        AssetsDAL assetsDAL = new AssetsDAL();
 //        TeamOwnersDAL teamOwnersDAL = new TeamOwnersDAL();
@@ -38,28 +56,28 @@ public class Main {
 //        } catch (MemberIsAlreadyTeamManagerException e) {
 //            e.printStackTrace();
 //        }
-        try {
-
-
-            //dal.insert(member);
-            // teamOwnersDAL.insert(member1);
-            //teamsDAL.insert(team);
-            //teamManagerDAL.insert(FootballManagmentSystem.getInstance().getMemberInstanceByKind(member.getName(),"Team Manager"));
-            //dal.update(member,new Pair<>("RealName","Shlomo Bar Tov"));
-            //teamManagerDAL.update(member,new Pair<>("Permission",new Pair("Hire Coach",true)));
-            TeamManager teamManager = (TeamManager) teamManagerDAL.select("Ohana");
-            boolean ans = membersDAL.checkExist("Ohana", "members", "UserName");
-            System.out.println(teamManager.getPassword());
-            //teamOwnersDAL.update(member1,new Pair<>("UserName","Tzach"));
-            //membersDAL.update(member1,new Pair<>("RealName","Moshe Bar Simon Tov"));
-            //membersDAL.update(member1,new Pair<>("UserName","Moshe"));
-            // assetsDAL.update(member,new Pair<>("AssetVal",4654165));
-            System.out.println(ans);
-        } catch (SQLException | NoConnectionException e) {
-            e.printStackTrace();
-        } catch (mightBeSQLInjectionException e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//
+//            //dal.insert(member);
+//            // teamOwnersDAL.insert(member1);
+//            //teamsDAL.insert(team);
+//            //teamManagerDAL.insert(FootballManagmentSystem.getInstance().getMemberInstanceByKind(member.getName(),"Team Manager"));
+//            //dal.update(member,new Pair<>("RealName","Shlomo Bar Tov"));
+//            //teamManagerDAL.update(member,new Pair<>("Permission",new Pair("Hire Coach",true)));
+//            TeamManager teamManager = (TeamManager) teamManagerDAL.select("Ohana");
+//            boolean ans = membersDAL.checkExist("Ohana", "members", "UserName");
+//            System.out.println(teamManager.getPassword());
+//            //teamOwnersDAL.update(member1,new Pair<>("UserName","Tzach"));
+//            //membersDAL.update(member1,new Pair<>("RealName","Moshe Bar Simon Tov"));
+//            //membersDAL.update(member1,new Pair<>("UserName","Moshe"));
+//            // assetsDAL.update(member,new Pair<>("AssetVal",4654165));
+//            System.out.println(ans);
+//        } catch (SQLException | NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (mightBeSQLInjectionException e) {
+//            e.printStackTrace();
+//        }
         //((TeamOwner) member1).addAssetToTeam(member);
 
 

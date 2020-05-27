@@ -17,27 +17,34 @@ import java.sql.SQLException;
 
 public class FieldsDAL implements DAL<Field, Integer> {
     Connection connection = null;
-    AssetsDAL assetsDAL = new AssetsDAL();
+
 
     @Override
     public boolean insert(Field objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        if (checkExist(objectToInsert.getAssetID(), "fields", "AssetID")) {
+        if (checkExist(objectToInsert.getAssetID(), "fields", "AssetID","")) {
             throw new DuplicatedPrimaryKeyException();
         }
         connection = connect();
-        assetsDAL.insert((IAsset) objectToInsert);
-        String statement = "INSERT INTO fields (AssetsID, team) VALUES (?,?);";
+        new AssetsDAL().insert((IAsset) objectToInsert);
+        String statement = "INSERT INTO fields (AssetID, teamID) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1, objectToInsert.getAssetID());
-        preparedStatement.setInt(2, objectToInsert.getMyTeam().getId());
+        preparedStatement.setString(2, objectToInsert.getMyTeam().getId().toString());
         preparedStatement.execute();
         connection.close();
         return true;
     }
 
     @Override
-    public boolean update(Field objectToUpdate, Pair<String, Object> valToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        return false;
+    public boolean update(Field objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
+        connection = connect();
+        new AssetsDAL().update(objectToUpdate);
+
+        String statement = "UPDATE fields SET teamID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectToUpdate.getMyTeam().getId().toString());
+        int ans = preparedStatement.executeUpdate();
+        return ans==1;
     }
 
     @Override

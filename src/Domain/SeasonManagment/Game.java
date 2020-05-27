@@ -14,7 +14,7 @@ import FootballExceptions.PersonalPageYetToBeCreatedException;
 import java.util.*;
 
 public class Game extends Observable {
-    private int objectId;
+    private UUID objectId;
     private Team away;
     private Team home;
     private Date dateGame;
@@ -41,7 +41,7 @@ public class Game extends Observable {
         seconderyReferee.addToGameList(this);
         referees.add(mainReferee);
         referees.add(seconderyReferee);
-        objectId = FootballManagmentSystem.getInstance().idGenerator(new GamesDAL(), "game", "gameID");
+        objectId = UUID.randomUUID();
     }
 
     //todo - add option to  notify ref when upcoming match date
@@ -163,7 +163,7 @@ public class Game extends Observable {
         this.event_logger = event_logger;
     }
 
-    public int getObjectId() {
+    public UUID getObjectId() {
         return objectId;
     }
 }

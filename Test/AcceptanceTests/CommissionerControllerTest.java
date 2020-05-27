@@ -12,6 +12,8 @@ import Service.CommissionerController;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 public class CommissionerControllerTest {
 
     String name;
@@ -24,8 +26,8 @@ public class CommissionerControllerTest {
     Referee referee;
     TeamOwner teamOwner1;
     Team teamAway;
-    int id1;
-    int id2;
+    UUID id1;
+    UUID id2;
     String name1;
     String realName1;
     String teamName1;
@@ -35,7 +37,7 @@ public class CommissionerControllerTest {
     @Before
     public void init() throws LeagueIDAlreadyExist, IDWasNotEnterdException {
         name = "Tzah";
-        id = 333;
+        id = 3333;
         commissioner = new Commissioner(name, id, "222", "Tzahi");
         leaugue = new Leaugue();
         leaugue.setId(111);
@@ -47,8 +49,8 @@ public class CommissionerControllerTest {
         // leaugue3.setLeagueIntoSystem();
         season = new Season(2020);
         referee = new Referee("Jhon", "Snow", 111, "Stark", RefereeType.Secondary);
-        id1 = 444;
-        id2 = 555;
+        id1 = UUID.randomUUID();
+        id2 = UUID.randomUUID();
         name1 = "Jamie";
         realName1 = "Lanister";
         teamName1= "The Lanisters";

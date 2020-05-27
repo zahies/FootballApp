@@ -2,7 +2,7 @@ package Domain.Users;
 
 import Domain.Alerts.ComplaintAlert;
 import Domain.Alerts.IAlert;
-import Domain.Alerts.TeamManagmentAlert;
+import Domain.Alerts.TeamManagementAlert;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.ComplaintForm;
 import Domain.SeasonManagment.Team;
@@ -13,7 +13,6 @@ import FootballExceptions.ShortCommentException;
 import FootballExceptions.UnableToRemoveException;
 
 import java.io.IOException;
-import java.security.NoSuchProviderException;
 import java.util.*;
 
 import static Domain.SeasonManagment.TeamStatus.Close;
@@ -30,9 +29,9 @@ public class SystemManager extends Member {
      * @param causeOfCloser why did the team got closed?
      */
     public void closeTeam(Team team, String causeOfCloser) throws InactiveTeamException, UnableToRemoveException {
-        HashMap<Integer, Team> map = FootballManagmentSystem.getInstance().getAllTeams();
+        HashMap<UUID, Team> map = FootballManagmentSystem.getInstance().getAllTeams();
         List<Team> teams = new LinkedList<>();
-        for (Integer id : map.keySet()) {
+        for (UUID id : map.keySet()) {
             teams.add(map.get(id));
         }
         for (Team t :
@@ -57,13 +56,13 @@ public class SystemManager extends Member {
                 }
                 for (TeamOwner to : t.getAllTeamOwners()
                 ) {
-                    to.handleAlert(new TeamManagmentAlert("You're team " + t.getName() + "has been " +
+                    to.handleAlert(new TeamManagementAlert("You're team " + t.getName() + "has been " +
                             "closed by " + this.getName() + " permanently duo to " + causeOfCloser));
 
                 }
                 for (TeamManager to : t.getAllTeamManaers()
                 ) {
-                    to.handleAlert(new TeamManagmentAlert("You're team " + t.getName() + "has been " +
+                    to.handleAlert(new TeamManagementAlert("You're team " + t.getName() + "has been " +
                             "closed by " + this.getName() + " permanently duo to " + causeOfCloser));
 
                 }

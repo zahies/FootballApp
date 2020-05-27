@@ -10,6 +10,7 @@ public class ProfileContent extends APersonalPageContent {
     private Team team;
 
     public ProfileContent() {
+        super();
         this.profile = new HashMap<>();
     }
 
@@ -25,7 +26,4 @@ public class ProfileContent extends APersonalPageContent {
         return profile;
     }
 
-    public int getObjectID() {
-        return objectID;
-    }
 }

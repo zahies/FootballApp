@@ -1,13 +1,22 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.FieldsDAL;
+import DataAccess.SeasonManagmentDAL.TeamsDAL;
+import DataAccess.UsersDAL.CoachesDAL;
+import DataAccess.UsersDAL.PlayersDAL;
+import DataAccess.UsersDAL.TeamManagerDAL;
 import Domain.Alerts.IAlert;
-import Domain.Alerts.TeamManagmentAlert;
+import Domain.Alerts.TeamManagementAlert;
 import Domain.FootballManagmentSystem;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.SystemLog;
 import Domain.Users.*;
 import FootballExceptions.*;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class Team {
@@ -18,7 +27,7 @@ public class Team {
     private TeamOwner owner;
     private TeamStatus status;
     private int score; //todo maybe nono
-    private int id;
+    private UUID id;
     //private HashMap<Integer,Budget> year_budget;
     private ControlBudget controlBudget;
     private boolean isClosed;
@@ -63,14 +72,31 @@ public class Team {
         this.Name = Name;
         this.owner = owner;
         this.status = TeamStatus.Active; /**by default team status is active*/
-        this.id = system.generateTeamID();
+        this.id = UUID.randomUUID();
         this.owner.setTeam(this);
         system.registerTeam(this);
         this.controlBudget = new ControlBudget(this.id);
         this.systemMangerClosed = false;
+        try {
+            new TeamsDAL().insert(this);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        }
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -126,16 +152,63 @@ public class Team {
                 teamPlayers.put(asset.getAssetID(), asset);
                 calculatePlayerFootballRate();
                 ((Player) asset).setMyTeam(this);
+                try {
+                    new PlayersDAL().update((Member)asset);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (UserIsNotThisKindOfMemberException e) {
+                    e.printStackTrace();
+                } catch (UserInformationException e) {
+                    e.printStackTrace();
+                } catch (NoConnectionException e) {
+                    e.printStackTrace();
+                } catch (NoPermissionException e) {
+                    e.printStackTrace();
+                } catch (mightBeSQLInjectionException e) {
+                    e.printStackTrace();
+                } catch (DuplicatedPrimaryKeyException e) {
+                    e.printStackTrace();
+                }
                 SystemLog.getInstance().UpdateLog("New Player: " + asset.getClass().toString().toLowerCase() + " has been added to team: " + asset.getMyTeam() + "by" + member.getName());
             }
             if (asset instanceof Coach) {
                 teamCoaches.put(((Coach) asset).getRole(), asset);
                 ((Coach) asset).setMyTeam(this);
+                try {
+                    new CoachesDAL().update((Member)asset);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (mightBeSQLInjectionException e) {
+                    e.printStackTrace();
+                } catch (DuplicatedPrimaryKeyException e) {
+                    e.printStackTrace();
+                } catch (NoPermissionException e) {
+                    e.printStackTrace();
+                } catch (UserInformationException e) {
+                    e.printStackTrace();
+                } catch (UserIsNotThisKindOfMemberException e) {
+                    e.printStackTrace();
+                } catch (NoConnectionException e) {
+                    e.printStackTrace();
+                }
                 SystemLog.getInstance().UpdateLog("New " + ((Coach) asset).getRole() + " " + asset.getClass().toString().toLowerCase() + " has been added to team: " + asset.getMyTeam() + "by" + member.getName());
             }
             if (asset instanceof Field) {
                 ((Field) asset).setMyTeam(this);
                 teamfields.put(asset.getAssetID(), asset);
+                try {
+                    new FieldsDAL().update((Field) asset);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (UserIsNotThisKindOfMemberException e) {
+                    e.printStackTrace();
+                } catch (UserInformationException e) {
+                    e.printStackTrace();
+                } catch (NoConnectionException e) {
+                    e.printStackTrace();
+                } catch (NoPermissionException e) {
+                    e.printStackTrace();
+                }
                 SystemLog.getInstance().UpdateLog("New Field: " + asset.getClass().toString().toLowerCase() + " has been added to team: " + asset.getMyTeam() + "by" + member.getName());
             }
         }
@@ -261,7 +334,7 @@ public class Team {
                 for (Member member : memberAccounts) {
                     if (member instanceof TeamOwner) {
                         secondaryOwners.add((TeamOwner) member);
-                        IAlert alert = new TeamManagmentAlert("Your are now Team owner of " + this.Name);
+                        IAlert alert = new TeamManagementAlert("Your are now Team owner of " + this.Name);
                         member.handleAlert(alert);
                         return true;
                     }
@@ -291,7 +364,7 @@ public class Team {
             LinkedList<Member> list = new LinkedList<>();
             list.add(teamOwnerToRemove);
             system.RemoveMember(list);
-            IAlert teamAlert = new TeamManagmentAlert();
+            IAlert teamAlert = new TeamManagementAlert(teamOwnerToRemove.getName() + " is no longer a team owner");
             teamOwnerToRemove.handleAlert(teamAlert); /**notify the team owner he is not team owner anymore*/
             secondaryOwners.remove(teamOwnerToRemove);
             return true;
@@ -328,7 +401,7 @@ public class Team {
                 for (Member member : memberAccounts) {
                     if (member instanceof TeamManager) {
                         teamMangers.put(((TeamManager) member).getAssetID(), (TeamManager) member);
-                        IAlert alert = new TeamManagmentAlert("Your are now Team manager of " + this.Name);
+                        IAlert alert = new TeamManagementAlert("Your are now Team manager of " + this.Name);
                         member.handleAlert(alert);
                         return true;
                     }
@@ -373,6 +446,21 @@ public class Team {
             }
             if (editedTeamManger.editPermissions(teamOwner, permissionsType, permissionBol)) {
                 teamMangers.replace(((TeamManager) teamManager).getAssetID(), editedTeamManger);
+                try {
+                    new TeamManagerDAL().update(editedTeamManger);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (NoConnectionException e) {
+                    e.printStackTrace();
+                } catch (UserIsNotThisKindOfMemberException e) {
+                    e.printStackTrace();
+                } catch (NoPermissionException e) {
+                    e.printStackTrace();
+                } catch (mightBeSQLInjectionException e) {
+                    e.printStackTrace();
+                } catch (DuplicatedPrimaryKeyException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return false;
@@ -629,6 +717,13 @@ public class Team {
             }
             noitfyTeamStatusChanged(newStatus);
             SystemLog.getInstance().UpdateLog(teamOwner.getName() + " has changer team " + Name + " status to " + newStatus.toString());
+            try {
+                new TeamsDAL().update(this);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (NoConnectionException e) {
+                e.printStackTrace();
+            }
             return true;
         }
         return false;
@@ -645,7 +740,7 @@ public class Team {
     }
 
     private void noitfyTeamStatusChanged(TeamStatus newStatus) {
-        IAlert teamManagmentAlert = new TeamManagmentAlert(newStatus, this);
+        IAlert teamManagmentAlert = new TeamManagementAlert(newStatus, this);
         owner.handleAlert(teamManagmentAlert);
         for (TeamOwner teamOwner : secondaryOwners) {
             teamOwner.handleAlert(teamManagmentAlert);
@@ -710,7 +805,7 @@ public class Team {
 
     @Override
     public int hashCode() {
-        return id;
+        return id.hashCode();
     }
 
     public double getPlayersFootballRate() {

@@ -1,15 +1,20 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.PlayersDAL;
+import Domain.Alerts.IAlert;
 import Domain.Events.*;
 import Domain.FootballManagmentSystem;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.SeasonManagment.IAsset;
 import Domain.SeasonManagment.Team;
-import FootballExceptions.PersonalPageYetToBeCreatedException;
-import FootballExceptions.UnauthorizedPageOwnerException;
-import FootballExceptions.UserInformationException;
+import FootballExceptions.*;
 
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.Queue;
 
 public class Player extends Member implements IAsset {
     private int valAsset;
@@ -24,8 +29,8 @@ public class Player extends Member implements IAsset {
     /**
      * CONSTRUCTOR FOR restoration object from DB
      **/
-    public Player(String name, String password, String real_name, int valAsset, int assetID, Team myTeam, String role, PersonalInfo info, Date dateOfBirth, double footballRate) {
-        super(name, 0, password, real_name);
+    public Player(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress, int valAsset, int assetID, Team myTeam, String role, PersonalInfo info, Date dateOfBirth, double footballRate) {
+        super(name, password, real_Name, alertsList, isActive, alertViaMail, mailAddress);
         this.valAsset = valAsset;
         this.assetID = assetID;
         this.myTeam = myTeam;
@@ -33,7 +38,10 @@ public class Player extends Member implements IAsset {
         this.info = info;
         DateOfBirth = dateOfBirth;
         FootballRate = footballRate;
+
     }
+
+
 
     public Player(String name, String realname, int id, String password, int valAsset, String role, Date dateOfBirth) {
         super(name, id, password, realname);
@@ -49,6 +57,24 @@ public class Player extends Member implements IAsset {
             } catch (UserInformationException e) {
                 e.printStackTrace();
             }
+        }
+
+        try {
+            new PlayersDAL().insert(this);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
     }
 

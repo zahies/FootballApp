@@ -1,12 +1,14 @@
 package DataAccess.UsersDAL;
 
 import DataAccess.DAL;
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import Domain.SeasonManagment.Team;
 import Domain.Users.Member;
 import Domain.Users.TeamOwner;
+import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
@@ -16,14 +18,13 @@ import java.sql.*;
 public class TeamOwnersDAL implements DAL<Member, String> {
 
     Connection connection = null;
-    MembersDAL membersDAL = new MembersDAL();
-    TeamsDAL teamsDAL = new TeamsDAL();
+
 
     @Override
-    public boolean insert(Member member) throws SQLException, UserInformationException, NoConnectionException, mightBeSQLInjectionException {
+    public boolean insert(Member member) throws SQLException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
 
-        if (!checkExist(member.getName(), "teamowners", "UserName")) {
-            membersDAL.insert(member);
+        if (!checkExist(member.getName(), "teamowners", "UserName","")) {
+            new MembersDAL().insert(member);
             member = ((TeamOwner) member);
             connection = this.connect();
             if (connection == null) {
@@ -41,30 +42,23 @@ public class TeamOwnersDAL implements DAL<Member, String> {
     }
 
     @Override
-    public boolean update(Member member, Pair<String, Object> valToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException {
+    public boolean update(Member member) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
 
-        this.select(member.getName());
-        if (valToUpdate.getKey().equals("UserName") || valToUpdate.getKey().equals("RealName") || valToUpdate.getKey().equals("Password") || valToUpdate.getKey().equals("isActive") || valToUpdate.getKey().equals("AlertsViaMail") || valToUpdate.getKey().equals("MailAddress")) {
-            return membersDAL.update(member, valToUpdate);
-        }
+        new MembersDAL().update(member);
         connection = connect();
-        if (connection == null) {
-            return false;
-        }
-        String statement = "UPDATE teamowners SET " + valToUpdate.getKey() + " =  ? " +
-                "WHERE UserName = ?; ";
+
+        String statement = "UPDATE teamowners SET Team =  ? WHERE UserName = ?; ";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        //preparedStatement.setString(1,valToUpdate.getKey());
-        preparedStatement.setInt(1, ((Integer) valToUpdate.getValue()));
+        preparedStatement.setString(1, ((TeamOwner)member).getTeam().getId().toString());
         preparedStatement.setString(2, member.getName());
 
-        preparedStatement.executeUpdate();
+        int ans = preparedStatement.executeUpdate();
         connection.close();
-        return true;
+        return ans ==1;
     }
 
     @Override
-    public Member select(String userName) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException {
+    public Member select(String userName) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
 
         /**MEMBER DETAILS*/
         connection = connect();
@@ -92,8 +86,8 @@ public class TeamOwnersDAL implements DAL<Member, String> {
             throw new UserIsNotThisKindOfMemberException();
         }
 
-        int teamID = rs.getInt(1);
-        Team team = teamsDAL.select(teamID);
+        String teamID = rs.getString(1);
+        Team team = new TeamsDAL().select(teamID);
 
         Member member = new TeamOwner(userName, password, realName, team);
         connection.close();

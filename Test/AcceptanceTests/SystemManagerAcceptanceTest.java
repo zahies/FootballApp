@@ -1,8 +1,7 @@
 package AcceptanceTests;
 
 import Domain.Alerts.ComplaintAlert;
-import Domain.Alerts.IAlert;
-import Domain.Alerts.TeamManagmentAlert;
+import Domain.Alerts.TeamManagementAlert;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.ComplaintForm;
 import Domain.SeasonManagment.Game;
@@ -62,7 +61,7 @@ public class SystemManagerAcceptanceTest {
         Game game = new Game(null,team,cal.getTime(),ref,ref2,null);
         team.addGameToUpcomingGames(game);
         systemManagerC.closeTeam(systemManager,team,"signed kids from Uganda");
-        TeamManagmentAlert  alert=(TeamManagmentAlert) teamOwner.getAlertsList().peek();
+        TeamManagementAlert alert=(TeamManagementAlert) teamOwner.getAlertsList().peek();
         assertFalse(team.isActive());
         assertTrue(team.getStatus().equals(TeamStatus.Close));
 
@@ -77,7 +76,7 @@ public class SystemManagerAcceptanceTest {
         Game game = new Game(null,team,cal.getTime(),ref,ref2,null);
         team.addGameToUpcomingGames(game);
         systemManagerC.closeTeam(systemManager,team,"signed kids from Uganda");
-        TeamManagmentAlert  alert=(TeamManagmentAlert) teamOwner.getAlertsList().peek();
+        TeamManagementAlert alert=(TeamManagementAlert) teamOwner.getAlertsList().peek();
         assertTrue(team.isActive());
         assertFalse(team.getStatus().equals(TeamStatus.Close));
 

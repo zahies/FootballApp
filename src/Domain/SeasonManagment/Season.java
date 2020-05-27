@@ -11,7 +11,7 @@ import javafx.util.Pair;
 import java.util.*;
 
 public class Season {
-    private int objectID;
+    private UUID objectID;
     private int year;
     private LinkedList<Pair<Integer, Team>> teams;
     /**
@@ -38,7 +38,7 @@ public class Season {
             System.out.println("Illegal year was entered, please try again");
             this.year = Integer.parseInt(null);
         }
-        objectID = FootballManagmentSystem.getInstance().idGenerator(new SeasonDAL(), "seasons", "seasonID");
+        objectID = UUID.randomUUID();
     }
 
 
@@ -60,7 +60,7 @@ public class Season {
         referees = new HashSet<>();
         games = new HashSet<>();
         isItTheBeginningOfSeason = true;
-        objectID = FootballManagmentSystem.getInstance().idGenerator(new SeasonDAL(), "seasons", "seasonID");
+        objectID = UUID.randomUUID();
 
     }
 
@@ -280,7 +280,8 @@ public class Season {
     }
 
 
-    public int getObjectID() {
+
+    public UUID getObjectID() {
         return objectID;
     }
 

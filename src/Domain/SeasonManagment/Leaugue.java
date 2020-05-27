@@ -6,10 +6,12 @@ import FootballExceptions.LeagueIDAlreadyExist;
 import FootballExceptions.SeasonYearAlreadyExist;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Leaugue {
     private FootballManagmentSystem system;
     private int id;
+    private UUID objectID;
     private HashMap<Integer, Season> seasons;
     /**
      * year_season
@@ -17,6 +19,7 @@ public class Leaugue {
     private int currentYear;
 
     public Leaugue() {
+        objectID = UUID.randomUUID();
         FootballManagmentSystem system1 = FootballManagmentSystem.getInstance();
         this.system = system1;
         seasons = new HashMap<>();
@@ -27,6 +30,9 @@ public class Leaugue {
         this.id = id;
     }
 
+    public UUID getObjectID() {
+        return objectID;
+    }
 
     /**
      * UC 9.1 (Only commisioner can)
@@ -57,6 +63,10 @@ public class Leaugue {
         return seasons.get(year);
     }
 
+
+    public HashMap<Integer, Season> getSeasons() {
+        return seasons;
+    }
 
     public Integer getID() {
         return id;

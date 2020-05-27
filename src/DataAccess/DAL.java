@@ -20,29 +20,35 @@ public interface DAL<T, E> {
     /**
      * TO PREVENT SQL INJECTION
      */
+
     public boolean insert(T objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException;
 
-    public boolean update(T objectToUpdate, Pair<String, Object> valToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException;
+    public boolean update(T objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException;
 
     public T select(E objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException;
 
     public boolean delete(E objectIdentifier);
 
-    public default boolean checkExist(E objectIdentifier, String tableName, String primaryKeyName) throws NoConnectionException, SQLException, mightBeSQLInjectionException {
+    public default boolean checkExist(E objectIdentifier, String tableName, String primaryKeyName, String primaryKeyName2) throws NoConnectionException, SQLException, mightBeSQLInjectionException {
 
         Connection connection = connect();
-        if (connection == null) {
-            throw new NoConnectionException();
-        }
-        if (!allTablesName.contains(tableName) || !allPrimaryKeysName.contains(primaryKeyName)) {
-            throw new mightBeSQLInjectionException();
-        }
+//        if (!allTablesName.contains(tableName) || !allPrimaryKeysName.contains(primaryKeyName)|| !allPrimaryKeysName.contains(primaryKeyName2)) {
+//            throw new mightBeSQLInjectionException();
+//        }
         String statement = "SELECT * FROM " + tableName + " Where " + primaryKeyName + " = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         if (objectIdentifier instanceof String) {
             preparedStatement.setString(1, ((String) objectIdentifier));
-        } else {
+        } else if(objectIdentifier instanceof Integer){
             preparedStatement.setInt(1, ((Integer) objectIdentifier));
+        } else if(objectIdentifier instanceof Pair){
+            statement = "SELECT * FROM " + tableName + " Where " + primaryKeyName + " = ? and " + primaryKeyName2 +" =?";
+            preparedStatement.setString(1,((Pair) objectIdentifier).getKey().toString());
+            if(((Pair) objectIdentifier).getValue()instanceof Integer){
+                preparedStatement.setInt(2, (Integer) ((Pair) objectIdentifier).getValue());
+            }else {
+                preparedStatement.setString(2, (String) ((Pair) objectIdentifier).getValue());
+            }
         }
         ResultSet rs = preparedStatement.executeQuery();
         boolean ans = rs.next();
@@ -50,15 +56,17 @@ public interface DAL<T, E> {
         return ans;
     }
 
-    public default Connection connect() {
-        String url = "jdbc:mysql://132.72.65.125:3306/footballapp";
+
+
+
+    public default Connection connect() throws NoConnectionException {
+        String url = "jdbc:mysql://132.72.65.125:3306/footballappdb?useSSL=false";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection(url, "root", "ISE2424!");
             return connection;
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            throw new NoConnectionException();
         }
-        return null;
     }
 }

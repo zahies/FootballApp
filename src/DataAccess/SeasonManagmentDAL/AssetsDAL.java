@@ -15,12 +15,10 @@ public class AssetsDAL implements DAL<IAsset, Integer> {
     Connection connection = null;
 
     @Override
-    public boolean insert(IAsset objectToInsert) throws SQLException {
+    public boolean insert(IAsset objectToInsert) throws SQLException, NoConnectionException {
         connection = connect();
-        if (connection == null) {
-            return false;
-        }
-        String statement = "INSERT INTO assets (AssetID, AssetVal) VALUES (?,?);";
+
+        String statement = "INSERT INTO assets (AssetID, Value) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1, objectToInsert.getAssetID());
         preparedStatement.setInt(2, objectToInsert.getValue());
@@ -30,20 +28,18 @@ public class AssetsDAL implements DAL<IAsset, Integer> {
     }
 
     @Override
-    public boolean update(IAsset objectToUpdate, Pair<String, Object> valToUpdate) throws SQLException, NoConnectionException {
+    public boolean update(IAsset objectToUpdate) throws SQLException, NoConnectionException {
 
         connection = connect();
-        if (connection == null) {
-            throw new NoConnectionException();
-        }
-        String statement = "UPDATE assets SET " + valToUpdate.getKey() + " =  ? " +
-                "WHERE AssetID = ?; ";
+
+        String statement = "UPDATE assets SET Value =  ? WHERE AssetID = ?; ";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        preparedStatement.setInt(1, (Integer) valToUpdate.getValue());
+        preparedStatement.setInt(1, objectToUpdate.getValue());
         preparedStatement.setInt(2, objectToUpdate.getAssetID());
-        preparedStatement.executeUpdate();
+        int ans = preparedStatement.executeUpdate();
+
         connection.close();
-        return true;
+        return ans ==1;
     }
 
     @Override

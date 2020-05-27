@@ -13,6 +13,14 @@ public class Substitution extends AGameEvent implements IEvent {
         this.goesOut = out;
     }
 
+    public Player getGoesOut() {
+        return goesOut;
+    }
+
+    public Player getGoesIn() {
+        return goesIn;
+    }
+
     public Substitution(double gameMinute) {
         super(gameMinute);
     }
