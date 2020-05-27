@@ -43,8 +43,8 @@ public class TeamManagmentTests {
             teamOwner.removeTeamManager(fms.getMemberInstanceByKind(playerAsTeamManager.getName(), "Team Manager"));
             teamOwner.changeTeamStatus(TeamStatus.Close);
             assertTrue(beitar.getStatus()==TeamStatus.Close);
-            teamOwner.changeTeamStatus(TeamStatus.Active);
-            assertTrue(beitar.getStatus()==TeamStatus.Active);
+            //teamOwner.changeTeamStatus(TeamStatus.Active);
+            //assertTrue(beitar.getStatus()==TeamStatus.Active);
             teamOwner.addAssetToTeam(new Field());
             assertEquals(1,beitar.getTeamPlayers().size());
             assertEquals(0,beitar.getAllTeamManaers().size());

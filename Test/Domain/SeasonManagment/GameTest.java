@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -32,7 +33,7 @@ public class GameTest {
 
     @Before
     public void init() {
-        teamOwner = new TeamOwner("Yoyo", "Yosi", 789, "Y8O8", 555);
+        teamOwner = new TeamOwner("Yoyo", "Yosi", 789, "Y8O8", UUID.randomUUID());
         teamAway = new Team("Backstreet Boys", teamOwner);
         teamHome = new Team("Golden Boys", teamOwner);
         date = new Date(2020, 04, 22);

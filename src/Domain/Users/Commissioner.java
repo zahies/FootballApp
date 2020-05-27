@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.Queue;
 
 public class Commissioner extends Member {
@@ -175,8 +176,8 @@ public class Commissioner extends Member {
     public void defineBudgetControl(ICommissionerRule newRule) {
 
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
-        HashMap<Integer, Team> teams = system.getAllTeams();
-        for (int i : teams.keySet()) {
+        HashMap<UUID, Team> teams = system.getAllTeams();
+        for (UUID i : teams.keySet()) {
             teams.get(i).getControlBudget().setCommissionerRule(newRule);
         }
 
@@ -200,6 +201,10 @@ public class Commissioner extends Member {
 
     }
 
+    public LinkedList<Pair<String, Integer>> getFinanceAssociationActivity() {
+        return financeAssociationActivity;
+    }
+
     public void responseToRegisterTeamByAlert(){
         Queue<IAlert> alerts = getAlertsList();
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
@@ -209,6 +214,4 @@ public class Commissioner extends Member {
             }
         }
     }
-
-
 }

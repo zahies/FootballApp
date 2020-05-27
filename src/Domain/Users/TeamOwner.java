@@ -2,11 +2,17 @@ package Domain.Users;
 
 import Domain.Alerts.FinancialAlert;
 import Domain.Alerts.RegistrationRequestAlert;
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.TeamOwnersDAL;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.*;
 import FootballExceptions.*;
 
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.UUID;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -39,6 +45,23 @@ public class TeamOwner extends Member {
                 e.printStackTrace();
             }
         }
+        try {
+            new TeamOwnersDAL().insert(this);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -49,7 +72,7 @@ public class TeamOwner extends Member {
      * @param password
      * @param teamID
      */
-    public TeamOwner(String name, String realname, int id, String password, int teamID) {
+    public TeamOwner(String name, String realname, int id, String password, UUID teamID) {
         super(name, id, password, realname);
         this.team = system.getTeamByID(teamID);
         if (!(system.getMembers().containsKey(this.name))) {
@@ -58,6 +81,23 @@ public class TeamOwner extends Member {
             } catch (UserInformationException e) {
                 e.printStackTrace();
             }
+        }
+        try {
+            new TeamOwnersDAL().insert(this);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
     }
 
@@ -221,12 +261,4 @@ public class TeamOwner extends Member {
         }
     }
 
-
-    @Override
-    public String toString() {
-        return "TeamOwner{" +
-//                "team=" + team +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

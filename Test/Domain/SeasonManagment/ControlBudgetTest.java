@@ -19,8 +19,8 @@ public class ControlBudgetTest {
 
     @Before
     public void init(){
-        controlBudget = new ControlBudget(1234);
-        budget = new Budget(1234);
+        //controlBudget = new ControlBudget(1234);
+       // budget = new Budget(1234);
         date = new Date(1995, 01, 01);
         date1 = new Date(1995, 01, 01);
         date2 = new Date(1995, 04, 01);

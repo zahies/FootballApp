@@ -19,7 +19,17 @@ public abstract class Member extends GeneralUser {
     private String mailAddress;
 
 
-    public Member( String name, int id, String password, String real_name) {
+    public Member(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress) {
+        this.name = name;
+        this.password = password;
+        this.real_Name = real_Name;
+        this.alertsList = alertsList;
+        this.isActive = isActive;
+        this.alertViaMail = alertViaMail;
+        this.mailAddress = mailAddress;
+    }
+
+    public Member(String name, int id, String password, String real_name) {
         this.name = name;
         this.id = id;
         this.password = password;
@@ -112,6 +122,14 @@ public abstract class Member extends GeneralUser {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    public boolean isAlertViaMail() {
+        return alertViaMail;
+    }
+
+    public String getMailAddress() {
+        return mailAddress;
     }
 
     public void setName(String name) {

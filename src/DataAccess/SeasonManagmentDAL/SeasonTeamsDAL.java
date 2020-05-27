@@ -10,9 +10,10 @@ import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SeasonTeamsDAL implements DAL<Pair<Pair<Integer, Integer>, Integer>, Pair<Integer, Integer>> {
+public class SeasonTeamsDAL implements DAL<Pair<Pair<String, String>, Integer>, Pair<String, String>> {
 
     /**
      * T - objectToInsert - key = pair (key = season ID , value = teamID)
@@ -23,22 +24,41 @@ public class SeasonTeamsDAL implements DAL<Pair<Pair<Integer, Integer>, Integer>
     Connection connection = null;
 
     @Override
-    public boolean insert(Pair<Pair<Integer, Integer>, Integer> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        return false;
+    public boolean  insert(Pair<Pair<String, String>, Integer> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+        connection = connect();
+
+        String statement = "INSERT INTO season_teams (seasonID, teamID, score) VALUES (?,?,?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectToInsert.getKey().getKey());
+        preparedStatement.setString(2, objectToInsert.getKey().getValue());
+        preparedStatement.setInt(3,objectToInsert.getValue());
+        preparedStatement.execute();
+        connection.close();
+        return true;
     }
 
     @Override
-    public boolean update(Pair<Pair<Integer, Integer>, Integer> objectToUpdate, Pair<String, Object> valToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        return false;
+    public boolean update(Pair<Pair<String, String>, Integer> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
+        connection = connect();
+
+        String statement = "UPDATE season_teams SET Score =? WHERE SeasonID=? and TeamID=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setInt(1,objectToUpdate.getValue());
+        preparedStatement.setString(2, objectToUpdate.getKey().getKey());
+        preparedStatement.setString(3, objectToUpdate.getKey().getValue());
+        int ans = preparedStatement.executeUpdate();
+        connection.close();
+
+        return ans ==1;
     }
 
     @Override
-    public Pair<Pair<Integer, Integer>, Integer> select(Pair<Integer, Integer> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Pair<Pair<String, String>, Integer> select(Pair<String, String> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 
     @Override
-    public boolean delete(Pair<Integer, Integer> objectIdentifier) {
+    public boolean delete(Pair<String, String> objectIdentifier) {
         return false;
     }
 }

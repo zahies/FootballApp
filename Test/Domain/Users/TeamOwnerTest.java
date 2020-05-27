@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -249,7 +250,7 @@ public class TeamOwnerTest {
 
     @Test
     public void addBugetActivityOver() throws TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserInformationException {
-        TeamOwner teamOwnerwithMoreIncome = new TeamOwner("Yossi23653457","Yossi Benayoun", 248765,"fs@!#'",24214);
+        TeamOwner teamOwnerwithMoreIncome = new TeamOwner("Yossi23653457","Yossi Benayoun", 248765,"fs@!#'", UUID.randomUUID());
         Team teamB = new Team("Shoko",teamOwnerwithMoreIncome);
         teamOwnerwithMoreIncome.addBudgetActivity(new Date(2020,04,03), BudgetActivity.BuyPlayer,400);
         teamOwnerwithMoreIncome.addBudgetActivity(new Date(2020,04,03), BudgetActivity.Salaries,400);

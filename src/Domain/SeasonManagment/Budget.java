@@ -5,6 +5,7 @@ import javafx.util.Pair;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.UUID;
 
 public class Budget {
 
@@ -13,16 +14,17 @@ public class Budget {
     /**
      * description_cost    cost = Income/Outcome  description = Income/Outcome explained
      */
-    private int teamID;
-
-
+    private UUID teamID;
+    private UUID objectID;
+    private UUID controlBudgetID;
     /**
      * constructor
      *
      * @param teamID
      */
-    public Budget(int teamID) {
+    public Budget(UUID teamID) {
         this.teamID = teamID;
+        objectID = UUID.randomUUID();
         financeActivity = new LinkedList<>();
     }
 
@@ -45,21 +47,14 @@ public class Budget {
     }
 
 
-    /**
-     * getter
-     *
-     * @return
-     */
-    public int getId() {
-        return teamID;
-    }
+
 
     /**
      * setter
      *
      * @param teamID
      */
-    public void setId(int teamID) {
+    public void setId(UUID teamID) {
         this.teamID = teamID;
     }
 
@@ -94,5 +89,19 @@ public class Budget {
         return financeActivity;
     }
 
+    public UUID getTeamID() {
+        return teamID;
+    }
 
+    public UUID getObjectID() {
+        return objectID;
+    }
+
+    public UUID getControlBudgetID() {
+        return controlBudgetID;
+    }
+
+    public void setControlBudgetID(UUID controlBudgetID) {
+        this.controlBudgetID = controlBudgetID;
+    }
 }

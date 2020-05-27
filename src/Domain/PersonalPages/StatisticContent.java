@@ -7,6 +7,7 @@ public class StatisticContent extends APersonalPageContent {
     private HashMap<String, Integer> statistics; // Key is for stats title and Value is for the val. i.e. : key - "Goals" value - "20"
 
     public StatisticContent() {
+        super();
         statistics = new HashMap<>();
     }
 

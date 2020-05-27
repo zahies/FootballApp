@@ -4,16 +4,22 @@ import Domain.SeasonManagment.Game;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public class Event_Logger {
 
+    private UUID objectID;
     public List<IEvent> events;
-    Game game;
+
 
 
     public Event_Logger() {
         events = new LinkedList<>();
+        objectID = UUID.randomUUID();
+    }
 
+    public UUID getObjectID() {
+        return objectID;
     }
 
     public void addEvent(IEvent event) {

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.LinkedList;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -38,7 +39,7 @@ public class SeasonTest {
         refereeSec1 = new Referee("Tomos1", "Tom", 567, "T5O6", RefereeType.Secondary);
         refereeMain = new Referee("Yomos", "Yom", 566, "Y5O6", RefereeType.Main);
         refereeMain1 = new Referee("Yomos1", "Yom", 566, "Y5O6", RefereeType.Main);
-        teamOwner = new TeamOwner("Yoyo", "Yosi", 789, "Y8O8", 555);
+        teamOwner = new TeamOwner("Yoyo", "Yosi", 789, "Y8O8", UUID.randomUUID());
         teamAway = new Team("Backstreet Boys", teamOwner);
         teamHome = new Team("Golden Boys", teamOwner);
     }

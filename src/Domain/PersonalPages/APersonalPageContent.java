@@ -3,15 +3,17 @@ package Domain.PersonalPages;
 import DataAccess.UserInformationDAL.PersonalPageContentDAL;
 import Domain.FootballManagmentSystem;
 
+import java.util.UUID;
+
 public abstract class APersonalPageContent {
 
-    int objectID;
+    private UUID objectID;
 
     public APersonalPageContent() {
-        this.objectID = FootballManagmentSystem.getInstance().idGenerator(new PersonalPageContentDAL(), "personalpagescontent", "objectID");
+        this.objectID = UUID.randomUUID();
     }
 
-    public int getObjectID() {
+    public UUID getObjectID() {
         return objectID;
     }
 }

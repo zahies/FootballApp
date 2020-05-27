@@ -4,9 +4,11 @@ import DataAccess.SeasonManagmentDAL.ComplaintFormsDAL;
 import Domain.FootballManagmentSystem;
 import Domain.Users.Fan;
 
+import java.util.UUID;
+
 public class ComplaintForm {
 
-    private int objectID;
+    private UUID objectID;
     private Fan fanSubmittingForm;
     private String complaint;
     private String response;
@@ -14,7 +16,7 @@ public class ComplaintForm {
     public ComplaintForm(String complaint) {
         this.complaint = complaint;
         this.response = null;
-        objectID = FootballManagmentSystem.getInstance().idGenerator(new ComplaintFormsDAL(), "complaintforms", "objectID");
+        objectID = UUID.randomUUID();
     }
 
     public void setResponse(String response) {
@@ -41,7 +43,7 @@ public class ComplaintForm {
         this.complaint = complaint;
     }
 
-    public int getObjectID() {
+    public UUID getObjectID() {
         return objectID;
     }
 }

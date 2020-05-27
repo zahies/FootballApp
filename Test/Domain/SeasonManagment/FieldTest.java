@@ -4,6 +4,8 @@ import Domain.Users.TeamOwner;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 public class FieldTest {
@@ -18,7 +20,7 @@ public class FieldTest {
 
     @Before
     public void init(){
-        teamOwner = new TeamOwner("Yoyo", "Yosi", 789, "Y8O8", 555);
+        teamOwner = new TeamOwner("Yoyo", "Yosi", 789, "Y8O8", UUID.randomUUID());
         teamAway = new Team("Backstreet Boys", teamOwner);
         teamHome = new Team("Golden Boys", teamOwner);
         assetID = 222;

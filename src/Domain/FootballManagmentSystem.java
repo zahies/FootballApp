@@ -34,7 +34,7 @@ public class FootballManagmentSystem extends TimerTask {
 
     // HashMap<Integer, Leaugue> leagues = new HashMap<Integer, Leaugue>();
     private List<Leaugue> allLeagus = new ArrayList<>();
-    private HashMap<Integer, Team> allTeams = new HashMap<>();
+    private HashMap<UUID, Team> allTeams = new HashMap<>();
     private List<Referee> allRefs = new ArrayList<>();
     private HashMap<Integer, IAsset> allAssests = new HashMap<>(); // Stadiums , players and coaches? : all assets just for records
     private HashMap<String, LinkedList<Member>> members = new HashMap<>();
@@ -176,7 +176,7 @@ public class FootballManagmentSystem extends TimerTask {
      */
     public boolean registerTeam(Team team) {
         //////need confirmation from Comissioner
-        allTeams.put(team.getId(), team);
+       // allTeams.put(team.getId(), team);
         SystemLog.getInstance().UpdateLog("New team" + team.getName() + " has been added to system by owner: " + team.getOwner().getName());/////add TEam name to team and to log!
         return true;
     }
@@ -382,22 +382,6 @@ public class FootballManagmentSystem extends TimerTask {
         return pageID;
     }
 
-    public int idGenerator(DAL dataAccess, String tableName, String primaryKey) {
-        int id = idGenerator();
-        while (true) {
-            try {
-                if (!dataAccess.checkExist(id, tableName, primaryKey)) break;
-            } catch (NoConnectionException e) {
-
-            } catch (SQLException throwables) {
-
-            } catch (mightBeSQLInjectionException e) {
-
-            }
-            id = idGenerator();
-        }
-        return id;
-    }
 
     public List<Member> getMemberByUserName(String name) {
         return members.get(name);
@@ -485,7 +469,7 @@ public class FootballManagmentSystem extends TimerTask {
         return null;
     }
 
-    public Team getTeamByID(int id) {
+    public Team getTeamByID(UUID id) {
         return allTeams.get(id);
     }
 
@@ -504,7 +488,7 @@ public class FootballManagmentSystem extends TimerTask {
     }
 
 
-    public HashMap<Integer, Team> getAllTeams() {
+    public HashMap<UUID, Team> getAllTeams() {
         return allTeams;
     }
 
@@ -686,7 +670,7 @@ public class FootballManagmentSystem extends TimerTask {
     }
 
     public void addTeam(Team team) {
-        allTeams.put(team.getId(), team);
+        //allTeams.put(team.getId(), team);
     }
 
     public void addComplaint(ComplaintForm complaintForm) {

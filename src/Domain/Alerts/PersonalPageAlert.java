@@ -3,14 +3,23 @@ package Domain.Alerts;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.Users.PersonalInfo;
 
+import java.util.UUID;
+
 public class PersonalPageAlert implements IAlert {
 
+    private UUID objectID;
     private PersonalInfo personalPage;
     private APersonalPageContent newContent;
 
     public PersonalPageAlert(PersonalInfo personalPage, APersonalPageContent newContent) {
         this.personalPage = personalPage;
         this.newContent = newContent;
+        objectID = UUID.randomUUID();
+    }
+
+
+    public UUID getObjectID() {
+        return objectID;
     }
 
     public PersonalInfo getPersonalPage() {
@@ -24,6 +33,11 @@ public class PersonalPageAlert implements IAlert {
     @Override
     public String view() {
         return this.toString();
+    }
+
+    @Override
+    public String getType() {
+        return "Personal Page Alert";
     }
 
     @Override

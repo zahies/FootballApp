@@ -14,19 +14,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ComplaintFormsDAL implements DAL<ComplaintForm, Integer> {
+public class ComplaintFormsDAL implements DAL<ComplaintForm, String> {
     Connection connection = null;
 
     @Override
     public boolean insert(ComplaintForm objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         connection = connect();
-        if (connection == null) {
-            throw new NoConnectionException();
-        }
 
-        String statement = "INSERT INTO complaint (objectID, fanSubmitting, complaint, response) VALUES(?,?,?,?);";
+        String statement = "INSERT INTO complaint_forms (objectID, FanSubmittingForm, complaint, response) VALUES(?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        preparedStatement.setInt(1, objectToInsert.getObjectID());
+        preparedStatement.setString(1, objectToInsert.getObjectID().toString());
         preparedStatement.setString(2, objectToInsert.getFanSubmitingForm().getName());
         preparedStatement.setString(3, objectToInsert.getComplaint());
         preparedStatement.setString(4, objectToInsert.getResponse());
@@ -37,17 +34,26 @@ public class ComplaintFormsDAL implements DAL<ComplaintForm, Integer> {
     }
 
     @Override
-    public boolean update(ComplaintForm objectToUpdate, Pair<String, Object> valToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        return false;
+    public boolean update(ComplaintForm objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
+        connection = connect();
+        String statement="UPDATE complaint_forms SET FanSubmittingForm=?, Complaint=?,Response=? WHERE ObjectID=?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectToUpdate.getFanSubmitingForm().getName());
+        preparedStatement.setString(2,objectToUpdate.getComplaint());
+        preparedStatement.setString(3,objectToUpdate.getResponse());
+        preparedStatement.setString(4,objectToUpdate.getObjectID().toString());
+        int ans = preparedStatement.executeUpdate();
+        connection.close();
+        return ans==1;
     }
 
     @Override
-    public ComplaintForm select(Integer objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public ComplaintForm select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 
     @Override
-    public boolean delete(Integer objectIdentifier) {
+    public boolean delete(String objectIdentifier) {
         return false;
     }
 }

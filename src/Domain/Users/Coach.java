@@ -1,12 +1,16 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.CoachesDAL;
 import Domain.FootballManagmentSystem;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.SeasonManagment.IAsset;
 import Domain.SeasonManagment.Team;
-import FootballExceptions.PersonalPageYetToBeCreatedException;
-import FootballExceptions.UnauthorizedPageOwnerException;
-import FootballExceptions.UserInformationException;
+import FootballExceptions.*;
+
+import java.sql.SQLException;
 
 public class Coach extends Member implements IAsset {
     private int valAsset;
@@ -30,6 +34,23 @@ public class Coach extends Member implements IAsset {
             } catch (UserInformationException e) {
                 e.printStackTrace();
             }
+        }
+        try {
+            new CoachesDAL().insert(this);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
     }
 

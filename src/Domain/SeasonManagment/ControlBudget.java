@@ -18,21 +18,24 @@ import java.util.UUID;
 public class ControlBudget {
 
 
-    int objectID;
+    UUID objectID;
     Budget budget_quarter_1;
     Budget budget_quarter_2;
     Budget budget_quarter_3;
     Budget budget_quarter_4;
     ICommissionerRule commissionerRule;
-    DAL dataAccess = new ControlBudgetDAL();
 
-    public ControlBudget(int teamID) {
+    public ControlBudget(UUID teamID) {
         budget_quarter_1 = new Budget(teamID);
         budget_quarter_2 = new Budget(teamID);
         budget_quarter_3 = new Budget(teamID);
         budget_quarter_4 = new Budget(teamID);
+        budget_quarter_1.setControlBudgetID(objectID);
+        budget_quarter_2.setControlBudgetID(objectID);
+        budget_quarter_3.setControlBudgetID(objectID);
+        budget_quarter_4.setControlBudgetID(objectID);
         commissionerRule = new DefaultCommissionerRule();
-        objectID = 0;
+        objectID = UUID.randomUUID();
     }
 
 
@@ -114,7 +117,7 @@ public class ControlBudget {
         return commissionerRule;
     }
 
-    public int getObjectID() {
+    public UUID getObjectID() {
         return objectID;
     }
 

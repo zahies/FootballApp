@@ -11,6 +11,7 @@ public class CareerContent extends APersonalPageContent {
     HashMap<Pair<String, String>, Integer> career;
 
     public CareerContent() {
+        super();
         this.career = new HashMap<>();
     }
 
@@ -25,9 +26,5 @@ public class CareerContent extends APersonalPageContent {
 
     public HashMap<Pair<String, String>, Integer> getCareer() {
         return career;
-    }
-
-    public int getObjectID() {
-        return objectID;
     }
 }
