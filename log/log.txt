@@ -7554,3 +7554,78 @@ Wed May 27 21:24:03 IDT 2020 New teamBet has been added to system by owner: Mosh
 Wed May 27 21:24:03 IDT 2020 Ohanahas become team manager of : Bet
 Wed May 27 21:24:05 IDT 2020 New teamTel Aviv has been added to system by owner: yakir
 Wed May 27 21:24:05 IDT 2020 New teamHaifa has been added to system by owner: yam
+Thu May 28 00:19:26 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 00:22:56 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 00:30:22 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 00:50:17 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 00:50:31 IDT 2020 New HeadCoach class domain.users.coach has been added to team: BeiterbyMoshe
+Thu May 28 00:54:03 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 00:57:13 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 01:08:50 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 01:10:23 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 01:14:49 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 01:16:53 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 01:17:01 IDT 2020 New HeadCoach class domain.users.coach has been added to team: BeiterbyMoshe
+Thu May 28 01:22:52 IDT 2020 New teamBeiter has been added to system by owner: Moshe
+Thu May 28 01:23:03 IDT 2020 New HeadCoach class domain.users.coach has been added to team: BeiterbyMoshe
+Thu May 28 01:24:03 IDT 2020 New teamBeiter has been added to system by owner: Moshe2
+Thu May 28 01:24:08 IDT 2020 New HeadCoach class domain.users.coach has been added to team: BeiterbyMoshe2
+Thu May 28 01:25:39 IDT 2020 New teamBeiter has been added to system by owner: Moshe23
+Thu May 28 01:25:44 IDT 2020 New HeadCoach class domain.users.coach has been added to team: BeiterbyMoshe23
+Thu May 28 01:25:48 IDT 2020 New Player: class domain.users.player has been added to team: BeiterbyMoshe23
+Thu May 28 01:25:49 IDT 2020 Player: class domain.users.player asset was edited from team: BeiterbyMoshe23
+Thu May 28 01:26:00 IDT 2020 Roni23has become team owner of : Beiter
+Thu May 28 01:26:46 IDT 2020 CR723has become team manager of : Beiter
+Thu May 28 01:26:46 IDT 2020 Team Manager: CR723 Permissions to Create Personal Pageare now off
+Thu May 28 01:32:49 IDT 2020 New teamBeiter has been added to system by owner: Moshe23
+Thu May 28 01:32:54 IDT 2020 New HeadCoach class domain.users.coach has been added to team: BeiterbyMoshe23
+Thu May 28 01:32:56 IDT 2020 New Player: class domain.users.player has been added to team: BeiterbyMoshe23
+Thu May 28 01:32:57 IDT 2020 Player: class domain.users.player asset was edited from team: BeiterbyMoshe23
+Thu May 28 01:32:59 IDT 2020 Roni23has become team owner of : Beiter
+Thu May 28 01:33:14 IDT 2020 CR723has become team manager of : Beiter
+Thu May 28 01:34:45 IDT 2020 Team Manager: CR723 Permissions to Create Personal Pageare now off
+Thu May 28 13:04:30 IDT 2020 New teamBeiter has been added to system by owner: Moshe23
+Thu May 28 13:04:38 IDT 2020 New HeadCoach class domain.users.coach has been added to team: BeiterbyMoshe23
+Thu May 28 13:04:43 IDT 2020 New Player: class domain.users.player has been added to team: BeiterbyMoshe23
+Thu May 28 13:04:43 IDT 2020 Player: class domain.users.player asset was edited from team: BeiterbyMoshe23
+Thu May 28 13:04:44 IDT 2020 Roni23has become team owner of : Beiter
+Thu May 28 13:04:46 IDT 2020 CR723has become team manager of : Beiter
+Thu May 28 13:04:46 IDT 2020 Team Manager: CR723 Permissions to Create Personal Pageare now off
+Thu May 28 13:04:47 IDT 2020 CR723 created his personal page
+Thu May 28 13:04:47 IDT 2020 Team Manager: CR723 Permissions to Add Content To Personal Pageare now off
+Thu May 28 13:04:48 IDT 2020 CR723 added content to personal page
+Thu May 28 13:04:48 IDT 2020 CR723 added content to personal page
+Thu May 28 13:04:48 IDT 2020 Moshe23 has changer team Beiter status to Close
+Thu May 28 14:00:56 IDT 2020 New teamBeiter has been added to system by owner: Moshe23
+Thu May 28 14:01:00 IDT 2020 New HeadCoach class domain.users.coach has been added to team: BeiterbyMoshe23
+Thu May 28 14:01:02 IDT 2020 New Player: class domain.users.player has been added to team: BeiterbyMoshe23
+Thu May 28 14:01:02 IDT 2020 Player: class domain.users.player asset was edited from team: BeiterbyMoshe23
+Thu May 28 14:01:03 IDT 2020 Roni23has become team owner of : Beiter
+Thu May 28 14:01:04 IDT 2020 CR723has become team manager of : Beiter
+Thu May 28 14:01:04 IDT 2020 Team Manager: CR723 Permissions to Create Personal Pageare now off
+Thu May 28 14:01:05 IDT 2020 CR723 created his personal page
+Thu May 28 14:01:05 IDT 2020 Team Manager: CR723 Permissions to Add Content To Personal Pageare now off
+Thu May 28 14:01:06 IDT 2020 CR723 added content to personal page
+Thu May 28 14:01:06 IDT 2020 CR723 added content to personal page
+Thu May 28 14:01:06 IDT 2020 Moshe23 has changer team Beiter status to Close
+Thu May 28 15:36:22 IDT 2020 Wenger created his personal page
+Thu May 28 15:36:22 IDT 2020 Wenger added content to personal page
+Thu May 28 15:36:23 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:23 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:24 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:24 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:24 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:25 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:25 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:26 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:26 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:27 IDT 2020 New teamThe Lanisters has been added to system by owner: Jamie
+Thu May 28 15:36:28 IDT 2020 Beckham2213 created his personal page
+Thu May 28 15:36:30 IDT 2020 New fan member has been added to system - username is: itamar120
+Thu May 28 15:36:30 IDT 2020 Beckham2 created his personal page
+Thu May 28 15:36:31 IDT 2020 New fan member has been added to system - username is: itamar1
+Thu May 28 15:36:34 IDT 2020 New fan member has been added to system - username is: itamar15
+Thu May 28 15:36:34 IDT 2020 New fan member has been added to system - username is: itamar123
+Thu May 28 15:37:08 IDT 2020 Yossi created his personal page
+Thu May 28 15:37:08 IDT 2020 Yossi added content to personal page
+Thu May 28 15:37:10 IDT 2020 New teamEngineer has been added to system by owner: Ohad

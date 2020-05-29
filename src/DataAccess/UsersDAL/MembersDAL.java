@@ -12,10 +12,7 @@ import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -27,7 +24,7 @@ public class MembersDAL implements DAL<Member, String> {
     public boolean insert(Member member) throws SQLException, NoConnectionException, UserInformationException, mightBeSQLInjectionException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
 
         connection = this.connect();
-        if (checkExist(member.getName(), "members", "UserName","")) {
+        if (checkExist(member.getName(), "members", "UserName",member.getClass().toString())) {
             throw new UserInformationException();
         }
         String statement = "INSERT INTO members (UserName,Password, RealName, MailAddress,isActive,AlertsViaMail,Type) VALUES (?,?,?,?,?,?,?);";
@@ -89,12 +86,28 @@ public class MembersDAL implements DAL<Member, String> {
     }
 
     @Override
-    public Member select(String userName) {
+    public Member select(String userName, boolean  bidirectionalAssociation) {
         return null;
     }
 
     @Override
     public boolean delete(String userName) {
         return false;
+    }
+
+    @Override
+    public boolean checkExist(String objectIdentifier, String tableName, String primaryKeyName, String primaryKeyName2) throws NoConnectionException, SQLException, mightBeSQLInjectionException {
+        Connection connection = connect();
+//        if (!allTablesName.contains(tableName) || !allPrimaryKeysName.contains(primaryKeyName)|| !allPrimaryKeysName.contains(primaryKeyName2)) {
+//            throw new mightBeSQLInjectionException();
+//        }
+        String statement = "SELECT * FROM members Where UserName = ? and  Type= ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        preparedStatement.setString(2,primaryKeyName2);
+        ResultSet rs = preparedStatement.executeQuery();
+        boolean ans = rs.next();
+        connection.close();
+        return ans;
     }
 }

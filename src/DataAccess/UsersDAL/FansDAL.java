@@ -56,7 +56,7 @@ public class FansDAL implements DAL<Fan, String> {
     }
 
     @Override
-    public Fan select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Fan select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

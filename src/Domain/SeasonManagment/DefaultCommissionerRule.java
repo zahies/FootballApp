@@ -8,9 +8,15 @@ public class DefaultCommissionerRule implements ICommissionerRule {
      * when team is open there is a tax of 100$
      */
     private UUID id;
+    private String Description;
 
     public DefaultCommissionerRule() {
         id = UUID.randomUUID();
+    }
+
+    public DefaultCommissionerRule(UUID id, String description) {
+        this.id = id;
+        Description = description;
     }
 
     public UUID getObjectID() {

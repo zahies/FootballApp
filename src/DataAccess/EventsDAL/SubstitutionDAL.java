@@ -4,7 +4,9 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.PlayersDAL;
 import Domain.Events.Substitution;
+import Domain.Users.Player;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -12,7 +14,9 @@ import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class SubstitutionDAL implements DAL<Substitution,String> {
     Connection connection = null;
@@ -46,8 +50,20 @@ public class SubstitutionDAL implements DAL<Substitution,String> {
     }
 
     @Override
-    public Substitution select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        return null;
+    public Substitution select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+        connection =connect();
+
+        String statement ="SELECT * FROM events WHERE ObjectID=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        ResultSet rs = preparedStatement.executeQuery();
+        String type= rs.getString("Type");
+        double eventMin = rs.getDouble("EventMinute");
+        Player playerIn= new PlayersDAL().select(rs.getString("PlayerIn"),false);
+        Player playerOut= new PlayersDAL().select(rs.getString("PlayerOut"),false);
+
+        return new Substitution(eventMin,null, UUID.fromString(objectIdentifier),playerOut,playerIn);
+
     }
 
     @Override

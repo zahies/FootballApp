@@ -21,6 +21,12 @@ public class Referee extends Member implements Observer {
         handleAlert((IAlert) arg);
     }
 
+    public Referee(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress, RefereeType type, List<Game> games) {
+        super(name, password, real_Name, alertsList, isActive, alertViaMail, mailAddress);
+        this.type = type;
+        this.games = games;
+    }
+
     public Referee(String name, String realname, int id, String password, RefereeType type) {
         super(name, id, password, realname);
         this.type = type;

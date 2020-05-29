@@ -56,7 +56,7 @@ public class TeamManagerPermissionsDAL implements DAL<Pair<Pair<String, String>,
     }
 
     @Override
-    public Pair<Pair<String, String>, Boolean> select(Pair<String, String> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Pair<Pair<String, String>, Boolean> select(Pair<String, String> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         connection = connect();
 
         String statement = "SELECT isPermitted FROM permissions WHERE TeamManager = ? AND Description=?";

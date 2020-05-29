@@ -36,7 +36,7 @@ public class FinancialAlertsDAL implements DAL<FinancialAlert,String> {
     }
 
     @Override
-    public FinancialAlert select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public FinancialAlert select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

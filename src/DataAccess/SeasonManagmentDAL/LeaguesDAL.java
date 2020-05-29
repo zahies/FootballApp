@@ -51,7 +51,7 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
     }
 
     @Override
-    public Leaugue select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Leaugue select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

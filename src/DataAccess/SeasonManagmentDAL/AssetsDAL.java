@@ -43,7 +43,7 @@ public class AssetsDAL implements DAL<IAsset, Integer> {
     }
 
     @Override
-    public IAsset select(Integer objectIdentifier) {
+    public IAsset select(Integer objectIdentifier, boolean  bidirectionalAssociation) {
         return null;
     }
 

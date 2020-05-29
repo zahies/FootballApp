@@ -53,7 +53,7 @@ public class CommissionersDAL implements DAL<Commissioner,String> {
     }
 
     @Override
-    public Commissioner select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Commissioner select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

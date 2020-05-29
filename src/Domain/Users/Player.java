@@ -216,4 +216,6 @@ public class Player extends Member implements IAsset {
     public int getValue() {
         return valAsset;
     }
+
+
 }

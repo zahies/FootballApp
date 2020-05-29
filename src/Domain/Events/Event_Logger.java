@@ -11,7 +11,11 @@ public class Event_Logger {
     private UUID objectID;
     public List<IEvent> events;
 
-
+    /**FOR DB SELECT**/
+    public Event_Logger(UUID objectID, List<IEvent> events) {
+        this.objectID = objectID;
+        this.events = events;
+    }
 
     public Event_Logger() {
         events = new LinkedList<>();

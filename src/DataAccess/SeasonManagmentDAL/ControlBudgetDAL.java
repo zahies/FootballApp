@@ -1,30 +1,43 @@
 package DataAccess.SeasonManagmentDAL;
 
 import DataAccess.DAL;
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import Domain.SeasonManagment.Budget;
 import Domain.SeasonManagment.ControlBudget;
+import Domain.SeasonManagment.DefaultCommissionerRule;
+import Domain.SeasonManagment.ICommissionerRule;
+import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.lang.reflect.Type;
+import java.sql.*;
+import java.util.UUID;
 
 public class ControlBudgetDAL implements DAL<ControlBudget, String> {
     Connection connection = null;
 
     @Override
-    public boolean insert(ControlBudget objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException {
+    public boolean insert(ControlBudget objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         connection = connect();
 
         String statement = "INSERT INTO control_budgets (ObjectID, CommissionerRule) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1, objectToInsert.getObjectID().toString());
-        preparedStatement.setString(2,(objectToInsert.getCommissionerRule().getObjectID().toString()));
+        if (objectToInsert.getCommissionerRule() == null) {
+            preparedStatement.setNull(2, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(2, (objectToInsert.getCommissionerRule().getObjectID().toString()));
+        }
         preparedStatement.execute();
+        new BudgetsDAL().insert(objectToInsert.getBudget_quarter_1());
+        new BudgetsDAL().insert(objectToInsert.getBudget_quarter_2());
+        new BudgetsDAL().insert(objectToInsert.getBudget_quarter_3());
+        new BudgetsDAL().insert(objectToInsert.getBudget_quarter_4());
         connection.close();
         return true;
     }
@@ -35,8 +48,11 @@ public class ControlBudgetDAL implements DAL<ControlBudget, String> {
 
         String statement = "UPDATE control_budgets SET CommissionerRule = ? WHERE ObjectID=?;";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        preparedStatement.setString(1,(objectToUpdate.getCommissionerRule().getObjectID().toString()));
-        preparedStatement.setString(2, objectToUpdate.getObjectID().toString());
+        if (objectToUpdate.getCommissionerRule() == null) {
+            preparedStatement.setNull(1, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(1, (objectToUpdate.getCommissionerRule().getObjectID().toString()));
+        } preparedStatement.setString(2, objectToUpdate.getObjectID().toString());
         int ans = preparedStatement.executeUpdate();
         connection.close();
 
@@ -44,8 +60,26 @@ public class ControlBudgetDAL implements DAL<ControlBudget, String> {
     }
 
     @Override
-    public ControlBudget select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        return null;
+    public ControlBudget select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+        connection = connect();
+
+        /***CONTROL BUDGET DETAILS*/
+        String statement = "SELECT * FROM control_budgets WHERE ObjectID =?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        ResultSet rs = preparedStatement.executeQuery();
+        ICommissionerRule defaultCommissionerRule = new ICommissionerRulesDAL().select(rs.getString("CommissionerRule"),false);
+        statement = "SELECT * FROM budgets WHERE ControlBudget=?";
+        preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        rs = preparedStatement.executeQuery();
+        rs.next();
+        Budget budget1 = new BudgetsDAL().select(rs.getString("ObjectID"),false);
+        Budget budget2 = new BudgetsDAL().select(rs.getString("ObjectID"),false);
+        Budget budget3 = new BudgetsDAL().select(rs.getString("ObjectID"),false);
+        Budget budget4 = new BudgetsDAL().select(rs.getString("ObjectID"),false);
+
+        return new ControlBudget(UUID.fromString(objectIdentifier),budget1,budget2,budget3,budget4,defaultCommissionerRule);
     }
 
     @Override

@@ -6,6 +6,7 @@ import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.Users.PersonalInfo;
+import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -13,6 +14,7 @@ import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -23,11 +25,10 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
 
         connection = connect();
 
-        String statement = "INSERT INTO personal_pages (PageID, title, Profile) VALUES (?,?,?);";
+        String statement = "INSERT INTO personal_pages (PageID, title) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1, objectToInsert.getPageID());
         preparedStatement.setString(2, objectToInsert.getPageTitle());
-        preparedStatement.setString(3, objectToInsert.getProfile().getObjectID().toString());
         preparedStatement.execute();
 
         List <APersonalPageContent> contents = objectToInsert.getPageContent();
@@ -45,8 +46,21 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
     }
 
     @Override
-    public PersonalInfo select(Integer objectIdentifier) throws SQLException, UserInformationException {
-        return null;
+    public PersonalInfo select(Integer objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, NoConnectionException, EmptyPersonalPageException {
+        connection = connect();
+
+        /**PersonalPage Details*/
+        String statement = "SELECT * FROM personal_pages WHERE PageID=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setInt(1,objectIdentifier);
+        ResultSet rs = preparedStatement.executeQuery();
+
+        if(!rs.next()){
+            throw new EmptyPersonalPageException();
+        }
+
+        String title = rs.getString("title");
+        return  null;
     }
 
     @Override

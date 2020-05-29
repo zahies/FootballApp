@@ -37,7 +37,7 @@ public class TeamManagementAlertsDAL implements DAL<TeamManagementAlert,String> 
     }
 
     @Override
-    public TeamManagementAlert select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public TeamManagementAlert select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

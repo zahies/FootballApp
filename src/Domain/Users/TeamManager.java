@@ -1,5 +1,9 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.TeamManagerDAL;
 import Domain.FootballManagmentSystem;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.SeasonManagment.IAsset;
@@ -7,6 +11,7 @@ import Domain.SeasonManagment.Team;
 import Domain.SystemLog;
 import FootballExceptions.*;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class TeamManager extends Member implements IAsset {
@@ -57,6 +62,23 @@ public class TeamManager extends Member implements IAsset {
             } catch (UserInformationException e) {
                 e.printStackTrace();
             }
+        }
+        try {
+            new TeamManagerDAL().insert(this);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
     }
 
@@ -168,6 +190,10 @@ public class TeamManager extends Member implements IAsset {
 
     public Team getMyTeam() {
         return myTeam;
+    }
+
+    public void setMyTeam(Team myTeam) {
+        this.myTeam = myTeam;
     }
 
     public void setTeamOwnerAssignedThis(TeamOwner teamOwnerAssignedThis) {

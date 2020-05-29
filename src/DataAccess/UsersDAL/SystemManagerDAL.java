@@ -40,7 +40,7 @@ public class SystemManagerDAL implements DAL<SystemManager,String> {
     }
 
     @Override
-    public SystemManager select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public SystemManager select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

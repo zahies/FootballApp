@@ -37,7 +37,7 @@ public class PersonalPageAlertsDAL implements DAL<PersonalPageAlert,String> {
     }
 
     @Override
-    public PersonalPageAlert select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public PersonalPageAlert select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

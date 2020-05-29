@@ -1,9 +1,16 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.Users.TeamOwner;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -19,7 +26,7 @@ public class FieldTest {
 
 
     @Before
-    public void init(){
+    public void init() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         teamOwner = new TeamOwner("Yoyo", "Yosi", 789, "Y8O8", UUID.randomUUID());
         teamAway = new Team("Backstreet Boys", teamOwner);
         teamHome = new Team("Golden Boys", teamOwner);

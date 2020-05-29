@@ -11,6 +11,7 @@ import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BudgetActivitiesDAL implements DAL<Pair<Pair<String,String>,Integer>,Pair<String,String>> {
@@ -52,8 +53,18 @@ public class BudgetActivitiesDAL implements DAL<Pair<Pair<String,String>,Integer
     }
 
     @Override
-    public Pair<Pair<String, String>, Integer> select(Pair<String, String> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        return null;
+    public Pair<Pair<String, String>, Integer> select(Pair<String, String> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+        connection = connect();
+
+        String statement = "SELECT * FROM budget_finance_activity WHERE BudgetActivity=? and Budget=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier.getKey());
+        preparedStatement.setString(2,objectIdentifier.getValue());
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+
+        return new Pair<>(objectIdentifier,rs.getInt("Amount"));
+
     }
 
     @Override

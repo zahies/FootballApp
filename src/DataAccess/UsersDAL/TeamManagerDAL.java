@@ -17,18 +17,15 @@ import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 
-public class TeamManagerDAL implements DAL<Member, String> {
+public class TeamManagerDAL implements DAL<TeamManager, String> {
 
     Connection connection = null;
 
     @Override
-    public boolean insert(Member objectToInsert) throws SQLException, NoConnectionException, UserIsNotThisKindOfMemberException, UserInformationException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+    public boolean insert(TeamManager objectToInsert) throws SQLException, NoConnectionException, UserIsNotThisKindOfMemberException, UserInformationException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         connection = connect();
         if (connection == null) {
             return false;
@@ -42,11 +39,15 @@ public class TeamManagerDAL implements DAL<Member, String> {
         preparedStatement.setString(1, objectToInsert.getName());
         preparedStatement.setInt(2, ((TeamManager) objectToInsert).getAssetID());
         if (((TeamManager) objectToInsert).getMyTeam() == null) {
-            preparedStatement.setString(3, "0");
+            preparedStatement.setNull(3, Types.VARCHAR);
         } else {
             preparedStatement.setString(3, ((TeamManager) objectToInsert).getMyTeam().getId().toString());
         }
-        preparedStatement.setString(4, ((TeamManager) objectToInsert).getTeamOwnerAssignedThis().getName());
+        if (((TeamManager) objectToInsert).getTeamOwnerAssignedThis() == null) {
+            preparedStatement.setNull(4, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(4, ((TeamManager) objectToInsert).getTeamOwnerAssignedThis().getName());
+        }
         preparedStatement.execute();
 
         HashMap<String, Boolean> permissions = ((TeamManager) objectToInsert).getPermissions();
@@ -60,9 +61,7 @@ public class TeamManagerDAL implements DAL<Member, String> {
     }
 
     @Override
-    public boolean update(Member objectToUpdate) throws SQLException, NoConnectionException, UserIsNotThisKindOfMemberException, UserInformationException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        this.select(objectToUpdate.getName());
-
+    public boolean update(TeamManager objectToUpdate) throws SQLException, NoConnectionException, UserIsNotThisKindOfMemberException, UserInformationException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         /**MEMBER DETAILS UPDATE*/
         new MembersDAL().update(objectToUpdate);
 
@@ -81,19 +80,25 @@ public class TeamManagerDAL implements DAL<Member, String> {
         String statement = "UPDATE teammanagers SET AssetID =?, Team =?, TeamOwnerAssignedThis =?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1, ((TeamManager) objectToUpdate).getAssetID());
-        preparedStatement.setString(2,((TeamManager) objectToUpdate).getMyTeam().getId().toString());
-        preparedStatement.setString(3,((TeamManager) objectToUpdate).getTeamOwnerAssignedThis().getName());
+        if (((TeamManager) objectToUpdate).getMyTeam() == null) {
+            preparedStatement.setNull(2, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(2, ((TeamManager) objectToUpdate).getMyTeam().getId().toString());
+        }
+        if (((TeamManager) objectToUpdate).getTeamOwnerAssignedThis() == null) {
+            preparedStatement.setNull(3, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(3, ((TeamManager) objectToUpdate).getTeamOwnerAssignedThis().getName());
+        }
         int ans = preparedStatement.executeUpdate();
         connection.close();
         return ans ==1;
     }
 
     @Override
-    public Member select(String objectIdentifier) throws NoConnectionException, UserInformationException, SQLException, UserIsNotThisKindOfMemberException {
+    public TeamManager select(String objectIdentifier, boolean  bidirectionalAssociation) throws NoConnectionException, UserInformationException, SQLException, UserIsNotThisKindOfMemberException, NoPermissionException {
         connection = connect();
-        if (connection == null) {
-            throw new NoConnectionException();
-        }
+
         /**MEMBER DETAILS*/
         String statement = "SELECT Password,RealName,MailAddress,isActive, AlertsViaMail FROM members WHERE UserName = ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -121,9 +126,12 @@ public class TeamManagerDAL implements DAL<Member, String> {
 
         int assetID = rs.getInt(1);
         String teamID = rs.getString(2);
-        Team team = new TeamsDAL().select(teamID);
+        Team team = null;
+        if(bidirectionalAssociation) {
+            team = new TeamsDAL().select(teamID,true);
+        }
         String ownerAssigningUserName = rs.getString(3);
-        Member ownerAssigning = new TeamOwnersDAL().select(ownerAssigningUserName);
+        TeamOwner ownerAssigning = new TeamOwnersDAL().select(ownerAssigningUserName,false);
 
 
         /**ASSET DETAILS*/
@@ -145,7 +153,7 @@ public class TeamManagerDAL implements DAL<Member, String> {
             permissions.put(rs.getString(1), rs.getBoolean(2));
         }
 
-        Member member = new TeamManager(objectIdentifier, password, realName, assetVal, assetID, team, ((TeamOwner) ownerAssigning), permissions);
+        TeamManager member = new TeamManager(objectIdentifier, password, realName, assetVal, assetID, team, ownerAssigning, permissions);
         connection.close();
         return member;
     }

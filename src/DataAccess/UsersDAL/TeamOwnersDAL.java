@@ -15,36 +15,35 @@ import javafx.util.Pair;
 
 import java.sql.*;
 
-public class TeamOwnersDAL implements DAL<Member, String> {
+public class TeamOwnersDAL implements DAL<TeamOwner, String> {
 
     Connection connection = null;
 
 
     @Override
-    public boolean insert(Member member) throws SQLException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
+    public boolean insert(TeamOwner member) throws SQLException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
 
-//        if (!checkExist(member.getName(), "teamowners", "UserName","")) {
-//            new MembersDAL().insert(member);
-//            member = ((TeamOwner) member);
-//            connection = this.connect();
-//            if (connection == null) {
-//                throw new NoConnectionException();
-//            }
-//            String statement = "INSERT INTO teamowners (UserName) VALUES (?);";
-//            PreparedStatement preparedStatement = connection.prepareStatement(statement);
-//            preparedStatement.setString(1, member.getName());
-//            preparedStatement.execute();
-//            connection.close();
-//            return true;
-//        } else {
-//            throw new UserInformationException();
-//        }
+        if (!checkExist(member.getName(), "teamowners", "UserName","")) {
+            new MembersDAL().insert(member);
+            member = ((TeamOwner) member);
+            connection = this.connect();
+            if (connection == null) {
+                throw new NoConnectionException();
+            }
+            String statement = "INSERT INTO teamowners (UserName) VALUES (?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setString(1, member.getName());
+            preparedStatement.execute();
+            connection.close();
+            return true;
+        } else {
+            throw new UserInformationException();
+        }
 
-        return true;//fixme delete
     }
 
     @Override
-    public boolean update(Member member) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+    public boolean update(TeamOwner member) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
 
         new MembersDAL().update(member);
         connection = connect();
@@ -59,8 +58,8 @@ public class TeamOwnersDAL implements DAL<Member, String> {
         return ans ==1;
     }
 
-    @Override
-    public Member select(String userName) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+
+    public TeamOwner select(String userName, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
 
         /**MEMBER DETAILS*/
         connection = connect();
@@ -89,9 +88,12 @@ public class TeamOwnersDAL implements DAL<Member, String> {
         }
 
         String teamID = rs.getString(1);
-        Team team = new TeamsDAL().select(teamID);
+        Team team = null;
+        if(bidirectionalAssociation) {
+            team = new TeamsDAL().select(teamID,true);
+        }
 
-        Member member = new TeamOwner(userName, password, realName, team);
+        TeamOwner member = new TeamOwner(userName, password, realName, team);
         connection.close();
         return member;
     }

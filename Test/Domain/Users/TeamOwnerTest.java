@@ -1,5 +1,8 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.*;
 import FootballExceptions.*;
@@ -7,6 +10,7 @@ import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
@@ -49,7 +53,7 @@ public class TeamOwnerTest {
         assertTrue(ans);
     }
     @Test
-    public void addFieldToTeam2() throws TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException {
+    public void addFieldToTeam2() throws TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         boolean ans = ownerTest.addAssetToTeam(new Field());
         assertTrue(ans);
     }
@@ -126,7 +130,7 @@ public class TeamOwnerTest {
     }
 
     @Test
-    public void removeFieldFromTeam2() throws TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, InvalidTeamAssetException {
+    public void removeFieldFromTeam2() throws TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, InvalidTeamAssetException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         IAsset field = new Field();
         ownerTest.addAssetToTeam(field);
         ownerTest.removeAssetFromTeam(field);

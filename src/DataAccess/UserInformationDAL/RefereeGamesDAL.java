@@ -39,7 +39,7 @@ public class RefereeGamesDAL implements DAL<Pair<String,String>, Pair<String,Str
     }
 
     @Override
-    public Pair<String, String> select(Pair<String, String> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Pair<String, String> select(Pair<String, String> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

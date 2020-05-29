@@ -53,7 +53,7 @@ public class SeasonTeamsDAL implements DAL<Pair<Pair<String, String>, Integer>, 
     }
 
     @Override
-    public Pair<Pair<String, String>, Integer> select(Pair<String, String> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Pair<Pair<String, String>, Integer> select(Pair<String, String> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

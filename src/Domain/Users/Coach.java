@@ -4,6 +4,7 @@ import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.UsersDAL.CoachesDAL;
+import Domain.Alerts.IAlert;
 import Domain.FootballManagmentSystem;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.SeasonManagment.IAsset;
@@ -11,6 +12,7 @@ import Domain.SeasonManagment.Team;
 import FootballExceptions.*;
 
 import java.sql.SQLException;
+import java.util.Queue;
 
 public class Coach extends Member implements IAsset {
     private int valAsset;
@@ -20,6 +22,20 @@ public class Coach extends Member implements IAsset {
     private PersonalInfo info;
     private int assetID;
     FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+
+    public Coach(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress, int valAsset, Team myTeam, String training, CoachRole role, PersonalInfo info, int assetID) {
+        super(name, password, real_Name, alertsList, isActive, alertViaMail, mailAddress);
+        this.valAsset = valAsset;
+        this.myTeam = myTeam;
+        this.training = training;
+        this.role = role;
+        this.info = info;
+        this.assetID = assetID;
+    }
+
+    /**
+     * CONSTRUCTOR FOR restoration object from DB
+     **/
 
     public Coach(String name, String realname, int id, String password, int val, String training, CoachRole role) {
         super(name, id, password, realname);

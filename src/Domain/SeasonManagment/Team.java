@@ -3,6 +3,7 @@ package Domain.SeasonManagment;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.ControlBudgetDAL;
 import DataAccess.SeasonManagmentDAL.FieldsDAL;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import DataAccess.UsersDAL.CoachesDAL;
@@ -55,6 +56,29 @@ public class Team {
     private boolean systemMangerClosed;
 
     /**
+     * CONSTRUCTOR FOR restoration object from DB
+     **/
+    public Team(List<Season> seasons, String name, PersonalInfo info, TeamOwner owner, TeamStatus status, int score, UUID id, ControlBudget controlBudget, boolean isClosed, LinkedList<TeamOwner> secondaryOwners, HashMap<Integer, IAsset> teamPlayers, HashMap<Integer, IAsset> teamfields, HashMap<Integer, TeamManager> teamMangers, HashMap<CoachRole, IAsset> teamCoaches, double playersFootballRate, LinkedList<Game> upcomingGames, boolean systemMangerClosed) {
+        this.seasons = seasons;
+        Name = name;
+        this.info = info;
+        this.owner = owner;
+        this.status = status;
+        this.score = score;
+        this.id = id;
+        this.controlBudget = controlBudget;
+        this.isClosed = isClosed;
+        this.secondaryOwners = secondaryOwners;
+        this.teamPlayers = teamPlayers;
+        this.teamfields = teamfields;
+        this.teamMangers = teamMangers;
+        this.teamCoaches = teamCoaches;
+        this.playersFootballRate = playersFootballRate;
+        this.upcomingGames = upcomingGames;
+        this.systemMangerClosed = systemMangerClosed;
+    }
+
+    /**
      * constructor
      *
      * @param owner
@@ -78,7 +102,9 @@ public class Team {
         this.controlBudget = new ControlBudget(this.id);
         this.systemMangerClosed = false;
         try {
+            new ControlBudgetDAL().insert(controlBudget);
             new TeamsDAL().insert(this);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (UserInformationException e) {
@@ -153,7 +179,7 @@ public class Team {
                 calculatePlayerFootballRate();
                 ((Player) asset).setMyTeam(this);
                 try {
-                    new PlayersDAL().update((Member)asset);
+                    new PlayersDAL().update((Player) asset);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 } catch (UserIsNotThisKindOfMemberException e) {
@@ -175,7 +201,7 @@ public class Team {
                 teamCoaches.put(((Coach) asset).getRole(), asset);
                 ((Coach) asset).setMyTeam(this);
                 try {
-                    new CoachesDAL().update((Member)asset);
+                    new CoachesDAL().update((Coach) asset);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 } catch (mightBeSQLInjectionException e) {
@@ -799,7 +825,6 @@ public class Team {
     }
 
     public void addGameToUpcomingGames(Game game) {
-        //todo- add them in seasepn class!!!
         upcomingGames.add(game);
     }
 

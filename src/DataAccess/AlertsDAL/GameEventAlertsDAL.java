@@ -13,6 +13,7 @@ import javafx.util.Pair;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 public class GameEventAlertsDAL implements DAL<GameEventAlert,String> {
     Connection connection = null;
@@ -25,7 +26,11 @@ public class GameEventAlertsDAL implements DAL<GameEventAlert,String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
         preparedStatement.setDouble(2, (objectToInsert.getEventMin()));
-        preparedStatement.setString(3, objectToInsert.getEvent().getObjectID().toString());
+        if (objectToInsert.getEvent() == null) {
+            preparedStatement.setNull(3, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(3, objectToInsert.getEvent().getObjectID().toString());
+        }
         preparedStatement.execute();
         connection.close();
         return true;
@@ -37,7 +42,7 @@ public class GameEventAlertsDAL implements DAL<GameEventAlert,String> {
     }
 
     @Override
-    public GameEventAlert select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public GameEventAlert select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

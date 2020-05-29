@@ -28,6 +28,19 @@ public class Game extends Observable {
     private IAlert alert;
 
 
+    public Game(UUID objectId, Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, int scoreHome, int scoreAway, Season season, LinkedList<Observer> referees) {
+        this.objectId = objectId;
+        this.away = away;
+        this.home = home;
+        this.dateGame = dateGame;
+        this.mainReferee = mainReferee;
+        this.seconderyReferee = seconderyReferee;
+        this.scoreHome = scoreHome;
+        this.scoreAway = scoreAway;
+        this.season = season;
+        this.referees = referees;
+    }
+
     public Game(Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, Season season) {
         this.away = away;
         this.home = home;

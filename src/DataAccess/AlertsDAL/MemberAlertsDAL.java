@@ -84,7 +84,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
     }
 
     @Override
-    public Pair<Pair<String, IAlert>, String> select(Pair<String, String> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Pair<Pair<String, IAlert>, String> select(Pair<String, String> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

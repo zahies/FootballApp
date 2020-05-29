@@ -33,7 +33,7 @@ public class PersonalPageContentDAL implements DAL<APersonalPageContent, String>
     }
 
     @Override
-    public APersonalPageContent select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public APersonalPageContent select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

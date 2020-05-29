@@ -14,6 +14,7 @@ import javafx.util.Pair;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.LinkedList;
 
 public class SeasonDAL implements DAL<Season, String> {
@@ -29,8 +30,16 @@ public class SeasonDAL implements DAL<Season, String> {
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
         preparedStatement.setInt(2,objectToInsert.getYear());
         preparedStatement.setBoolean(3,objectToInsert.isItTheBeginningOfSeason());
-        preparedStatement.setString(4,objectToInsert.getScorePolicy().getId().toString());
-        preparedStatement.setString(5,objectToInsert.getPlaceTeamsPolicy().toString());
+        if (objectToInsert.getScorePolicy() == null) {
+            preparedStatement.setNull(4, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(4, objectToInsert.getScorePolicy().getId().toString());
+        }
+        if (objectToInsert.getPlaceTeamsPolicy() == null) {
+            preparedStatement.setNull(5, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(5, objectToInsert.getPlaceTeamsPolicy().getId().toString());
+        }
         preparedStatement.execute();
         LinkedList <Pair<Integer, Team>> teams = objectToInsert.getScore_teams();
         for (Pair <Integer, Team> team : teams) {
@@ -48,8 +57,16 @@ public class SeasonDAL implements DAL<Season, String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1,objectToUpdate.getYear());
         preparedStatement.setBoolean(2,objectToUpdate.isItTheBeginningOfSeason());
-        preparedStatement.setString(3,objectToUpdate.getScorePolicy().getId().toString());
-        preparedStatement.setString(4, objectToUpdate.getPlaceTeamsPolicy().getId().toString());
+        if (objectToUpdate.getScorePolicy() == null) {
+            preparedStatement.setNull(3, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(3, objectToUpdate.getScorePolicy().getId().toString());
+        }
+        if (objectToUpdate.getPlaceTeamsPolicy() == null) {
+            preparedStatement.setNull(4, Types.VARCHAR);
+        } else {
+            preparedStatement.setString(4, objectToUpdate.getPlaceTeamsPolicy().getId().toString());
+        }
         preparedStatement.setString(5,objectToUpdate.getObjectID().toString());
         LinkedList <Pair<Integer, Team>> teams = objectToUpdate.getScore_teams();
         for (Pair <Integer, Team> team : teams) {
@@ -62,7 +79,7 @@ public class SeasonDAL implements DAL<Season, String> {
     }
 
     @Override
-    public Season select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Season select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

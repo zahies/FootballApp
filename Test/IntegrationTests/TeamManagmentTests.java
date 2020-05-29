@@ -1,5 +1,8 @@
 package IntegrationTests;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.PersonalPages.NewsContent;
 import Domain.PersonalPages.ProfileContent;
 import Domain.SeasonManagment.Field;
@@ -11,6 +14,8 @@ import FootballExceptions.*;
 import Domain.*;
 import org.junit.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -19,11 +24,11 @@ public class TeamManagmentTests {
     public  void checkManagment() {
         FootballManagmentSystem fms = FootballManagmentSystem.getInstance();
         try {
-            TeamOwner teamOwner = new TeamOwner("Moshe", "Moshe Hogeg", 203, "#123");
+            TeamOwner teamOwner = new TeamOwner("Moshe23", "Moshe Hogeg", 203, "#123");
             Team beitar = new Team("Beiter", teamOwner);
-            IAsset coach = new Coach("Roni", "roni levy", 266, "dsds", 5000, "fsdf", CoachRole.HeadCoach);
+            IAsset coach = new Coach("Roni23", "roni levy", 266, "dsds", 5000, "fsdf", CoachRole.HeadCoach);
             teamOwner.addAssetToTeam(coach);
-            IAsset player = new Player("CR7", "Ronaldo", 0, "sdasd", 1000, "Striker", null);
+            IAsset player = new Player("CR723", "Ronaldo", 0, "sdasd", 1000, "Striker", null);
             teamOwner.addAssetToTeam(player);
             teamOwner.editAsset(player, 165165);
             if (coach instanceof Coach) {
@@ -88,6 +93,16 @@ public class TeamManagmentTests {
                 UnauthorizedTeamManagerException e) {
             e.printStackTrace();
         } catch (TeamCannotBeReopenException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
     }

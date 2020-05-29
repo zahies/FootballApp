@@ -1,7 +1,15 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.BudgetsDAL;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -28,6 +36,12 @@ public class Budget {
         financeActivity = new LinkedList<>();
     }
 
+    public Budget(LinkedList<Pair<BudgetActivity, Integer>> financeActivity, UUID teamID, UUID objectID, UUID controlBudgetID) {
+        this.financeActivity = financeActivity;
+        this.teamID = teamID;
+        this.objectID = objectID;
+        this.controlBudgetID = controlBudgetID;
+    }
 
     public void addFinanceActivity(BudgetActivity desc, int amount) {
         Pair<BudgetActivity, Integer> pair = new Pair<>(desc, amount);
