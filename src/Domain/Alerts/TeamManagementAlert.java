@@ -11,10 +11,12 @@ public class TeamManagementAlert implements IAlert {
     private UUID objectID;
     TeamStatus teamStatus;
     String message;
+    private boolean hadSent;
 
     public TeamManagementAlert(String message) {
         objectID = UUID.randomUUID();
         this.message = message;
+        hadSent = false;
     }
 
     public TeamManagementAlert(TeamStatus teamStatus, Team team) {
@@ -29,8 +31,7 @@ public class TeamManagementAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "team status = " + teamStatus + " , message = " + message +
-                " }";
+        return "team status = " + teamStatus + " , message = " + message ;
     }
 
 
@@ -50,6 +51,15 @@ public class TeamManagementAlert implements IAlert {
 
     public String getMessage() {
         return message;
+    }
+
+
+    public boolean isHadSent() {
+        return hadSent;
+    }
+
+    public void setHadSent(boolean hadSent) {
+        this.hadSent = hadSent;
     }
 
 }

@@ -10,11 +10,13 @@ public class PersonalPageAlert implements IAlert {
     private UUID objectID;
     private PersonalInfo personalPage;
     private APersonalPageContent newContent;
+    private boolean hadSent;
 
     public PersonalPageAlert(PersonalInfo personalPage, APersonalPageContent newContent) {
         this.personalPage = personalPage;
         this.newContent = newContent;
         objectID = UUID.randomUUID();
+        hadSent = false;
     }
 
 
@@ -42,7 +44,15 @@ public class PersonalPageAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "new content = " + newContent + " , personal page = " + personalPage.getPageContent() +
-                " }";
+        return "new content = " + newContent + " , personal page = " + personalPage.getPageContent();
+    }
+
+
+    public boolean isHadSent() {
+        return hadSent;
+    }
+
+    public void setHadSent(boolean hadSent) {
+        this.hadSent = hadSent;
     }
 }

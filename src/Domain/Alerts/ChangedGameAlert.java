@@ -10,11 +10,13 @@ public class ChangedGameAlert implements IAlert {
     private UUID objectID;
     private Date matchDate;
     private Game game;
+    private boolean hadSent;
 
     public ChangedGameAlert(Date matchDate, Game game) {
         this.matchDate = matchDate;
         this.game = game;
         objectID = UUID.randomUUID();
+        hadSent = false;
     }
 
     public Date getMatchDate() {
@@ -32,8 +34,7 @@ public class ChangedGameAlert implements IAlert {
     @Override
     public String toString() {
         return "matchDate=" + matchDate +
-                ", game=" + game +
-                '}';
+                ", game=" + game;
     }
 
     @Override
@@ -44,5 +45,13 @@ public class ChangedGameAlert implements IAlert {
     @Override
     public String getType() {
         return  "Changed Game Alert";
+    }
+
+    public boolean isHadSent() {
+        return hadSent;
+    }
+
+    public void setHadSent(boolean hadSent) {
+        this.hadSent = hadSent;
     }
 }

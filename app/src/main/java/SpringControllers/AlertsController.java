@@ -1,11 +1,9 @@
 package SpringControllers;
 
-import DataAccess.UsersDAL.MembersDAL;
 import Domain.Alerts.ChangedGameAlert;
 import Domain.Alerts.GameEventAlert;
 import Domain.Alerts.IAlert;
 import Domain.Alerts.PersonalPageAlert;
-import Domain.Events.AGameEvent;
 import Domain.Events.Foul;
 import Domain.Events.IEvent;
 import Domain.FootballManagmentSystem;
@@ -15,6 +13,7 @@ import Domain.SeasonManagment.Team;
 import Domain.Users.*;
 import FootballExceptions.*;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.*;
 
@@ -54,27 +53,21 @@ public class AlertsController {
 
 
     /** alert for online user */
-    public String showAlerts(String username) {
-//        player.createPersonalPage();
-//        infos.add(player.getInfo());
-//        try {
-//            fan.addPersonalPagesToFollow(infos);
-//        } catch (AlreadyFollowThisPageException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            ref.addEventToGame("bla", 22, game, player);
-//        } catch (EventNotMatchedException e) {
-//            e.printStackTrace();
-//        } catch (PersonalPageYetToBeCreatedException e) {
-//            e.printStackTrace();
-//        }
+    public Map<String, List<String>> showAlerts(String username) {
 
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         try {
             owner.setTeam(teamHome);
             owner.assignNewTeamManager(futureManager2,5);
+            futureManager2 = system.getMemberInstanceByKind(futureManager2.getName(),"Team Manager");
+            owner.editManagerPermissions(futureManager2,"Create Personal Page",true);
+            ((TeamManager)futureManager2).createPersonalPageForTeam();
+            infos.add(teamHome.getInfo());
+            fan.addPersonalPagesToFollow(infos);
+            pageToFollowTest = fan.getPersonalPagesFollowed();
+            fan.turnAlertForPersonalPageOn(teamHome.getInfo());
+            alert = new PersonalPageAlert(teamHome.getInfo(),profileContent);
+            fan.update(game,alert);
         } catch (MemberIsAlreadyTeamOwnerException e) {
             e.printStackTrace();
         } catch (MemberIsAlreadyTeamManagerException e) {
@@ -85,48 +78,19 @@ public class AlertsController {
             e.printStackTrace();
         } catch (UserInformationException e) {
             e.printStackTrace();
-        } catch (InactiveTeamException e) {
+        } catch (InactiveTeamException | UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
-        }
-        try {
-            futureManager2 = system.getMemberInstanceByKind(futureManager2.getName(),"Team Manager");
-        } catch (UserIsNotThisKindOfMemberException e) {
+        } catch (UnauthorizedPageOwnerException e) {
             e.printStackTrace();
-        }
-        try {
-            owner.editManagerPermissions(futureManager2,"Create Personal Page",true);
         } catch (PersonalPageYetToBeCreatedException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedPageOwnerException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedTeamOwnerException e) {
-            e.printStackTrace();
-        } catch (InactiveTeamException e) {
-            e.printStackTrace();
-        } catch (UserInformationException e) {
-            e.printStackTrace();
-        } catch (TeamOwnerWithNoTeamException e) {
-            e.printStackTrace();
-        }
-        try {
-            ((TeamManager)futureManager2).createPersonalPageForTeam();
-        } catch (UnauthorizedPageOwnerException e) {
             e.printStackTrace();
         } catch (UnauthorizedTeamManagerException e) {
             e.printStackTrace();
-        } catch (InactiveTeamException e) {
-            e.printStackTrace();
-        }
-        infos.add(teamHome.getInfo());
-        try {
-            fan.addPersonalPagesToFollow(infos);
         } catch (AlreadyFollowThisPageException e) {
             e.printStackTrace();
         }
-        pageToFollowTest = fan.getPersonalPagesFollowed();
-        fan.turnAlertForPersonalPageOn(teamHome.getInfo());
-        alert = new PersonalPageAlert(teamHome.getInfo(),profileContent);
-        fan.update(game,alert);
+
+
 
 
 
@@ -144,13 +108,20 @@ public class AlertsController {
         Queue<IAlert> alerts = fan.getAlertsList();
 
         String message = "";
+        HashMap<String,List<String>> to = new HashMap();
+        List<String> size = new LinkedList<>();
+        List<String> content = new LinkedList<>();
+
 
         /** via MAIL */
         if (member.isAlertViaMail()){
            // FootballManagmentSystem system = FootballManagmentSystem.getInstance();
             for (IAlert alert:alerts) {
-                system.sendInvitationByMail(member.getMailAddress(),alert.getClass().getSimpleName(),alert.toString());
-                member.deleteSpecificAlert(alert);
+                if (!alert.isHadSent()){
+                    system.sendInvitationByMail(member.getMailAddress(),alert.getClass().getSimpleName(),alert.toString());
+                    //member.deleteSpecificAlert(alert);
+                    alert.setHadSent(true);
+                }
             }
 
             /** via APP */
@@ -162,27 +133,38 @@ public class AlertsController {
                 if (alerts.size() > 1){
                     message = "[";
                 }
+                size.add(String.valueOf(alerts.size()));
+                to.put("num of alerts:",size);
                 for (IAlert alert:alerts) {
-                    int i = 0;
-                    JSONObject json = new JSONObject();
-                    json.put(alert.getClass().getSimpleName(),alert.toString());
-                    message += json.toString(2);
-                    i++;
-                    if (i<alerts.size()){
-                        message+=",";
+                    if (!alert.isHadSent()){
+                        content.add(alert.toString());
+                      // member.deleteSpecificAlert(alert);
+                        alert.setHadSent(true);
                     }
-                    member.deleteSpecificAlert(alert);
                 }
-                if (alerts.size() > 1){
-                    message += "]";
-                }
+                to.put("alerts content:", content);
             }
         }
-        return message;
+        return to;
     }
 
 
 
+    @GetMapping("/Notifications")
+    public Map<String, List<String>> get(){
+        HashMap<String,List<String>> to = new HashMap();
+        List<String> a = new LinkedList<>();
+        a.add("3");
+        to.put("num",a);
+        List<String> tmp = new LinkedList<>();
+        tmp.add("hi");
+        tmp.add("hi there");
+        tmp.add("hi there mister");
+        to.put("notedata",tmp);
+        return to;
+    }
+
+    //public void updateAlerts
 
 /*
     public List<IAlert> showAlerts(String username) {
