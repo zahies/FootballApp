@@ -6,11 +6,13 @@ public class FinancialAlert implements IAlert {
 
     int minus;
     private UUID objectID;
+    private boolean hadSent;
 
     public FinancialAlert(int minus) {
 
         objectID = UUID.randomUUID();
         this.minus = minus;
+        hadSent = false;
     }
 
     public UUID getObjectID() {
@@ -19,8 +21,7 @@ public class FinancialAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "minus=" + minus +
-                '}';
+        return "minus=" + minus;
     }
 
     public int getMinus() {
@@ -35,5 +36,14 @@ public class FinancialAlert implements IAlert {
     @Override
     public String getType() {
         return "FinancialAlert";
+    }
+
+
+    public boolean isHadSent() {
+        return hadSent;
+    }
+
+    public void setHadSent(boolean hadSent) {
+        this.hadSent = hadSent;
     }
 }

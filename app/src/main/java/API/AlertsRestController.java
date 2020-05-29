@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,10 +35,12 @@ public class AlertsRestController {
 
     /** alert for online user */
     @GetMapping("/myalerts/{username}")
-    public String sendAlerts(@PathVariable String username){
-        String alertsJson= alertsController.showAlerts(username);
+    public Map<String, List<String>> sendAlerts(@PathVariable String username){
+        Map<String, List<String>> alertsJson= alertsController.showAlerts(username);
         return alertsJson;
     }
+
+
 
 
 

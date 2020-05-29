@@ -205,13 +205,16 @@ public class Commissioner extends Member {
         return financeAssociationActivity;
     }
 
-    public boolean responseToRegisterTeamByAlert(){
+    public boolean responseToRegisterTeamByAlert(String teamName){
         Queue<IAlert> alerts = getAlertsList();
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         for (IAlert alert : alerts) {
             if (alert instanceof RegistrationRequestAlert){
-                Team newTeam = new Team(((RegistrationRequestAlert) alert).getTeamName(),((RegistrationRequestAlert) alert).getOwner());
-                return true;
+                if (teamName.equals(((RegistrationRequestAlert) alert).getTeamName())){
+                    Team newTeam = new Team(((RegistrationRequestAlert) alert).getTeamName(),((RegistrationRequestAlert) alert).getOwner());
+                    alertsList.remove(alert);
+                    return true;
+                }
             }
         }
         return false;

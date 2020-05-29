@@ -12,7 +12,7 @@ public abstract class Member extends GeneralUser {
     private int id; // ?!?!?!
     private String password;
     private String real_Name;
-    private Queue<IAlert> alertsList;
+    protected Queue<IAlert> alertsList;
     private boolean isActive;
     private boolean alertViaMail;
 

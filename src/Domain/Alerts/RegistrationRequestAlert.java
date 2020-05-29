@@ -13,6 +13,7 @@ public class RegistrationRequestAlert implements IAlert{
     private int year;
     private UUID objectID;
     private TeamOwner owner;
+    private boolean hadSent;
 
     public RegistrationRequestAlert(String teamName, Leaugue leaugue, int year, TeamOwner owner) {
         this.leaugue = leaugue;
@@ -20,12 +21,12 @@ public class RegistrationRequestAlert implements IAlert{
         this.objectID = UUID.randomUUID();
         this.owner = owner;
         this.teamName = teamName;
+        hadSent = false;
     }
 
     @Override
     public String toString() {
-        return "team name = " + teamName + " , is willing to register to league = " + leaugue.getID() +" , inside season at year = " + year +
-                " }";
+        return "team name = " + teamName + " , is willing to register to league = " + leaugue.getID() +" , inside season at year = " + year ;
     }
 
     @Override
@@ -57,5 +58,14 @@ public class RegistrationRequestAlert implements IAlert{
 
     public TeamOwner getOwner(){
         return owner;
+    }
+
+
+    public boolean isHadSent() {
+        return hadSent;
+    }
+
+    public void setHadSent(boolean hadSent) {
+        this.hadSent = hadSent;
     }
 }

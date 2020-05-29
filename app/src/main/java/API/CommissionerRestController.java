@@ -55,20 +55,23 @@ public class CommissionerRestController {
         String alert = "";
         String commissionerDecision = body.get("apply");
         String commissionerUsername = body.get("username");
+        String teamName = body.get("teamname");
         try{
-            succeeded = comController.responseToRegistrationRequest(commissionerUsername);
+            if (commissionerDecision.equals("true")){    /** the commissioner decided to confirm the registration request */
+                succeeded = comController.responseToRegistrationRequest(commissionerUsername,teamName);
+            }
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
-            alert = e.toString();
+            alert = e.getMessage();
         } catch (NoPermissionException e) {
             e.printStackTrace();
-            alert = e.toString();
+            alert = e.getMessage();
         } catch (UserInformationException e) {
             e.printStackTrace();
-            alert = e.toString();
+            alert = e.getMessage();
         } catch (NoConnectionException e) {
             e.printStackTrace();
-            alert = e.toString();
+            alert = e.getMessage();
         }
         if (succeeded){
             /**pop up success*/
@@ -111,7 +114,7 @@ public class CommissionerRestController {
             response.setStatus(HttpServletResponse.SC_ACCEPTED, "Score Policy Added Successfully ! ");
         }else {
             /**pop up failed*/
-            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+            response.sendError(HttpServletResponse.SC_CONFLICT,alert);
             ErrorLog.getInstance().UpdateLog("The error is: " + alert);
         }
     }
@@ -145,7 +148,7 @@ public class CommissionerRestController {
             response.setStatus(HttpServletResponse.SC_ACCEPTED, "Place Teams Policy Added Successfully ! ");
         } else {
             /**pop up failed*/
-            response.sendError(HttpServletResponse.SC_CONFLICT, "Incorrect Details");
+            response.sendError(HttpServletResponse.SC_CONFLICT, alert);
             ErrorLog.getInstance().UpdateLog("The error is: " + alert);
         }
 

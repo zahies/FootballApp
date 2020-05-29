@@ -85,7 +85,7 @@ public class RefereeRestController {
     }
 
 
-    @GetMapping("/games")
+    @GetMapping("/games/{username}")
     public HashMap<String, String> test() {
         HashMap<String, String> ans = new HashMap<>();
         ans.put(game.getObjectId().toString(), game.getHome() + " - " + game.getAway());
