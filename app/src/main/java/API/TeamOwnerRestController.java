@@ -1,6 +1,7 @@
 package API;
 
 
+import Domain.ErrorLog;
 import Domain.Users.TeamOwner;
 import SpringControllers.CommissionerController;
 import SpringControllers.TeamOwnerController;
@@ -40,6 +41,8 @@ public class TeamOwnerRestController {
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+            ErrorLog.getInstance().UpdateLog("The error is: " + "Incorrect Details");
+
         }
 
     }

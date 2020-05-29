@@ -39,12 +39,15 @@ public class GuestController {
 
     }
 
-    public void register(Guest guest, String userName, String realname, String pass, int id, String type) {
+    public boolean register(Guest guest, String userName, String realname, String pass, int id, String type) { //fixme ??
+        boolean flag = false;
         try {
             guest.register(userName, realname, pass, id, null);
+            flag = true;
         } catch (UserInformationException e) {
             System.out.println("user name allready taken");
         }
+        return flag;
     }
 
     public HashSet<Object> search(Guest guest, String str, Searcher searcher) {

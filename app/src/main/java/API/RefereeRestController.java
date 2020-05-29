@@ -1,17 +1,20 @@
 package API;
 
+import DataAccess.Exceptions.NoConnectionException;
+import Domain.ErrorLog;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.IAsset;
 import Domain.SeasonManagment.Team;
 import Domain.Users.*;
-import FootballExceptions.PersonalPageYetToBeCreatedException;
+import FootballExceptions.*;
 import SpringControllers.RefereeController;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 @RequestMapping("footballapp/referee")
@@ -43,21 +46,42 @@ public class RefereeRestController {
 
     @CrossOrigin
     @PostMapping("/addEvent")
-    public boolean addEventToGame(@RequestBody Map<String, String> body, final HttpServletResponse response) throws IOException, PersonalPageYetToBeCreatedException {
+    public void addEventToGame(@RequestBody Map<String, String> body, final HttpServletResponse response) throws IOException, PersonalPageYetToBeCreatedException {
         boolean flag = false;
         String refereeUserName = body.get("username");
         String eventType = body.get("eventType");
         double minute = Double.parseDouble(body.get("minute"));
         int gameID = Integer.parseInt(body.get("gameID"));
         String playerUserName = body.get("playerusername");
-        flag = refereeController.addEventToGame(refereeUserName, eventType, minute, gameID, playerUserName);
+        String alert = "";
+        try {
+            flag = refereeController.addEventToGame(refereeUserName, eventType, minute, gameID, playerUserName);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (EventNotMatchedException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        }
         if (flag) { //todo pop up success
+            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Adding event to dame successfully!");
 
         } else {
-            response.sendError(HttpServletResponse.SC_CONFLICT, "Incorrect Login Details");
-
+            response.sendError(HttpServletResponse.SC_CONFLICT, alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
         }
-        return flag;
     }
 
 
