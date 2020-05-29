@@ -2,11 +2,15 @@ package API;
 
 
 
+import DataAccess.Exceptions.NoConnectionException;
 import Domain.ErrorLog;
 import Domain.Events.Error_Loger;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SystemLog;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import SpringControllers.CommissionerController;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +37,51 @@ public class CommissionerRestController {
 
 
 
+
+
     @GetMapping
     public String get(){
         System.out.println("DSDDASD");
         return "commissssiionner";
     }
 
-    
+
+
+
+    @CrossOrigin
+    @PostMapping("/applyRequest")
+    public void applyRequestForRegistration(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException{
+        boolean succeeded = false;
+        String alert = "";
+        String commissionerDecision = body.get("apply");
+        String commissionerUsername = body.get("username");
+        try{
+            succeeded = comController.responseToRegistrationRequest(commissionerUsername);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.toString();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.toString();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.toString();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.toString();
+        }
+        if (succeeded){
+            /**pop up success*/
+            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Score Policy Added Successfully ! ");
+        }else {
+            /**pop up failed*/
+            response.sendError(HttpServletResponse.SC_CONFLICT,alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
+
+        }
+    }
+
+
 
     @CrossOrigin
     @PostMapping("/addScorePolicy")

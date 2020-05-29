@@ -250,13 +250,21 @@ public class TeamOwner extends Member {
     }
 
     public void sendRegisterRequestForNewTeam(String teamName,Leaugue leaugue, int year){
-        Team newTeam = new Team(teamName,this);
+        boolean found = false;
         HashMap<String, LinkedList<Member>> members = system.getMembers();
         for (String name : members.keySet()) {
             for (int i = 0; i < members.get(name).size(); i++) {
                 if (members.get(name).get(i) instanceof Commissioner) {
-                    members.get(name).get(i).handleAlert(new RegistrationRequestAlert(newTeam,leaugue,year));
+                    members.get(name).get(i).addAlert(new RegistrationRequestAlert(teamName,leaugue,year,this));
+                    found = true;
+                    break;
                 }
+                if (found){
+                    break;
+                }
+            }
+            if (found){
+                break;
             }
         }
     }

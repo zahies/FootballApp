@@ -341,4 +341,17 @@ public class CommissionerController extends MemberController {
         return flag;
     }
 
+    public boolean responseToRegistrationRequest(String username) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
+        boolean flag = false;
+        try {
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
+            flag = commissioner.responseToRegisterTeamByAlert();
+        }catch (SQLException e) {
+        e.printStackTrace();
+        }
+
+
+        return flag;
+    }
+
 }

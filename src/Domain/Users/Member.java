@@ -128,6 +128,10 @@ public abstract class Member extends GeneralUser {
         this.name = name;
     }
 
+    public void addAlert(IAlert alert){
+        alertsList.add(alert);
+    }
+
     public int getId() {
         return id;
     }
