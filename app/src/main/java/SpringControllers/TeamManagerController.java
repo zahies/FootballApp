@@ -1,11 +1,16 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.UsersDAL.TeamManagerDAL;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.SeasonManagment.IAsset;
+import Domain.SeasonManagment.Team;
 import Domain.Users.TeamManager;
 import FootballExceptions.*;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.sql.SQLException;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class TeamManagerController extends MemberController {
@@ -21,8 +26,9 @@ public class TeamManagerController extends MemberController {
      * all Func in this controller are all according to UC 7.1 - team manager can do what team owner let him
      */
 
-    public boolean hireCoach(TeamManager teamManager, IAsset newCoach) {
+    public boolean hireCoach(String username, IAsset newCoach) {
         try {
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username);
             return teamManager.hireCoach(newCoach);
         } catch (UserInformationException e) {
             e.printStackTrace();
@@ -30,9 +36,18 @@ public class TeamManagerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (UnauthorizedTeamManagerException e) {
             System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
         return false;
     }
+
+
+
     public boolean hireCoach(IAsset newCoach) {
         try {
             return teamManager.hireCoach(newCoach);
@@ -47,8 +62,9 @@ public class TeamManagerController extends MemberController {
     }
 
 
-    public boolean createPersonalPageForTeam(TeamManager teamManager) {
+    public boolean createPersonalPageForTeam(String username) {
         try {
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username);
             return teamManager.createPersonalPageForTeam();
         } catch (UnauthorizedPageOwnerException e) {
             System.out.println(e.getMessage());
@@ -56,10 +72,21 @@ public class TeamManagerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (InactiveTeamException e) {
             System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
         return false;
     }
-    public boolean createPersonalPageForTeam() {
+
+
+
+    public boolean createPersonalPageForTeam() { //fixme
         try {
             return teamManager.createPersonalPageForTeam();
         } catch (UnauthorizedPageOwnerException e) {
@@ -72,8 +99,9 @@ public class TeamManagerController extends MemberController {
         return false;
     }
 
-    public boolean addContentToTeamsPersonalPage(TeamManager teamManager, APersonalPageContent content) {
+    public boolean addContentToTeamsPersonalPage(String username, APersonalPageContent content) {
         try {
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username);
             return teamManager.addContentToTeamsPersonalPage(content);
         } catch (UnauthorizedPageOwnerException e) {
             System.out.println(e.getMessage());
@@ -81,10 +109,18 @@ public class TeamManagerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (InactiveTeamException e) {
             System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
         return false;
     }
-    public boolean addContentToTeamsPersonalPage(APersonalPageContent content) {
+    public boolean addContentToTeamsPersonalPage(APersonalPageContent content) { //fixme
         try {
             return teamManager.addContentToTeamsPersonalPage(content);
         } catch (UnauthorizedPageOwnerException e) {
@@ -97,8 +133,9 @@ public class TeamManagerController extends MemberController {
         return false;
     }
 
-    public boolean editProfileOnPersonalPage(TeamManager teamManager, String title, String val) {
+    public boolean editProfileOnPersonalPage(String username, String title, String val) {
         try {
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username);
             return teamManager.editProfileOnPersonalPage(title, val);
         } catch (UnauthorizedPageOwnerException e) {
             System.out.println(e.getMessage());
@@ -108,10 +145,18 @@ public class TeamManagerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (PersonalPageYetToBeCreatedException e) {
             System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
         return false;
     }
-    public boolean editProfileOnPersonalPage(String title, String val) {
+    public boolean editProfileOnPersonalPage(String title, String val) { //fixme
         try {
             return teamManager.editProfileOnPersonalPage(title, val);
         } catch (UnauthorizedPageOwnerException e) {

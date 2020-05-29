@@ -2,8 +2,11 @@ package API;
 
 
 
+import Domain.ErrorLog;
+import Domain.Events.Error_Loger;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Leaugue;
+import Domain.SystemLog;
 import SpringControllers.CommissionerController;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +58,8 @@ public class CommissionerRestController {
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+            ErrorLog.getInstance().UpdateLog("The error is: " + "Incorrect Details");
+
         }
     }
 
@@ -72,6 +78,7 @@ public class CommissionerRestController {
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+            ErrorLog.getInstance().UpdateLog("The error is: " + "Incorrect Details");
         }
     }
 
@@ -94,6 +101,7 @@ public class CommissionerRestController {
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+            ErrorLog.getInstance().UpdateLog("The error is: " + "Incorrect Details");
         }
     }
 

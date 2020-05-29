@@ -2,7 +2,12 @@ package SpringControllers;
 
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
+import DataAccess.SeasonManagmentDAL.LeaguesDAL;
+import DataAccess.UsersDAL.CoachesDAL;
+import DataAccess.UsersDAL.CommissionersDAL;
+import DataAccess.UsersDAL.RefereesDAL;
 import Domain.SeasonManagment.*;
+import Domain.Users.Coach;
 import Domain.Users.Commissioner;
 import Domain.Users.Referee;
 import FootballExceptions.*;
@@ -19,55 +24,115 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.1
      */
-    public void defineLeague(Commissioner commissioner, int id) {
+    public boolean defineLeague(String username, int id) {
+        boolean flag = false;
         try {
             //test
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
             commissioner.defineLeague(id);
+            flag = true;
         } catch (LeagueIDAlreadyExist | IDWasNotEnterdException le) {
             System.out.println(le.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
+        return flag;
     }
 
     /**
      * uc 9.2
      */
-    public void addSeasonToLeague(Commissioner commissioner, int year, Leaugue leaugue) {
+    public boolean addSeasonToLeague(String username, int year, String leaugueString) {
+        boolean flag = false;
         try {
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
+            Leaugue leaugue = (Leaugue) new LeaguesDAL().select(leaugueString);
             commissioner.addSeasonToLeague(year, leaugue);
+            flag = true;
         } catch (SeasonYearAlreadyExist se) {
             System.out.println(se.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
+        return flag;
     }
 
 
     /**
      * uc 9.3
      */
-    public void defineReferee(Commissioner commissioner, Referee ref) {
+    public boolean defineReferee(String comstring, String refstring) {
+        boolean flag = false;
         try {
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(comstring);
+            Referee ref = (Referee) new RefereesDAL().select(comstring);
             commissioner.defineReferee(ref);
+            flag = true;
         } catch (RefereeEmailWasNotEntered | UnknownHostException re) {
             System.out.println(re.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
+        return flag;
     }
 
-
-    /**
-     * uc 9.3
-     */
-    public void defineReferee(Commissioner commissioner, String ref) {
-        commissioner.defineReferee(ref);
-    }
+//
+//    /**
+//     * uc 9.3
+//     */
+//    public void defineReferee(String comstring, String ref) {
+//        commissioner.defineReferee(ref);
+//    }
 
     /**
      * uc 9.4
      */
-    public void addRefereeToSeason(Commissioner commissioner, int idLeg, int year, Referee ref) {
+    public boolean addRefereeToSeason(String comstring, int idLeg, int year, String refstring) {
+        boolean flag = false;
         try {
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(comstring);
+            Referee ref = (Referee) new RefereesDAL().select(comstring);
             commissioner.addRefereeToSeason(idLeg, year, ref);
+            flag = true;
         } catch (LeagueNotFoundException le) {
             System.out.println(le.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
+
+        return flag;
     }
 
     /**
@@ -159,13 +224,26 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.7
      */
-    public void runPlacingAlgo(Commissioner commissioner, int idLeg, int year) {
+    public boolean runPlacingAlgo(String username, int idLeg, int year) {
+        boolean flag = false;
         try {
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
             commissioner.runPlacingAlgo(idLeg, year);
+            flag = true;
         } catch (NotEnoughTeamsInLeague ne) {
             System.out.println(ne.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
-
+        return flag;
     }
 
 
@@ -217,20 +295,50 @@ public class CommissionerController extends MemberController {
     /**
      * UC 9.9  manage finance Association activity
      */
-    public void addToFinanceAssociationActivity(Commissioner commissioner, String info, int amount) {
-        commissioner.addToFinanceAssociationActivity(info, amount);
+    public boolean addToFinanceAssociationActivity(String username, String info, int amount) {
+        boolean flag = false;
+        try {
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
+            commissioner.addToFinanceAssociationActivity(info, amount);
+            flag = true;
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        }
+        return flag;
     }
 
 
-    /**
+        /**
      * 9.9
      */
-    public void delFromFinanceAssociationActivity(Commissioner commissioner, Pair<String, Integer> pair) {
+    public boolean delFromFinanceAssociationActivity(String username, Pair<String, Integer> pair) {
+        boolean flag = false;
         try {
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
             commissioner.delFromFinanceAssociationActivity(pair);
+            flag = true;
         } catch (FinanceAssActivityNotFound fe) {
             System.out.println(fe.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
+        return flag;
     }
 
 }
