@@ -140,12 +140,27 @@ public class RefereeRestController {
         boolean flag = false;
         String refereeUserName = body.get("username");
         int gameID = Integer.parseInt(body.get("gameID"));
-        flag = refereeController.addReportForGame(refereeUserName, gameID);
+        String alert = "";
+        try {
+            flag = refereeController.addReportForGame(refereeUserName, gameID);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        }
         if (flag) { //todo
-
+            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Your report Added Successfully ! ");
         } else {
             response.sendError(HttpServletResponse.SC_CONFLICT, "Incorrect Login Details");
-
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
         }
         return flag;
     }
