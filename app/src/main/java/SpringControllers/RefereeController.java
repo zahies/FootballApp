@@ -3,6 +3,7 @@ package SpringControllers;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.UsersDAL.PlayersDAL;
+import DataAccess.UsersDAL.RefereesDAL;
 import Domain.Events.AGameEvent;
 import Domain.SeasonManagment.Game;
 import Domain.Users.Member;
@@ -93,14 +94,17 @@ public class RefereeController extends MemberController {
     /**
      * 10.3
      */
-    public boolean addEventToGame(String username, String eventType, double minute, Integer gameID, String playerusername) throws PersonalPageYetToBeCreatedException {
+    public boolean addEventToGame(String username, String eventType, double minute, Integer gameID, String playerusername) throws PersonalPageYetToBeCreatedException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, EventNotMatchedException {
         boolean flag = false;
-//        try {
-//            Member referee = new RefereeDAL().select(username);
-//            Game game = new GamesDAL().select(gameID);
-//            Member playerWhoCommit = new PlayersDAL().select(playerusername);
-//            ((Referee)referee).addEventToGame(eventType, minute, game, (Player)playerWhoCommit);
-//            flag = true;
+        try {
+            Member referee = new RefereesDAL().select(username);
+            Game game = new GamesDAL().select(gameID.toString());
+            Member playerWhoCommit = new PlayersDAL().select(playerusername);
+            ((Referee) referee).addEventToGame(eventType, minute, game, (Player) playerWhoCommit);
+            flag = true;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
 //        } catch (EventNotMatchedException ee) {
 //            System.out.println(ee.getMessage());
 //        } catch (UserIsNotThisKindOfMemberException e) {
@@ -109,11 +113,10 @@ public class RefereeController extends MemberController {
 //            e.printStackTrace();
 //        } catch (UserInformationException e) {
 //            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
 //        } catch (NoConnectionException e) {
 //            e.printStackTrace();
 //        }
+
         return flag;
     }
 
