@@ -7554,3 +7554,9 @@ Wed May 27 21:24:03 IDT 2020 New teamBet has been added to system by owner: Mosh
 Wed May 27 21:24:03 IDT 2020 Ohanahas become team manager of : Bet
 Wed May 27 21:24:05 IDT 2020 New teamTel Aviv has been added to system by owner: yakir
 Wed May 27 21:24:05 IDT 2020 New teamHaifa has been added to system by owner: yam
+Fri May 29 13:24:10 EEST 2020 New teamBet has been added to system by owner: Moshe
+Fri May 29 13:24:10 EEST 2020 Ohanahas become team manager of : Bet
+Fri May 29 13:24:13 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Fri May 29 13:24:13 EEST 2020 New teamHaifa has been added to system by owner: yam
+Fri May 29 13:24:13 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Fri May 29 13:24:13 EEST 2020 New teamHaifa has been added to system by owner: yam

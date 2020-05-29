@@ -35,7 +35,7 @@ public class CommissionerRestController {
         return "commissssiionner";
     }
 
-
+    
 
     @CrossOrigin
     @PostMapping("/addScorePolicy")
