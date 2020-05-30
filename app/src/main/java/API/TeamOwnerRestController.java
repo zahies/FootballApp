@@ -1,10 +1,12 @@
 package API;
 
 
+import DataAccess.Exceptions.NoConnectionException;
 import Domain.ErrorLog;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Leaugue;
 import Domain.Users.TeamOwner;
+import FootballExceptions.*;
 import SpringControllers.CommissionerController;
 import SpringControllers.TeamOwnerController;
 import org.json.JSONObject;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +54,47 @@ public class TeamOwnerRestController {
         }
     }
 
+
+    @CrossOrigin
+    @GetMapping("/myteam/{username}")
+    public Map<String,LinkedList<String>> getmyteam(@PathVariable  String username, final HttpServletResponse response) throws IOException  {
+        Map<String,LinkedList<String>> myteam = null;
+        String alert = "";
+        boolean succeeded = false;
+        try {
+            myteam= ownerController.getMyteam(username);
+            succeeded = true;
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (TeamOwnerWithNoTeamException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (InactiveTeamException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UnauthorizedTeamOwnerException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        }
+        if (!succeeded){
+            response.sendError(HttpServletResponse.SC_CONFLICT,alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
+        }
+        return myteam;
+    }
 
     @CrossOrigin
     @GetMapping("/leagues")

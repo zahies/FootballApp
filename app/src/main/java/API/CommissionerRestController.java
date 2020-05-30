@@ -10,9 +10,7 @@ import Domain.Events.Error_Loger;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SystemLog;
-import FootballExceptions.NoPermissionException;
-import FootballExceptions.UserInformationException;
-import FootballExceptions.UserIsNotThisKindOfMemberException;
+import FootballExceptions.*;
 import SpringControllers.CommissionerController;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +89,44 @@ public class CommissionerRestController {
         }
     }
 
+
+    @CrossOrigin
+    @GetMapping("/leagues/{leagueID}")
+    public Map<Integer,LinkedList<String>> getleagueViaId(@PathVariable String leagueID, final HttpServletResponse response) throws IOException {
+        boolean succeeded = false;
+        String alert = "";
+        Map<Integer,LinkedList<String>> league = null;
+        try{
+            league = comController.getLeague(leagueID);
+            succeeded = true;
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (LeagueIDAlreadyExist leagueIDAlreadyExist) {
+            leagueIDAlreadyExist.printStackTrace();
+            alert = leagueIDAlreadyExist.getMessage();
+        } catch (SeasonYearAlreadyExist seasonYearAlreadyExist) {
+            seasonYearAlreadyExist.printStackTrace();
+            alert = seasonYearAlreadyExist.getMessage();
+        }
+        if (!succeeded){
+            response.sendError(HttpServletResponse.SC_CONFLICT,alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
+        }
+        return league;
+    }
 
 
     @CrossOrigin
@@ -232,7 +268,7 @@ public class CommissionerRestController {
 
 
     @CrossOrigin
-    @GetMapping("/proveTeam/{user}")
+    @GetMapping("/proveTeam/{commUserName}")
     public Map<String,String> getReplyForRegistration(@PathVariable String user, final HttpServletResponse response) throws IOException{
         Map<String,String> map = new HashMap<>();
         boolean succeeded=false;

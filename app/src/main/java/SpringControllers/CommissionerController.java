@@ -350,4 +350,22 @@ public class CommissionerController extends MemberController {
         }
         return map;
     }
+
+
+
+    public Map<Integer, LinkedList<String>> getLeague(String leagueid) throws SeasonYearAlreadyExist, LeagueIDAlreadyExist, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
+        Leaugue leaugue = new LeaguesDAL().select(leagueid,true);
+        Map<Integer, LinkedList<String>> toreturn = new HashMap<>();
+        LinkedList<Pair<Integer, Team>> score_teams = leaugue.getSeasonByYear(2020).getScore_teams();
+        int i = 1;
+        for (Pair<Integer, Team> d: score_teams
+        ) {
+            LinkedList<String> values = new LinkedList<>();
+            values.add(d.getValue().getName());
+            values.add(d.getKey().toString());
+            toreturn.put(i,values);
+            i++;
+        }
+        return toreturn;
+    }
 }

@@ -3,20 +3,19 @@ package SpringControllers;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import DataAccess.UsersDAL.MembersDAL;
 import DataAccess.UsersDAL.TeamManagerDAL;
 import DataAccess.UsersDAL.TeamOwnersDAL;
-import Domain.SeasonManagment.BudgetActivity;
-import Domain.SeasonManagment.IAsset;
-import Domain.SeasonManagment.Leaugue;
-import Domain.SeasonManagment.TeamStatus;
-import Domain.Users.Member;
-import Domain.Users.TeamManager;
-import Domain.Users.TeamOwner;
+import Domain.SeasonManagment.*;
+import Domain.Users.*;
 import FootballExceptions.*;
 
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class TeamOwnerController extends MemberController {
 
@@ -115,7 +114,26 @@ public class TeamOwnerController extends MemberController {
 
 
 
+    public Map<String, LinkedList<String>> getMyteam(String username) throws TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
+        HashMap<String,LinkedList<String>> toreturn = new HashMap<>();
+        Team teamHome = new TeamsDAL().select(username,true);
+        LinkedList<String> players = new LinkedList<>();
+        for (IAsset ass:teamHome.getTeamPlayers().values()
+        ) {
+            Player p = (Player)ass;
+            players.add(p.getName());
+        }
+        LinkedList<String> coaches = new LinkedList<>();
+        for (IAsset ass:teamHome.getTeamCoaches().values()
+        ) {
+            Coach p = (Coach) ass;
+            coaches.add(p.getName());
+        }
 
+        toreturn.put("players",players);
+        toreturn.put("coaches",coaches);
+        return toreturn;
+    }
 
     /**
      * UC 6.2 - assign member to become team owner
