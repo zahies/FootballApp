@@ -6,6 +6,7 @@ import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.ComplaintFormsDAL;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
+import DataAccess.UserInformationDAL.PersonalPagesDAL;
 import DataAccess.UsersDAL.FansDAL;
 import Domain.Searcher.Searcher;
 import Domain.SeasonManagment.ComplaintForm;
@@ -40,7 +41,7 @@ public class FanController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException | EmptyPersonalPageException e) {
+        } catch (NoConnectionException | EmptyPersonalPageException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
         return flag;
@@ -50,7 +51,7 @@ public class FanController {
         boolean flag = false;
         try {
             Fan fan = (Fan) new FansDAL().select(username,true);
-             PersonalInfo page = (PersonalInfo) new PersonalInfoDAL().select(pagestring,true);
+             PersonalInfo page = (PersonalInfo) new PersonalPagesDAL().select(Integer.parseInt(pagestring),true);
             fan.unFollowPage(page);
             flag = true;
         } catch (UserIsNotThisKindOfMemberException e) {
@@ -71,7 +72,7 @@ public class FanController {
     public boolean turnAlertForPersonalPageOn(String username,  String pagestring) {
         try {
             Fan fan = (Fan) new FansDAL().select(username,true);
-            PersonalInfo page = (PersonalInfo) new PersonalInfoDAL().select(pagestring,true);
+            PersonalInfo page = (PersonalInfo) new PersonalPagesDAL().select(Integer.parseInt(pagestring),true);
             return fan.turnAlertForPersonalPageOn(page);
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
@@ -84,6 +85,10 @@ public class FanController {
         } catch (NoConnectionException e) {
             e.printStackTrace();
         } catch (EmptyPersonalPageException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
         return false;
