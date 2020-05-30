@@ -1,5 +1,6 @@
 package API;
 
+import Domain.ErrorLog;
 import Domain.Users.*;
 import FootballExceptions.UserInformationException;
 import SpringControllers.GuestController;
@@ -48,7 +49,9 @@ public class GuestRestController {
             return json;
         } catch (UserInformationException e) {
            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Login Details");
-           return null;
+            ErrorLog.getInstance().UpdateLog("The error is: " + "Incorrect Login Details");
+
+            return null;
         }
     }
 

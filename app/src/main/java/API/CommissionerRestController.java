@@ -2,8 +2,15 @@ package API;
 
 
 
+import DataAccess.Exceptions.NoConnectionException;
+import Domain.ErrorLog;
+import Domain.Events.Error_Loger;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Leaugue;
+import Domain.SystemLog;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import SpringControllers.CommissionerController;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RequestMapping("footballapp/commissioner")
 @RestController
 public class CommissionerRestController {
@@ -29,6 +38,8 @@ public class CommissionerRestController {
 
 
 
+
+
     @GetMapping
     public String get(){
         System.out.println("DSDDASD");
@@ -37,42 +48,111 @@ public class CommissionerRestController {
 
 
 
+
+    @CrossOrigin
+    @PostMapping("/applyRequest")
+    public void applyRequestForRegistration(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException{
+        boolean succeeded = false;
+        String alert = "";
+        String commissionerDecision = body.get("apply");
+        String commissionerUsername = body.get("username");
+        String teamName = body.get("teamname");
+        try{
+            if (commissionerDecision.equals("true")){    /** the commissioner decided to confirm the registration request */
+                succeeded = comController.responseToRegistrationRequest(commissionerUsername,teamName);
+            }
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        }
+        if (succeeded){
+            /**pop up success*/
+            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Score Policy Added Successfully ! ");
+        }else {
+            /**pop up failed*/
+            response.sendError(HttpServletResponse.SC_CONFLICT,alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
+
+        }
+    }
+
+
+
     @CrossOrigin
     @PostMapping("/addScorePolicy")
-    public void addScorePolicy(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException{
-        boolean succeeded;
+    public void addScorePolicy(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException, UserIsNotThisKindOfMemberException {
+        boolean succeeded = false;
         String commissionerUsername = body.get("username");
         int leagueId = Integer.parseInt(body.get("leagueID"));
         int year = Integer.parseInt(body.get("year"));
         int winVal = Integer.parseInt(body.get("winval"));
         int loseVal = Integer.parseInt(body.get("loseval"));
         int drawVal = Integer.parseInt(body.get("drawval"));
-        succeeded = comController.setNewScorePolicy(commissionerUsername,leagueId,year,winVal,loseVal,drawVal);
+        String alert = "";
+        try {
+            succeeded = comController.setNewScorePolicy(commissionerUsername,leagueId,year,winVal,loseVal,drawVal);
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        }
         if (succeeded){
             /**pop up success*/
             response.setStatus(HttpServletResponse.SC_ACCEPTED, "Score Policy Added Successfully ! ");
         }else {
             /**pop up failed*/
-            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+            response.sendError(HttpServletResponse.SC_CONFLICT,alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
         }
     }
 
     @CrossOrigin
     @PostMapping("/addTeamsPolicy")
-    public void addPlaceTeamsPolicy(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException{
-        boolean succeeded;
+    public void addPlaceTeamsPolicy(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {
+        boolean succeeded = false;
         String commissionerUsername = body.get("username");
         int leagueId = Integer.parseInt(body.get("leagueID"));
         int year = Integer.parseInt(body.get("year"));
         int numGames = Integer.parseInt(body.get("numgames"));
-        succeeded = comController.setNewPlaceTeamsPolicy(commissionerUsername,leagueId,year,numGames);
-        if (succeeded){
+        String alert = "";
+        try {
+            succeeded = comController.setNewPlaceTeamsPolicy(commissionerUsername, leagueId, year, numGames);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        }
+        if (succeeded) {
             /**pop up success*/
             response.setStatus(HttpServletResponse.SC_ACCEPTED, "Place Teams Policy Added Successfully ! ");
-        }else {
+        } else {
             /**pop up failed*/
-            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+            response.sendError(HttpServletResponse.SC_CONFLICT, alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
         }
+
     }
 
 
@@ -83,17 +163,33 @@ public class CommissionerRestController {
     @CrossOrigin
     @PostMapping("/addCommissionerRule")
     public void addCommissionerRule(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {
-        boolean succeeded;
+        boolean succeeded=false;
         String commissionerUsername = body.get("username");
         String description = body.get("description");
         int ruleAmount = Integer.parseInt(body.get("ruleAmount"));
-        succeeded =  comController.defineBudgetControl(commissionerUsername,ruleAmount,description);
+        String alert = "";
+        try {
+            succeeded =  comController.defineBudgetControl(commissionerUsername,ruleAmount,description);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        }
         if (succeeded){
             /**pop up success*/
             response.setStatus(HttpServletResponse.SC_ACCEPTED, "Your Rule Added Successfully ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
         }
     }
 

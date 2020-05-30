@@ -3,26 +3,30 @@ package Domain.Alerts;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Team;
+import Domain.Users.TeamOwner;
 
 import java.util.UUID;
 
 public class RegistrationRequestAlert implements IAlert{
-    private Team team;
     private Leaugue leaugue;
+    private String teamName;
     private int year;
     private UUID objectID;
+    private TeamOwner owner;
+    private boolean hadSent;
 
-    public RegistrationRequestAlert(Team team, Leaugue leaugue, int year) {
-        this.team = team;
+    public RegistrationRequestAlert(String teamName, Leaugue leaugue, int year, TeamOwner owner) {
         this.leaugue = leaugue;
         this.year = year;
         this.objectID = UUID.randomUUID();
+        this.owner = owner;
+        this.teamName = teamName;
+        hadSent = false;
     }
 
     @Override
     public String toString() {
-        return "team name = " + team.getName() + " , is willing to register to league = " + leaugue.getID() +" , inside season at year = " + year +
-                " }";
+        return "team name = " + teamName + " , is willing to register to league = " + leaugue.getID() +" , inside season at year = " + year ;
     }
 
     @Override
@@ -40,8 +44,8 @@ public class RegistrationRequestAlert implements IAlert{
         return objectID;
     }
 
-    public Team getTeam() {
-        return team;
+    public String getTeamName() {
+        return teamName;
     }
 
     public Leaugue getLeaugue() {
@@ -50,5 +54,18 @@ public class RegistrationRequestAlert implements IAlert{
 
     public int getYear() {
         return year;
+    }
+
+    public TeamOwner getOwner(){
+        return owner;
+    }
+
+
+    public boolean isHadSent() {
+        return hadSent;
+    }
+
+    public void setHadSent(boolean hadSent) {
+        this.hadSent = hadSent;
     }
 }

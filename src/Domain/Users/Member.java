@@ -20,7 +20,7 @@ public abstract class Member extends GeneralUser {
     private int id; // ?!?!?!
     private String password;
     private String real_Name;
-    private Queue<IAlert> alertsList;
+    protected Queue<IAlert> alertsList;
     private boolean isActive;
     private boolean alertViaMail;
 
@@ -151,6 +151,10 @@ public abstract class Member extends GeneralUser {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addAlert(IAlert alert){
+        alertsList.add(alert);
     }
 
     public int getId() {
