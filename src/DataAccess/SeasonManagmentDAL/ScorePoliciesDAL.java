@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.IScorePolicy;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -14,11 +15,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ScorePoliciesDAL implements DAL<IScorePolicy,String> {
-    Connection connection = null;
+
 
     @Override
     public boolean insert(IScorePolicy objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "INSERT INTO score_policies (ObjectID, winValue, loseValue, drawValue) VALUES (?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getId().toString());
@@ -33,7 +34,7 @@ public class ScorePoliciesDAL implements DAL<IScorePolicy,String> {
 
     @Override
     public boolean update(IScorePolicy objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "UPDATE score_policies SET winValue =?,loseValue=?,drawValue=? WHERE ObjectID=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(4,objectToUpdate.getId().toString());

@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.Season;
 import Domain.SeasonManagment.Team;
 import FootballExceptions.NoPermissionException;
@@ -19,12 +20,10 @@ import java.util.LinkedList;
 
 public class SeasonDAL implements DAL<Season, String> {
 
-    Connection connection = null;
 
     @Override
     public boolean insert(Season objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
-
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement =" INSERT INTO seasons (seasonID, year, IsItTheBeginningOfSeason, scorePolicy, placingPolicy) VALUES(?,?,?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
@@ -51,7 +50,7 @@ public class SeasonDAL implements DAL<Season, String> {
 
     @Override
     public boolean update(Season objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "UPDATE seasons SET Year=?, IsItTheBeginningOfSeason=?,ScorePolicy = ?, PlacingPolicy=? WHERE SeasonID=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);

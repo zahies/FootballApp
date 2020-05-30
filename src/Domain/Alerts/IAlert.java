@@ -7,5 +7,8 @@ public interface IAlert {
     public String view();
     public String getType();
     public UUID getObjectID();
+    public default boolean isSent(){
+     return false; //todo - impliment
+    }
 
 }

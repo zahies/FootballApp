@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.Budget;
 import Domain.SeasonManagment.ControlBudget;
 import Domain.SeasonManagment.DefaultCommissionerRule;
@@ -19,11 +20,10 @@ import java.sql.*;
 import java.util.UUID;
 
 public class ControlBudgetDAL implements DAL<ControlBudget, String> {
-    Connection connection = null;
 
     @Override
     public boolean insert(ControlBudget objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO control_budgets (ObjectID, CommissionerRule) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -44,7 +44,7 @@ public class ControlBudgetDAL implements DAL<ControlBudget, String> {
 
     @Override
     public boolean update(ControlBudget objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "UPDATE control_budgets SET CommissionerRule = ? WHERE ObjectID=?;";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -61,13 +61,14 @@ public class ControlBudgetDAL implements DAL<ControlBudget, String> {
 
     @Override
     public ControlBudget select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         /***CONTROL BUDGET DETAILS*/
         String statement = "SELECT * FROM control_budgets WHERE ObjectID =?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectIdentifier);
         ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
         ICommissionerRule defaultCommissionerRule = new ICommissionerRulesDAL().select(rs.getString("CommissionerRule"),false);
         statement = "SELECT * FROM budgets WHERE ControlBudget=?";
         preparedStatement = connection.prepareStatement(statement);

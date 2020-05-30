@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import DataAccess.UserInformationDAL.PersonalPagesDAL;
 import DataAccess.UsersDAL.CoachesDAL;
 import DataAccess.UsersDAL.PlayersDAL;
@@ -20,14 +21,15 @@ import javafx.util.Pair;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
-public class TeamsDAL implements DAL<Team, String> {
-    Connection connection = null;
+public class TeamsDAL implements DAL<Team, String>  {
 
+    Connection connection =null;
     @Override
     public boolean insert(Team objectToInsert) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO teams(TeamID,Name,PersonalPage,Owner,TeamStatus,ControlBudget,isClosed,playersFootballRate,SystemManagerCloser) VALUES (?,?,?,?,?,?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -53,14 +55,14 @@ public class TeamsDAL implements DAL<Team, String> {
 
         new TeamOwnersDAL().update(objectToInsert.getOwner());
 
-        connection.close();
+        MySQLConnector.getInstance().disconnect();
 
         return true;
     }
 
     @Override
     public boolean update(Team objectToUpdate) throws SQLException, NoConnectionException {
-        connection = connect();
+        connection = MySQLConnector.getInstance().connect();
 
         String statement ="UPDATE teams SET Name=?,PersonalPage=?,Owner=?,TeamStatus=?,ControlBudget=?,isClosed=?,PlayersFootballRate=?,SystemManagerCloser=? WHERE TeamID=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -74,7 +76,7 @@ public class TeamsDAL implements DAL<Team, String> {
         preparedStatement.setString(3, objectToUpdate.getOwner().getName());
         preparedStatement.setString(4, objectToUpdate.getStatus().toString());
         if (objectToUpdate.getControlBudget() != null) {
-            preparedStatement.setString(5, objectToUpdate.getId().toString());
+            preparedStatement.setString(5, objectToUpdate.getControlBudget().getObjectID().toString());
         } else {
             preparedStatement.setNull(5,Types.VARCHAR);
         }
@@ -82,14 +84,15 @@ public class TeamsDAL implements DAL<Team, String> {
         preparedStatement.setDouble(7, objectToUpdate.getPlayersFootballRate());
         preparedStatement.setBoolean(8, objectToUpdate.isClosed());
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
+        MySQLConnector.getInstance().disconnect();
 
         return ans ==1 ;
     }
 
     @Override
     public Team select(String objectIdentifier,boolean  bidirectionalAssociation) throws NoConnectionException, SQLException, UserInformationException, NoPermissionException, UserIsNotThisKindOfMemberException {
-        connection = connect();
+        connection = MySQLConnector.getInstance().connect();
 
         /**TEAM DETAILS*/
         String statement = "SELECT * FROM teams WHERE TeamID = ?";
@@ -201,6 +204,7 @@ public class TeamsDAL implements DAL<Team, String> {
             ((TeamManager)teamManagers.get(key)).setMyTeam(team);
             teamManagers.get(key).getTeamOwnerAssignedThis().setTeam(team);
         }
+        MySQLConnector.getInstance().disconnect();
         return team;
     }
 
@@ -209,5 +213,23 @@ public class TeamsDAL implements DAL<Team, String> {
         return false;
     }
 
+    public HashMap<UUID, Team> selectALl() throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException {
+        HashMap<UUID, Team> allTeams = new HashMap<>();
+        connection = MySQLConnector.getInstance().connect();
+
+        String statement ="SELECT TeamID FROM teams";
+        PreparedStatement preparedStatement =connection.prepareStatement(statement);
+        ResultSet rs = preparedStatement.executeQuery();
+        LinkedList <String> teamsIDs = new LinkedList<>();
+        while (rs.next()){
+            teamsIDs.add(rs.getString("TeamID"));
+        }
+        MySQLConnector.getInstance().disconnect();
+        for (String string : teamsIDs) {
+            Team team = this.select(string,true);
+            allTeams.put(team.getId(),team);
+        }
+        return allTeams;
+    }
 
 }

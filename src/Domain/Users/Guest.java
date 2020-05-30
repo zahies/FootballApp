@@ -1,12 +1,18 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.FootballManagmentSystem;
 import Domain.Searcher.Searcher;
 import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Season;
+import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -38,7 +44,7 @@ public class Guest extends GeneralUser {
      * @param password
      * @return true if login succeeded
      */
-    public LinkedList<Member> login(String username, String password) throws UserInformationException {
+    public LinkedList<Member> login(String username, String password) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         return system.login(username, password);
     }
 

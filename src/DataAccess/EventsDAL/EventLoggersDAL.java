@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.Events.Event_Logger;
 import Domain.Events.IEvent;
 import FootballExceptions.NoPermissionException;
@@ -20,11 +21,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class EventLoggersDAL implements DAL<Event_Logger,String> {
-    Connection connection = null;
+
 
     @Override
     public boolean insert(Event_Logger objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO events_logger (objectID) VALUES (?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -42,7 +43,7 @@ public class EventLoggersDAL implements DAL<Event_Logger,String> {
 
     @Override
     public Event_Logger select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "SELECT  ObjectID FROM events WHERE Logger =?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);

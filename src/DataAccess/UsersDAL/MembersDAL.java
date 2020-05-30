@@ -5,6 +5,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.Alerts.IAlert;
 import Domain.Users.*;
 import FootballExceptions.NoPermissionException;
@@ -13,17 +14,17 @@ import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class MembersDAL implements DAL<Member, String> {
 
-    Connection connection = null;
 
     @Override
     public boolean insert(Member member) throws SQLException, NoConnectionException, UserInformationException, mightBeSQLInjectionException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
 
-        connection = this.connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         if (checkExist(member.getName(), "members", "UserName",member.getClass().toString())) {
             throw new UserInformationException();
         }
@@ -65,7 +66,7 @@ public class MembersDAL implements DAL<Member, String> {
     @Override
     public boolean update(Member member) throws SQLException, NoConnectionException, mightBeSQLInjectionException, UserIsNotThisKindOfMemberException, UserInformationException, NoPermissionException, DuplicatedPrimaryKeyException {
 
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "UPDATE members SET Password=?, RealName=?, MailAddress=?,isActive=?,AlertsViaMail =  ? WHERE UserName = ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(6, member.getName());
@@ -97,7 +98,7 @@ public class MembersDAL implements DAL<Member, String> {
 
     @Override
     public boolean checkExist(String objectIdentifier, String tableName, String primaryKeyName, String primaryKeyName2) throws NoConnectionException, SQLException, mightBeSQLInjectionException {
-        Connection connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 //        if (!allTablesName.contains(tableName) || !allPrimaryKeysName.contains(primaryKeyName)|| !allPrimaryKeysName.contains(primaryKeyName2)) {
 //            throw new mightBeSQLInjectionException();
 //        }
@@ -109,5 +110,55 @@ public class MembersDAL implements DAL<Member, String> {
         boolean ans = rs.next();
         connection.close();
         return ans;
+    }
+
+    public HashMap<String, LinkedList<Member>> selectAll() throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException {
+        HashMap<String, LinkedList<Member>> allMembers = new HashMap<>();
+
+        Connection connection = MySQLConnector.getInstance().connect();
+        String statement ="SELECT UserName , Type FROM members";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()){
+            String type = rs.getString("Type");
+            String userName = rs.getString("UserName");
+            Member member = null;
+            switch (type) {
+                case "Coach":
+                    member = new CoachesDAL().select(userName, true);
+                    break;
+                case "Commissioner":
+                    member = new CommissionersDAL().select(userName, true);
+                    break;
+                case "Fan":
+                    member = new FansDAL().select(userName, true);
+                    break;
+                case "Player":
+                    member = new PlayersDAL().select(userName, true);
+                    break;
+                case "Referee":
+                    member = new RefereesDAL().select(userName, true);
+                    break;
+                case "SystemManager":
+                    member = new SystemManagerDAL().select(userName, true);
+                    break;
+                case "TeamManager":
+                    member = new TeamManagerDAL().select(userName, true);
+                    break;
+                case "TeamOwner":
+                    member = new TeamOwnersDAL().select(userName, true);
+                    break;
+                }
+            if(!allMembers.containsKey(userName)){
+                LinkedList <Member> memberAccounts = new LinkedList<>();
+                memberAccounts.add(member);
+                allMembers.put(userName,memberAccounts);
+            }else {
+                LinkedList <Member> memberAccounts =allMembers.get(userName);
+                memberAccounts.add(member);
+                allMembers.replace(userName,memberAccounts);
+            }
+        }
+        return allMembers;
     }
 }

@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.DefaultCommissionerRule;
 import Domain.SeasonManagment.ICommissionerRule;
 import FootballExceptions.EmptyPersonalPageException;
@@ -18,11 +19,11 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class ICommissionerRulesDAL implements DAL<ICommissionerRule,String> {
-    Connection connection = null;
+
 
     @Override
-    public boolean insert(ICommissionerRule objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection =connect();
+    public boolean insert(ICommissionerRule objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException {
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO commissioner_rules (ObjectID, Description) VALUES (?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -35,7 +36,7 @@ public class ICommissionerRulesDAL implements DAL<ICommissionerRule,String> {
 
     @Override
     public boolean update(ICommissionerRule objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "UPDATE commissioner_rules SET Description=? WHERE ObjectID=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -48,7 +49,7 @@ public class ICommissionerRulesDAL implements DAL<ICommissionerRule,String> {
 
     @Override
     public ICommissionerRule select(String objectIdentifier, boolean bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException{
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="SELECT * FROM commissioner_rules WHERE ObjectID=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -56,7 +57,8 @@ public class ICommissionerRulesDAL implements DAL<ICommissionerRule,String> {
         ResultSet rs = preparedStatement.executeQuery();
         rs.next();
 
-        return new DefaultCommissionerRule(UUID.fromString(objectIdentifier),rs.getString("Description"));
+        //return new DefaultCommissionerRule(UUID.fromString(objectIdentifier),rs.getString("Description"));
+        return null;
     }
 
     @Override

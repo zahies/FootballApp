@@ -1,5 +1,8 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import Domain.Alerts.ChangedGameAlert;
 import Domain.Alerts.GameEventAlert;
@@ -9,8 +12,12 @@ import Domain.Events.AGameEvent;
 import Domain.Events.Event_Logger;
 import Domain.FootballManagmentSystem;
 import Domain.Users.Referee;
+import FootballExceptions.NoPermissionException;
 import FootballExceptions.PersonalPageYetToBeCreatedException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class Game extends Observable {
@@ -27,7 +34,7 @@ public class Game extends Observable {
     private LinkedList<Observer> referees;
     private IAlert alert;
 
-
+    /***FOR DB SELECT)*/
     public Game(UUID objectId, Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, int scoreHome, int scoreAway, Season season, LinkedList<Observer> referees) {
         this.objectId = objectId;
         this.away = away;
@@ -41,7 +48,7 @@ public class Game extends Observable {
         this.referees = referees;
     }
 
-    public Game(Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, Season season) {
+    public Game(Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, Season season) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         this.away = away;
         this.home = home;
         this.dateGame = dateGame;
@@ -55,13 +62,15 @@ public class Game extends Observable {
         referees.add(mainReferee);
         referees.add(seconderyReferee);
         objectId = UUID.randomUUID();
+        new GamesDAL().insert(this);
     }
 
     //todo - add option to  notify ref when upcoming match date
-    public void changeDate(Date newDate) {
+    public void changeDate(Date newDate) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
         this.dateGame = newDate;
         IAlert newAlart = new ChangedGameAlert(new Date(), this);
         alert = newAlart;
+        new GamesDAL().update(this);
         notifyReferees(alert);
     }
 
@@ -114,7 +123,7 @@ public class Game extends Observable {
 
 
     //part of UC - 10.3 + alerting to followers
-    public void addEventToEventLog(AGameEvent event) throws PersonalPageYetToBeCreatedException {
+    public void addEventToEventLog(AGameEvent event) throws PersonalPageYetToBeCreatedException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         event.getPlayerWhocommit().changePlayerRate(event);
         event_logger.addEvent(event);
         IAlert alert = new GameEventAlert(event.getGameMinute(), event);
@@ -123,7 +132,7 @@ public class Game extends Observable {
 
 
     //part of UC - 10.3 + alerting to followers
-    public void addSubtitutionEventToEventLog(AGameEvent event) throws PersonalPageYetToBeCreatedException {
+    public void addSubtitutionEventToEventLog(AGameEvent event) throws PersonalPageYetToBeCreatedException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
         event_logger.addEvent(event);
         IAlert alert = new GameEventAlert(event.getGameMinute(), event);
         notifyTeamfans(alert);
@@ -173,7 +182,7 @@ public class Game extends Observable {
         this.home = home;
     }
 
-    public void setDateGame(Date dateGame) {
+    public void setDateGame(Date dateGame) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
         changeDate(dateGame);
     }
 

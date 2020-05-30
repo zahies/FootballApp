@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.IPlaceTeamsPolicy;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -19,7 +20,7 @@ public class PlaceTeamsPoliciesDAL implements DAL<IPlaceTeamsPolicy,String> {
 
     @Override
     public boolean insert(IPlaceTeamsPolicy objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "INSERT INTO place_teams_policies (ObjectID, numOfGamesWithEachTeam) VALUES (?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getId().toString());
@@ -32,7 +33,7 @@ public class PlaceTeamsPoliciesDAL implements DAL<IPlaceTeamsPolicy,String> {
 
     @Override
     public boolean update(IPlaceTeamsPolicy objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "UPDATE place_teams_policies SET numOfGamesWithEachTeam = ? WHERE ObjectID= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1,objectToUpdate.numOfGamesWithEachTeam());

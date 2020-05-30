@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -20,11 +21,11 @@ public class BudgetActivitiesDAL implements DAL<Pair<Pair<String,String>,Integer
      *                      Value = Amount
      * E - objectIdentifier - key = pair (key = budgetActivity , value = budgetID)
      */
-    Connection connection =null;
+
 
     @Override
     public boolean insert(Pair<Pair<String, String>, Integer> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO budget_finance_activity (BudgetActivity, Budget, Amount) VALUES (?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -39,7 +40,7 @@ public class BudgetActivitiesDAL implements DAL<Pair<Pair<String,String>,Integer
 
     @Override
     public boolean update(Pair<Pair<String, String>, Integer> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "UPDATE budget_finance_activity SET Amount =? WHERE BudgetActivity=? and Budget=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -54,7 +55,7 @@ public class BudgetActivitiesDAL implements DAL<Pair<Pair<String,String>,Integer
 
     @Override
     public Pair<Pair<String, String>, Integer> select(Pair<String, String> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "SELECT * FROM budget_finance_activity WHERE BudgetActivity=? and Budget=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);

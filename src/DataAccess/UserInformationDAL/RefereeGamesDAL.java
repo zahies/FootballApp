@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -15,10 +16,10 @@ import java.sql.SQLException;
 
 public class RefereeGamesDAL implements DAL<Pair<String,String>, Pair<String,String>> {
 
-    Connection connection=null;
+
     @Override
     public boolean insert(Pair<String, String> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="INSERT INTO referee_games (Referee, Game) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);

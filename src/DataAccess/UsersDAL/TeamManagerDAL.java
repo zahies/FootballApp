@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import DataAccess.SeasonManagmentDAL.AssetsDAL;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import DataAccess.UserInformationDAL.TeamManagerPermissionsDAL;
@@ -22,14 +23,11 @@ import java.util.HashMap;
 
 public class TeamManagerDAL implements DAL<TeamManager, String> {
 
-    Connection connection = null;
 
     @Override
     public boolean insert(TeamManager objectToInsert) throws SQLException, NoConnectionException, UserIsNotThisKindOfMemberException, UserInformationException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
-        if (connection == null) {
-            return false;
-        }
+        Connection connection = MySQLConnector.getInstance().connect();
+
 
         new MembersDAL().insert(objectToInsert);
         new AssetsDAL().insert((IAsset) objectToInsert);
@@ -67,7 +65,7 @@ public class TeamManagerDAL implements DAL<TeamManager, String> {
 
         /**ASSET DETAILS UPDATE*/
         new AssetsDAL().update(((IAsset) objectToUpdate));
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
 
         /***PERMISSION UPDATE**/
@@ -97,7 +95,7 @@ public class TeamManagerDAL implements DAL<TeamManager, String> {
 
     @Override
     public TeamManager select(String objectIdentifier, boolean  bidirectionalAssociation) throws NoConnectionException, UserInformationException, SQLException, UserIsNotThisKindOfMemberException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         /**MEMBER DETAILS*/
         String statement = "SELECT Password,RealName,MailAddress,isActive, AlertsViaMail FROM members WHERE UserName = ?;";

@@ -1,5 +1,14 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.ICommissionerRulesDAL;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
+
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class DefaultCommissionerRule implements ICommissionerRule {
@@ -14,9 +23,10 @@ public class DefaultCommissionerRule implements ICommissionerRule {
         id = UUID.randomUUID();
     }
 
-    public DefaultCommissionerRule(UUID id, String description) {
+    public DefaultCommissionerRule(UUID id, String description) throws NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         this.id = id;
         Description = description;
+        new ICommissionerRulesDAL().insert(this);
     }
 
     public UUID getObjectID() {

@@ -1,9 +1,17 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.MembersDAL;
 import Domain.Alerts.IAlert;
 import Domain.FootballManagmentSystem;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -76,10 +84,27 @@ public abstract class Member extends GeneralUser {
             System.out.println(newAlert);
         } else {
             alertsList.add(newAlert);
+            try {
+                new MembersDAL().update(this);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (NoConnectionException e) {
+                e.printStackTrace();
+            } catch (mightBeSQLInjectionException e) {
+                e.printStackTrace();
+            } catch (UserIsNotThisKindOfMemberException e) {
+                e.printStackTrace();
+            } catch (UserInformationException e) {
+                e.printStackTrace();
+            } catch (NoPermissionException e) {
+                e.printStackTrace();
+            } catch (DuplicatedPrimaryKeyException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void logOut() {
+    public void logOut() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem.getInstance().logOut(this);
     }
 

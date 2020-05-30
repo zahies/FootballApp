@@ -5,6 +5,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import DataAccess.SeasonManagmentDAL.AssetsDAL;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import DataAccess.UserInformationDAL.PersonalPagesDAL;
@@ -26,7 +27,6 @@ import java.util.Queue;
 
 public class PlayersDAL implements DAL<Player, String> {
 
-    Connection connection = null;
 
     @Override
     public boolean insert(Player member) throws SQLException, NoConnectionException, UserInformationException, mightBeSQLInjectionException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
@@ -35,7 +35,7 @@ public class PlayersDAL implements DAL<Player, String> {
         member = ((Player) member);
         new AssetsDAL().insert((IAsset) member);
 
-        connection = this.connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO players (UserName,DateOfBirth,Team,PersonalPage,Role, AssetID,FootballRate) VALUES (?,?,?,?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -73,10 +73,10 @@ public class PlayersDAL implements DAL<Player, String> {
         /**MEMBER DETAILS UPDATE*/
         new MembersDAL().update(member);
 
-        if (checkExist(member.getName(), "fans", "UserName","")) {
-
-        }
-        connection = connect();
+//        if (checkExist(member.getName(), "fans", "UserName","")) {
+//
+//        }
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "UPDATE players SET DateOfBirth=?,Team=?,PersonalPage=?,Role=?,AssetID=?,FootballRate=? WHERE UserName=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -111,7 +111,7 @@ public class PlayersDAL implements DAL<Player, String> {
     @Override
     public Player select(String userName,boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
 
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         /**MEMBER DETAILS*/
         String statement = "SELECT Password,RealName,MailAddress,isActive, AlertsViaMail FROM members WHERE UserName = ?;";

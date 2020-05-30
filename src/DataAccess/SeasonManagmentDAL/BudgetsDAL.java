@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.Budget;
 import Domain.SeasonManagment.BudgetActivity;
 import FootballExceptions.NoPermissionException;
@@ -16,11 +17,11 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 public class BudgetsDAL implements DAL<Budget,String> {
-    Connection connection = null;
+
 
     @Override
     public boolean insert(Budget objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="INSERT INTO budgets (ObjectID, Team, ControlBudget) values (?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -39,7 +40,7 @@ public class BudgetsDAL implements DAL<Budget,String> {
 
     @Override
     public boolean update(Budget objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="UPDATE budgets SET Team =?,ControlBudget=? WHERE ObjectID=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -58,7 +59,7 @@ public class BudgetsDAL implements DAL<Budget,String> {
 
     @Override
     public Budget select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "SELECT * FROM budgets WHERE ObjectID=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -66,7 +67,7 @@ public class BudgetsDAL implements DAL<Budget,String> {
         ResultSet rs =preparedStatement.executeQuery();
         rs.next();
         UUID teamID = UUID.fromString(rs.getString("Team"));
-        UUID controlBudgetID = UUID.fromString(rs.getString("ControlID"));
+        UUID controlBudgetID = UUID.fromString(rs.getString("ControlBudget"));
 
         LinkedList<Pair<BudgetActivity, Integer>> financeActivity = new LinkedList<>();
         statement = "SELECT * FROM budget_finance_activity WHERE Budget=?";

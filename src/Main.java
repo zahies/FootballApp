@@ -1,3 +1,4 @@
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.AssetsDAL;
@@ -20,7 +21,7 @@ import java.text.ParseException;
 public class Main {
 
 
-    public static void main(String[] args) throws ParseException, UnknownHostException, UserInformationException, NotEnoughTeamsInLeague, EventNotMatchedException, PersonalPageYetToBeCreatedException, TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserIsNotThisKindOfMemberException, MessagingException {
+    public static void main(String[] args) throws ParseException, UnknownHostException, UserInformationException, NotEnoughTeamsInLeague, EventNotMatchedException, PersonalPageYetToBeCreatedException, TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserIsNotThisKindOfMemberException, MessagingException, DuplicatedPrimaryKeyException, SQLException, mightBeSQLInjectionException, NoPermissionException, NoConnectionException {
 //        MembersDAL membersDAL = new MembersDAL();
 ////        AssetsDAL assetsDAL = new AssetsDAL();
 ////        TeamOwnersDAL teamOwnersDAL = new TeamOwnersDAL();

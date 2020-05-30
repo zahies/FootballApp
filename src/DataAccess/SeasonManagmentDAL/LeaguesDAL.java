@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Season;
 import FootballExceptions.NoPermissionException;
@@ -13,15 +14,18 @@ import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LeaguesDAL implements DAL<Leaugue,String> {
-    Connection connection =null;
+
 
     @Override
     public boolean insert(Leaugue objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="INSERT INTO leauge (ObjectID) VALUES (?);";
         PreparedStatement preparedStatement =connection.prepareStatement(statement);
@@ -39,7 +43,7 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
 
     @Override
     public boolean update(Leaugue objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         HashMap<Integer, Season> seasonHashMap = objectToUpdate.getSeasons();
         for (int key: seasonHashMap.keySet()) {
@@ -58,5 +62,19 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
     @Override
     public boolean delete(String objectIdentifier) {
         return false;
+    }
+
+    public List<Leaugue> selectAll() throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException {
+        List<Leaugue> allLeagus = new ArrayList<>();
+        Connection connection =MySQLConnector.getInstance().connect();
+
+        String statement ="SELECT ObjectID FROM leauge";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()){
+            allLeagus.add(this.select(rs.getString("ObjectID"),true));
+        }
+        connection.close();
+        return allLeagus;
     }
 }

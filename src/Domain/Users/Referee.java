@@ -1,5 +1,10 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.GamesDAL;
+import DataAccess.UsersDAL.RefereesDAL;
 import Domain.Alerts.IAlert;
 import Domain.Events.*;
 import Domain.FootballManagmentSystem;
@@ -7,6 +12,7 @@ import Domain.SeasonManagment.Game;
 import Domain.SystemLog;
 import FootballExceptions.*;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class Referee extends Member implements Observer {
@@ -27,7 +33,7 @@ public class Referee extends Member implements Observer {
         this.games = games;
     }
 
-    public Referee(String name, String realname, int id, String password, RefereeType type) {
+    public Referee(String name, String realname, int id, String password, RefereeType type) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         super(name, id, password, realname);
         this.type = type;
         games = new ArrayList<>();
@@ -40,6 +46,7 @@ public class Referee extends Member implements Observer {
                 e.printStackTrace();
             }
         }
+        new RefereesDAL().insert(this);
     }
 
     /**
@@ -54,10 +61,11 @@ public class Referee extends Member implements Observer {
     /**
      * edit details UC 10.1
      */
-    public void changeTraining(RefereeType newTraining) throws UserInformationException {
+    public void changeTraining(RefereeType newTraining) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         system.delReferee(super.name);
         type = newTraining;
         system.addReferee(this);
+        new RefereesDAL().update(this);
     }
 
 
@@ -79,7 +87,7 @@ public class Referee extends Member implements Observer {
 
 
     //UC - 10.3
-    public void addEventToGame(String eventType, double minute, Game game, Player playerWhoCommit) throws EventNotMatchedException, PersonalPageYetToBeCreatedException {
+    public void addEventToGame(String eventType, double minute, Game game, Player playerWhoCommit) throws EventNotMatchedException, PersonalPageYetToBeCreatedException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         AGameEvent event = stringToEvent(eventType, minute, playerWhoCommit);
         if (event instanceof Substitution) {
             game.addSubtitutionEventToEventLog(event);
@@ -170,8 +178,9 @@ public class Referee extends Member implements Observer {
         }
     }
 
-    public void addToGameList(Game game) {
+    public void addToGameList(Game game) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         games.add(game);
+        new RefereesDAL().update(this);
     }
 
     public String getEmail() {

@@ -43,7 +43,7 @@ public class Player extends Member implements IAsset {
 
 
 
-    public Player(String name, String realname, int id, String password, int valAsset, String role, Date dateOfBirth) {
+    public Player(String name, String realname, int id, String password, int valAsset, String role, Date dateOfBirth) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         super(name, id, password, realname);
         this.valAsset = valAsset;
         this.role = role;
@@ -59,23 +59,7 @@ public class Player extends Member implements IAsset {
             }
         }
 
-        try {
-            new PlayersDAL().insert(this);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (NoConnectionException e) {
-            e.printStackTrace();
-        } catch (UserInformationException e) {
-            e.printStackTrace();
-        } catch (mightBeSQLInjectionException e) {
-            e.printStackTrace();
-        } catch (NoPermissionException e) {
-            e.printStackTrace();
-        } catch (UserIsNotThisKindOfMemberException e) {
-            e.printStackTrace();
-        } catch (DuplicatedPrimaryKeyException e) {
-            e.printStackTrace();
-        }
+        new PlayersDAL().insert(this);
     }
 
     /**
@@ -84,12 +68,13 @@ public class Player extends Member implements IAsset {
      *
      * @return - true if succeeded
      */
-    public boolean createPersonalPage() {
+    public boolean createPersonalPage() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         //todo WARN MEMBER ABOUT OVERRIDING
         if (info != null) {
             system.removePersonalPage(info);
         }
         info = new PersonalInfo(this);
+        new PlayersDAL().update(this);
         return true;
     }
 
@@ -99,7 +84,7 @@ public class Player extends Member implements IAsset {
      * @param content - content of some kind to be added to personal page
      * @return - true if succeeded
      */
-    public boolean addContentToPersonalPage(APersonalPageContent content) throws PersonalPageYetToBeCreatedException, UnauthorizedPageOwnerException {
+    public boolean addContentToPersonalPage(APersonalPageContent content) throws PersonalPageYetToBeCreatedException, UnauthorizedPageOwnerException, SQLException {
         if (info == null) {
             throw new PersonalPageYetToBeCreatedException();
         }
@@ -107,7 +92,7 @@ public class Player extends Member implements IAsset {
     }
 
     // UC - 4.1 (including getters and setters
-    public boolean editProfile(String title, String val) throws PersonalPageYetToBeCreatedException, UnauthorizedPageOwnerException {
+    public boolean editProfile(String title, String val) throws PersonalPageYetToBeCreatedException, UnauthorizedPageOwnerException, SQLException {
         if (info == null) {
             return false;
         }
@@ -119,7 +104,7 @@ public class Player extends Member implements IAsset {
      *
      * @param event - event the player caused
      */
-    public void changePlayerRate(AGameEvent event) {
+    public void changePlayerRate(AGameEvent event) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (event instanceof Foul) {
             if (FootballRate >= 0.05) {
                 FootballRate = FootballRate - 0.05;
@@ -158,9 +143,10 @@ public class Player extends Member implements IAsset {
         if (myTeam != null) {
             myTeam.calculatePlayerFootballRate();
         }
+        new PlayersDAL().update(this);
     }
 
-    public boolean changeUserName(String newUserName) throws UserInformationException {
+    public boolean changeUserName(String newUserName) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         return system.changeUserName(this, newUserName);
     }
     /*getSet*/
@@ -207,9 +193,9 @@ public class Player extends Member implements IAsset {
     }
 
     @Override
-    public void edit(int value) {
+    public void edit(int value) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         this.valAsset = value;
-
+        new PlayersDAL().update(this);
     }
 
     @Override

@@ -5,6 +5,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import DataAccess.SeasonManagmentDAL.AssetsDAL;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import DataAccess.UserInformationDAL.PersonalPagesDAL;
@@ -27,11 +28,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class CoachesDAL implements DAL<Coach, String> {
-    Connection connection = null;
+
 
     @Override
     public boolean insert(Coach objectToInsert) throws SQLException, NoConnectionException, mightBeSQLInjectionException, UserInformationException, NoPermissionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         new MembersDAL().insert(objectToInsert);
         new AssetsDAL().insert((IAsset) objectToInsert);
@@ -62,7 +63,7 @@ public class CoachesDAL implements DAL<Coach, String> {
 
     @Override
     public boolean update(Coach objectToUpdate) throws SQLException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         new MembersDAL().update(objectToUpdate);
 
         String statement = "UPDATE coaches SET Team =? , PersonalPage=?, AssetID=?, Training=? , Role=? WHERE UserName=?";
@@ -90,7 +91,7 @@ public class CoachesDAL implements DAL<Coach, String> {
 
     @Override
     public Coach select(String objectIdentifier, boolean  bidirectionalAssociation) throws NoConnectionException, SQLException, UserInformationException, NoPermissionException, UserIsNotThisKindOfMemberException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         /**MEMBER DETAILS*/
         String statement = "SELECT * FROM members WHERE UserName = ?;";

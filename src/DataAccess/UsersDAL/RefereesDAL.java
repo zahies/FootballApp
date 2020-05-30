@@ -5,6 +5,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.UserInformationDAL.RefereeGamesDAL;
 import Domain.Alerts.IAlert;
@@ -27,12 +28,11 @@ import java.util.Queue;
 
 public class RefereesDAL implements DAL<Referee,String> {
 
-    Connection connection = null;
 
     @Override
     public boolean insert(Referee objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         new MembersDAL().insert(objectToInsert);
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="INSERT INTO referees (userName, type) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -52,7 +52,7 @@ public class RefereesDAL implements DAL<Referee,String> {
     @Override
     public boolean update(Referee objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         new MembersDAL().update(objectToUpdate);
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="UPDATE referees SET Type=? WHERE UserName =?;";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -70,9 +70,7 @@ public class RefereesDAL implements DAL<Referee,String> {
 
     @Override
     public Referee select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        connection = connect();
-
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         /**MEMBER DETAILS*/
         String statement = "SELECT Password,RealName,MailAddress,isActive, AlertsViaMail FROM members WHERE UserName = ?;";
@@ -136,5 +134,18 @@ public class RefereesDAL implements DAL<Referee,String> {
     @Override
     public boolean delete(String objectIdentifier) {
         return false;
+    }
+
+    public List<Referee> selectAll() throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException {
+        Connection connection = MySQLConnector.getInstance().connect();
+        List<Referee> allRefs = new ArrayList<>();
+        String statement = "SELECT UserName from referees";
+        PreparedStatement preparedStatement =connection.prepareStatement(statement);
+        ResultSet rs =preparedStatement.executeQuery();
+        while (rs.next()){
+            allRefs.add(this.select(rs.getString("UserName"),true));
+        }
+
+        return allRefs;
     }
 }

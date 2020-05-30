@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.Field;
 import Domain.SeasonManagment.IAsset;
 import FootballExceptions.NoPermissionException;
@@ -17,7 +18,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 public class FieldsDAL implements DAL<Field, Integer> {
-    Connection connection = null;
+
 
 
     @Override
@@ -25,7 +26,7 @@ public class FieldsDAL implements DAL<Field, Integer> {
         if (checkExist(objectToInsert.getAssetID(), "fields", "AssetID","")) {
             throw new DuplicatedPrimaryKeyException();
         }
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         new AssetsDAL().insert((IAsset) objectToInsert);
         String statement = "INSERT INTO fields (AssetID, teamID) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -42,7 +43,7 @@ public class FieldsDAL implements DAL<Field, Integer> {
 
     @Override
     public boolean update(Field objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         new AssetsDAL().update(objectToUpdate);
 
         String statement = "UPDATE fields SET teamID = ? WHERE AssetID=?";

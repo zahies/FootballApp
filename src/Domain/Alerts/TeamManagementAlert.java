@@ -11,10 +11,17 @@ public class TeamManagementAlert implements IAlert {
     private UUID objectID;
     TeamStatus teamStatus;
     String message;
+/***FOR DB*/
+    public TeamManagementAlert(UUID objectID, TeamStatus teamStatus, String message) {
+        this.objectID = objectID;
+        this.teamStatus = teamStatus;
+        this.message = message;
+    }
 
-    public TeamManagementAlert(String message) {
+    public TeamManagementAlert(String message, TeamStatus teamStatus) {
         objectID = UUID.randomUUID();
         this.message = message;
+        this.teamStatus = teamStatus;
     }
 
     public TeamManagementAlert(TeamStatus teamStatus, Team team) {

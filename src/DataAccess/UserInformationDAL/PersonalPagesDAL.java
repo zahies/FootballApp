@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.Users.PersonalInfo;
 import FootballExceptions.EmptyPersonalPageException;
@@ -16,15 +17,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
-    Connection connection = null;
+
     @Override
     public boolean insert(PersonalInfo objectToInsert) throws SQLException, NoConnectionException, UserIsNotThisKindOfMemberException, DuplicatedPrimaryKeyException, mightBeSQLInjectionException, UserInformationException, NoPermissionException {
 
-        connection = connect();
-
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "INSERT INTO personal_pages (PageID, title) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1, objectToInsert.getPageID());
@@ -47,7 +48,7 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
 
     @Override
     public PersonalInfo select(Integer objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, NoConnectionException, EmptyPersonalPageException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         /**PersonalPage Details*/
         String statement = "SELECT * FROM personal_pages WHERE PageID=?";
@@ -56,7 +57,7 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
         ResultSet rs = preparedStatement.executeQuery();
 
         if(!rs.next()){
-            throw new EmptyPersonalPageException();
+            return null;
         }
 
         String title = rs.getString("title");
@@ -66,5 +67,10 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
     @Override
     public boolean delete(Integer objectIdentifier) {
         return false;
+    }
+
+    public HashMap<Integer, PersonalInfo> selectAll(){
+        HashMap<Integer, PersonalInfo> allPages= new HashMap<>();
+        return allPages;
     }
 }

@@ -5,6 +5,7 @@ import DataAccess.EventsDAL.EventLoggersDAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import DataAccess.UsersDAL.RefereesDAL;
 import Domain.Events.Event_Logger;
 import Domain.SeasonManagment.Game;
@@ -21,12 +22,11 @@ import java.util.Observer;
 import java.util.UUID;
 
 public class GamesDAL implements DAL<Game, String> {
-    Connection connection;
 
     @Override
     public boolean insert(Game objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
 
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "INSERT INTO games (ObjectID, homeTeam, HomeTeamScore, awayTeam, awayScore, date, mainReferee, secondaryReferee, season, logger) VALUES (?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1, objectToInsert.getObjectId().toString());
@@ -67,7 +67,7 @@ public class GamesDAL implements DAL<Game, String> {
 
     @Override
     public boolean update(Game objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "UPDATE games SET HomeTeam=?, HomeTeamScore=?,AwayTeam=?,AwayScore=?,Date=?,MainReferee=?,MainRefType=?,SecondaryReferee=?,SecRefType=?,Season=?,Logger=? WHERE ObjectID=?;";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(10, objectToUpdate.getObjectId().toString());
@@ -108,7 +108,7 @@ public class GamesDAL implements DAL<Game, String> {
 
     @Override
     public Game select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         /**GAMES DETAILS*/
         String statement ="SELECT * FROM games WHERE ObjectID=?";

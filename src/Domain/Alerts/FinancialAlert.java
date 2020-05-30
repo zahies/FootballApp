@@ -7,6 +7,14 @@ public class FinancialAlert implements IAlert {
     int minus;
     private UUID objectID;
 
+    public FinancialAlert(int minus, UUID objectID) {
+        this.minus = minus;
+        this.objectID = objectID;
+    }
+
+    /**DB _ SELECT*/
+
+
     public FinancialAlert(int minus) {
 
         objectID = UUID.randomUUID();

@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import DataAccess.UsersDAL.PlayersDAL;
 import Domain.Events.*;
 import Domain.Users.Player;
@@ -19,12 +20,12 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class IEventDAL implements DAL<IEvent,String> {
-    Connection connection = null;
+
 
 
     @Override
     public boolean insert(IEvent objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO events (objectID, eventMinute, PlayerCommitted,logger, Type) VALUES(?,?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -58,7 +59,7 @@ public class IEventDAL implements DAL<IEvent,String> {
 
     @Override
     public boolean update(IEvent objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         if(objectToUpdate instanceof Substitution){
             new SubstitutionDAL().update((Substitution) objectToUpdate);
@@ -76,7 +77,7 @@ public class IEventDAL implements DAL<IEvent,String> {
 
     @Override
     public IEvent select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        connection=connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="SELECT * FROM events WHERE ObjectID=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);

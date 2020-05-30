@@ -44,7 +44,7 @@ public class TeamManager extends Member implements IAsset {
      */
 
 
-    public TeamManager(String name, String realname, int id, String password, int valAsset, Team myTeam, TeamOwner teamOwnerAssignedThis) {
+    public TeamManager(String name, String realname, int id, String password, int valAsset, Team myTeam, TeamOwner teamOwnerAssignedThis) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         super(name, id, password, realname);
         this.valAsset = valAsset;
         this.myTeam = myTeam;
@@ -63,23 +63,8 @@ public class TeamManager extends Member implements IAsset {
                 e.printStackTrace();
             }
         }
-        try {
-            new TeamManagerDAL().insert(this);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (NoConnectionException e) {
-            e.printStackTrace();
-        } catch (UserIsNotThisKindOfMemberException e) {
-            e.printStackTrace();
-        } catch (UserInformationException e) {
-            e.printStackTrace();
-        } catch (NoPermissionException e) {
-            e.printStackTrace();
-        } catch (mightBeSQLInjectionException e) {
-            e.printStackTrace();
-        } catch (DuplicatedPrimaryKeyException e) {
-            e.printStackTrace();
-        }
+        new TeamManagerDAL().insert(this);
+
     }
 
     /**
@@ -91,7 +76,7 @@ public class TeamManager extends Member implements IAsset {
      * @param permissionBol - boolean represent the value
      * @return true if succeeded
      */
-    public boolean editPermissions(Member member, String permission, boolean permissionBol) throws UnauthorizedTeamOwnerException, InactiveTeamException, UnauthorizedPageOwnerException, PersonalPageYetToBeCreatedException {
+    public boolean editPermissions(Member member, String permission, boolean permissionBol) throws UnauthorizedTeamOwnerException, InactiveTeamException, UnauthorizedPageOwnerException, PersonalPageYetToBeCreatedException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (isAutorizedTeamOwner(member)) {
             permissions.replace(permission, permissionBol);
             if (permission.equals("Add Content To Personal Page") || permission.equals("Edit Personal Page Profile")) {
@@ -108,6 +93,7 @@ public class TeamManager extends Member implements IAsset {
                 perBol = "on";
             }
             SystemLog.getInstance().UpdateLog("Team Manager: " + this.getName() + " Permissions to " + permission + "are now " + perBol);
+            new TeamManagerDAL().update(this);
             return true;
         }
         return false;
@@ -119,7 +105,7 @@ public class TeamManager extends Member implements IAsset {
      * @param newCoach
      * @return
      */
-    public boolean hireCoach(IAsset newCoach) throws UserInformationException, InactiveTeamException, UnauthorizedTeamManagerException {
+    public boolean hireCoach(IAsset newCoach) throws UserInformationException, InactiveTeamException, UnauthorizedTeamManagerException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         //todo WARN MEMBER ABOUT OVERRIDING
         if (permissions.get("Hire Coach")) {
             myTeam.addCoach(this, newCoach);
@@ -134,7 +120,7 @@ public class TeamManager extends Member implements IAsset {
      *
      * @return - true if succeeded
      */
-    public boolean createPersonalPageForTeam() throws UnauthorizedPageOwnerException, UnauthorizedTeamManagerException, InactiveTeamException {
+    public boolean createPersonalPageForTeam() throws UnauthorizedPageOwnerException, UnauthorizedTeamManagerException, InactiveTeamException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         //todo WARN MEMBER ABOUT OVERRIDING
         if (permissions.get("Create Personal Page")) {
             return myTeam.createPersonalPage(this);
@@ -148,7 +134,7 @@ public class TeamManager extends Member implements IAsset {
      * @param content - content of some kind to be added to personal page
      * @return - true if succeeded
      */
-    public boolean addContentToTeamsPersonalPage(APersonalPageContent content) throws UnauthorizedPageOwnerException, UnauthorizedTeamManagerException, InactiveTeamException {
+    public boolean addContentToTeamsPersonalPage(APersonalPageContent content) throws UnauthorizedPageOwnerException, UnauthorizedTeamManagerException, InactiveTeamException, SQLException {
         if (permissions.get("Add Content To Personal Page")) {
             return myTeam.addContentToPersonalPage(this, content);
         }
@@ -162,7 +148,7 @@ public class TeamManager extends Member implements IAsset {
      * @param val-  val
      * @return - true if succeeded
      */
-    public boolean editProfileOnPersonalPage(String title, String val) throws UnauthorizedPageOwnerException, UnauthorizedTeamManagerException, InactiveTeamException, PersonalPageYetToBeCreatedException {
+    public boolean editProfileOnPersonalPage(String title, String val) throws UnauthorizedPageOwnerException, UnauthorizedTeamManagerException, InactiveTeamException, PersonalPageYetToBeCreatedException, SQLException {
         if (permissions.get("Edit Personal Page Profile")) {
             return myTeam.editPersonalPageProfile(this, title, val);
         }
@@ -185,6 +171,23 @@ public class TeamManager extends Member implements IAsset {
     public void resetPermissions() {
         for (String permission : permissions.keySet()) {
             permissions.replace(permission, false);
+            try {
+                new TeamManagerDAL().update(this);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (NoConnectionException e) {
+                e.printStackTrace();
+            } catch (UserIsNotThisKindOfMemberException e) {
+                e.printStackTrace();
+            } catch (UserInformationException e) {
+                e.printStackTrace();
+            } catch (NoPermissionException e) {
+                e.printStackTrace();
+            } catch (mightBeSQLInjectionException e) {
+                e.printStackTrace();
+            } catch (DuplicatedPrimaryKeyException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -210,8 +213,9 @@ public class TeamManager extends Member implements IAsset {
     }
 
     @Override
-    public void edit(int value) {
+    public void edit(int value) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         this.valAsset = value;
+        new TeamManagerDAL().update(this);
     }
 
     @Override
