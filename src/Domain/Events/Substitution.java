@@ -2,6 +2,8 @@ package Domain.Events;
 
 import Domain.Users.Player;
 
+import java.util.UUID;
+
 public class Substitution extends AGameEvent implements IEvent {
     Player goesOut;
     Player goesIn;
@@ -11,6 +13,16 @@ public class Substitution extends AGameEvent implements IEvent {
         super(gameMinute);
         this.goesIn = in;
         this.goesOut = out;
+    }
+
+    /***FOR DB SELECT
+     * @param gameMinute
+     * @param playerWhocommit
+     * @param objectID*/
+    public Substitution(double gameMinute, Player playerWhocommit, UUID objectID, Player goesOut, Player goesIn) {
+        super(gameMinute, playerWhocommit, objectID);
+        this.goesOut = goesOut;
+        this.goesIn = goesIn;
     }
 
     public Player getGoesOut() {

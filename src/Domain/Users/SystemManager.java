@@ -1,5 +1,9 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.SystemManagerDAL;
 import Domain.Alerts.ComplaintAlert;
 import Domain.Alerts.IAlert;
 import Domain.Alerts.TeamManagementAlert;
@@ -7,19 +11,22 @@ import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.ComplaintForm;
 import Domain.SeasonManagment.Team;
 import Domain.SystemLog;
-import FootballExceptions.InactiveTeamException;
-import FootballExceptions.NoPermissionException;
-import FootballExceptions.ShortCommentException;
-import FootballExceptions.UnableToRemoveException;
+import FootballExceptions.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 import static Domain.SeasonManagment.TeamStatus.Close;
 
 public class SystemManager extends Member {
-    public SystemManager(String name, String realname, int id, String password) {
+    public SystemManager(String name, String realname, int id, String password) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         super(name, id, password, realname);
+        new SystemManagerDAL().insert(this);
+    }
+
+    public SystemManager(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress) {
+        super(name, password, real_Name, alertsList, isActive, alertViaMail, mailAddress);
     }
 
     /**
@@ -57,13 +64,13 @@ public class SystemManager extends Member {
                 for (TeamOwner to : t.getAllTeamOwners()
                 ) {
                     to.handleAlert(new TeamManagementAlert("You're team " + t.getName() + "has been " +
-                            "closed by " + this.getName() + " permanently duo to " + causeOfCloser));
+                            "closed by " + this.getName() + " permanently duo to " + causeOfCloser,t.getStatus()));
 
                 }
                 for (TeamManager to : t.getAllTeamManaers()
                 ) {
                     to.handleAlert(new TeamManagementAlert("You're team " + t.getName() + "has been " +
-                            "closed by " + this.getName() + " permanently duo to " + causeOfCloser));
+                            "closed by " + this.getName() + " permanently duo to " + causeOfCloser,t.getStatus()));
 
                 }
                 t.setStatus(Close);

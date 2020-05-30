@@ -1,6 +1,15 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.FieldsDAL;
 import Domain.FootballManagmentSystem;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
+
+import java.sql.SQLException;
 
 public class Field implements IAsset {
 
@@ -8,9 +17,10 @@ public class Field implements IAsset {
     private Team myTeam;
     private int assetID;
 
-    public Field() {
+    public Field() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         this.assetID = system.generateAssetID();
         system.addTeamAssets(this);
+        new FieldsDAL().insert(this);
     }
 
     @Override

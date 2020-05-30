@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.PersonalPages.APersonalPageContent;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -16,10 +17,10 @@ import java.sql.SQLException;
 
 public class PersonalPageContentDAL implements DAL<APersonalPageContent, String> {
 
-    Connection connection = null;
+
     @Override
     public boolean insert(APersonalPageContent objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement="INSERT INTO page_content (ContentID, PageID, Type) VALUES (?,?,?)";
         PreparedStatement preparedStatement= connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
@@ -33,7 +34,7 @@ public class PersonalPageContentDAL implements DAL<APersonalPageContent, String>
     }
 
     @Override
-    public APersonalPageContent select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public APersonalPageContent select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

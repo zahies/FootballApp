@@ -906,146 +906,143 @@
     <table id="288" parent="3" name="budget_finance_activity"/>
     <table id="289" parent="3" name="budgets"/>
     <table id="290" parent="3" name="coaches"/>
-    <table id="291" parent="3" name="commissioners"/>
-    <table id="292" parent="3" name="complaint_forms"/>
-    <table id="293" parent="3" name="control_budgets"/>
-    <table id="294" parent="3" name="events"/>
-    <table id="295" parent="3" name="events_logger"/>
-    <table id="296" parent="3" name="events_substitutions"/>
-    <table id="297" parent="3" name="fan_following_pages"/>
-    <table id="298" parent="3" name="fans"/>
-    <table id="299" parent="3" name="fields"/>
-    <table id="300" parent="3" name="games"/>
-    <table id="301" parent="3" name="leagues_seasons"/>
-    <table id="302" parent="3" name="leauge"/>
-    <table id="303" parent="3" name="member_alerts"/>
-    <table id="304" parent="3" name="member_alerts_changed_game"/>
-    <table id="305" parent="3" name="member_alerts_complaints"/>
-    <table id="306" parent="3" name="member_alerts_financial"/>
-    <table id="307" parent="3" name="member_alerts_game_alert"/>
-    <table id="308" parent="3" name="member_alerts_management"/>
-    <table id="309" parent="3" name="member_alerts_personal_page"/>
-    <table id="310" parent="3" name="members"/>
-    <table id="311" parent="3" name="page_content"/>
-    <table id="312" parent="3" name="page_content_career"/>
-    <table id="313" parent="3" name="page_content_profile"/>
-    <table id="314" parent="3" name="permissions"/>
-    <table id="315" parent="3" name="personal_pages"/>
-    <table id="316" parent="3" name="place_teams_policies"/>
-    <table id="317" parent="3" name="players"/>
-    <table id="318" parent="3" name="referee_games"/>
-    <table id="319" parent="3" name="referees"/>
-    <table id="320" parent="3" name="score_policies"/>
-    <table id="321" parent="3" name="season_teams"/>
-    <table id="322" parent="3" name="seasons"/>
-    <table id="323" parent="3" name="system_managers"/>
-    <table id="324" parent="3" name="teammanagers"/>
-    <table id="325" parent="3" name="teamowners"/>
-    <table id="326" parent="3" name="teams"/>
-    <column id="327" parent="286" name="AssetID">
+    <table id="291" parent="3" name="commissioner_rules"/>
+    <table id="292" parent="3" name="commissioners"/>
+    <table id="293" parent="3" name="complaint_forms"/>
+    <table id="294" parent="3" name="control_budgets"/>
+    <table id="295" parent="3" name="events"/>
+    <table id="296" parent="3" name="events_logger"/>
+    <table id="297" parent="3" name="events_substitutions"/>
+    <table id="298" parent="3" name="fan_following_pages"/>
+    <table id="299" parent="3" name="fans"/>
+    <table id="300" parent="3" name="fields"/>
+    <table id="301" parent="3" name="games"/>
+    <table id="302" parent="3" name="leagues_seasons"/>
+    <table id="303" parent="3" name="leauge"/>
+    <table id="304" parent="3" name="member_alerts"/>
+    <table id="305" parent="3" name="member_alerts_changed_game"/>
+    <table id="306" parent="3" name="member_alerts_complaints"/>
+    <table id="307" parent="3" name="member_alerts_financial"/>
+    <table id="308" parent="3" name="member_alerts_game_alert"/>
+    <table id="309" parent="3" name="member_alerts_management"/>
+    <table id="310" parent="3" name="member_alerts_personal_page"/>
+    <table id="311" parent="3" name="members"/>
+    <table id="312" parent="3" name="page_content"/>
+    <table id="313" parent="3" name="page_content_career"/>
+    <table id="314" parent="3" name="page_content_profile"/>
+    <table id="315" parent="3" name="permissions"/>
+    <table id="316" parent="3" name="personal_pages"/>
+    <table id="317" parent="3" name="place_teams_policies"/>
+    <table id="318" parent="3" name="players"/>
+    <table id="319" parent="3" name="referee_games"/>
+    <table id="320" parent="3" name="referees"/>
+    <table id="321" parent="3" name="score_policies"/>
+    <table id="322" parent="3" name="season_teams"/>
+    <table id="323" parent="3" name="seasons"/>
+    <table id="324" parent="3" name="system_managers"/>
+    <table id="325" parent="3" name="teammanagers"/>
+    <table id="326" parent="3" name="teamowners"/>
+    <table id="327" parent="3" name="teams"/>
+    <column id="328" parent="286" name="AssetID">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="286" name="Value">
+    <column id="329" parent="286" name="Value">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="329" parent="286" name="PRIMARY">
+    <key id="330" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>AssetID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="330" parent="287" name="Info">
+    <column id="331" parent="287" name="Info">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="331" parent="287" name="Commissioner">
+    <column id="332" parent="287" name="Commissioner">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="332" parent="287" name="Amount">
+    <column id="333" parent="287" name="Amount">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="333" parent="287" name="financial_activities_commissioners_UserName_fk">
+    <index id="334" parent="287" name="financial_activities_commissioners_UserName_fk">
       <ColNames>Commissioner</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="334" parent="287" name="PRIMARY">
+    <key id="335" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Info
 Commissioner</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="335" parent="287" name="financial_activities_commissioners_UserName_fk">
+    <foreign-key id="336" parent="287" name="financial_activities_commissioners_UserName_fk">
       <ColNames>Commissioner</ColNames>
       <RefTableName>commissioners</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="336" parent="288" name="BudgetActivity">
+    <column id="337" parent="288" name="BudgetActivity">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="337" parent="288" name="Budget">
+    <column id="338" parent="288" name="Budget">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="338" parent="288" name="Amount">
+    <column id="339" parent="288" name="Amount">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="339" parent="288" name="budget_finance_activity_budgets_ObjectID_fk">
+    <index id="340" parent="288" name="budget_finance_activity_budgets_ObjectID_fk">
       <ColNames>Budget</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="340" parent="288" name="PRIMARY">
+    <key id="341" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>BudgetActivity
 Budget</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="341" parent="288" name="budget_finance_activity_budgets_ObjectID_fk">
+    <foreign-key id="342" parent="288" name="budget_finance_activity_budgets_ObjectID_fk">
       <ColNames>Budget</ColNames>
       <RefTableName>budgets</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="342" parent="289" name="ObjectID">
+    <column id="343" parent="289" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="289" name="Team">
+    <column id="344" parent="289" name="Team">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="344" parent="289" name="ControlBudget">
+    <column id="345" parent="289" name="ControlBudget">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="345" parent="289" name="budgets_teams_TeamID_fk">
-      <ColNames>Team</ColNames>
-      <Type>btree</Type>
-    </index>
     <index id="346" parent="289" name="budgets_control_budgets_ObjectID_fk">
       <ColNames>ControlBudget</ColNames>
       <Type>btree</Type>
@@ -1055,49 +1052,47 @@ Budget</ColNames>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="348" parent="289" name="budgets_teams_TeamID_fk">
-      <ColNames>Team</ColNames>
-      <RefTableName>teams</RefTableName>
-      <RefColNames>TeamID</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="349" parent="289" name="budgets_control_budgets_ObjectID_fk">
+    <foreign-key id="348" parent="289" name="budgets_control_budgets_ObjectID_fk">
       <ColNames>ControlBudget</ColNames>
       <RefTableName>control_budgets</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="350" parent="290" name="UserName">
+    <column id="349" parent="290" name="UserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="351" parent="290" name="Type">
+    <column id="350" parent="290" name="Type">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;Coach&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="352" parent="290" name="Team">
+    <column id="351" parent="290" name="Role">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="290" name="PersonalPage">
+    <column id="352" parent="290" name="Team">
       <Position>4</Position>
-      <DataType>int|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="354" parent="290" name="AssetID">
+    <column id="353" parent="290" name="PersonalPage">
       <Position>5</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="355" parent="290" name="Training">
+    <column id="354" parent="290" name="AssetID">
       <Position>6</Position>
+      <DataType>int|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="355" parent="290" name="Training">
+      <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
@@ -1146,1291 +1141,1282 @@ Budget</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="364" parent="291" name="UserName">
+    <column id="364" parent="291" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="365" parent="291" name="Type">
+    <column id="365" parent="291" name="Description">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="366" parent="291" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ObjectID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="367" parent="292" name="UserName">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="368" parent="292" name="Type">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Commissioner&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="366" parent="291" name="PRIMARY">
+    <key id="369" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>UserName</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="367" parent="291" name="commissioners_members_UserName_fk">
+    <foreign-key id="370" parent="292" name="commissioners_members_UserName_fk">
       <ColNames>UserName</ColNames>
       <RefTableName>members</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="368" parent="292" name="ObjectID">
+    <column id="371" parent="293" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="369" parent="292" name="FanSubmittingForm">
+    <column id="372" parent="293" name="FanSubmittingForm">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="370" parent="292" name="Complaint">
+    <column id="373" parent="293" name="Complaint">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="371" parent="292" name="Response">
+    <column id="374" parent="293" name="Response">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="372" parent="292" name="complaint_forms_fans_UserName_fk">
+    <index id="375" parent="293" name="complaint_forms_fans_UserName_fk">
       <ColNames>FanSubmittingForm</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="373" parent="292" name="PRIMARY">
+    <key id="376" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="374" parent="292" name="complaint_forms_fans_UserName_fk">
+    <foreign-key id="377" parent="293" name="complaint_forms_fans_UserName_fk">
       <ColNames>FanSubmittingForm</ColNames>
       <RefTableName>fans</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="375" parent="293" name="ObjectID">
-      <Position>1</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="376" parent="293" name="CommissionerRule">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="377" parent="293" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>ObjectID</ColNames>
-      <Primary>1</Primary>
-    </key>
     <column id="378" parent="294" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="379" parent="294" name="EventMinute">
+    <column id="379" parent="294" name="CommissionerRule">
       <Position>2</Position>
-      <DataType>double|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="380" parent="294" name="PlayerCommitted">
-      <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="381" parent="294" name="Logger">
-      <Position>4</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="382" parent="294" name="Type">
-      <Position>5</Position>
-      <DataType>int|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="383" parent="294" name="events_players_UserName_fk">
-      <ColNames>PlayerCommitted</ColNames>
+    <index id="380" parent="294" name="control_budgets_commissioner_rules_ObjectID_fk">
+      <ColNames>CommissionerRule</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="384" parent="294" name="events_events_logger_ObjectID_fk">
-      <ColNames>Logger</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="385" parent="294" name="PRIMARY">
+    <key id="381" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="386" parent="294" name="events_players_UserName_fk">
+    <column id="382" parent="295" name="ObjectID">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="383" parent="295" name="EventMinute">
+      <Position>2</Position>
+      <DataType>double|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="384" parent="295" name="PlayerCommitted">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="385" parent="295" name="Logger">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="386" parent="295" name="Type">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="387" parent="295" name="events_players_UserName_fk">
+      <ColNames>PlayerCommitted</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="388" parent="295" name="events_events_logger_ObjectID_fk">
+      <ColNames>Logger</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="389" parent="295" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ObjectID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="390" parent="295" name="events_players_UserName_fk">
       <ColNames>PlayerCommitted</ColNames>
       <RefTableName>players</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="387" parent="294" name="events_events_logger_ObjectID_fk">
+    <foreign-key id="391" parent="295" name="events_events_logger_ObjectID_fk">
       <ColNames>Logger</ColNames>
       <RefTableName>events_logger</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="388" parent="295" name="ObjectID">
+    <column id="392" parent="296" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="389" parent="295" name="PRIMARY">
+    <key id="393" parent="296" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="390" parent="296" name="ObjectID">
+    <column id="394" parent="297" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="391" parent="296" name="PlayerIN">
+    <column id="395" parent="297" name="PlayerIN">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="392" parent="296" name="PlayerOut">
+    <column id="396" parent="297" name="PlayerOut">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="393" parent="296" name="events_substitutions_players_UserName_fk">
+    <index id="397" parent="297" name="events_substitutions_players_UserName_fk">
       <ColNames>PlayerIN</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="394" parent="296" name="events_substitutions_players_UserName_fk_2">
+    <index id="398" parent="297" name="events_substitutions_players_UserName_fk_2">
       <ColNames>PlayerOut</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="395" parent="296" name="PRIMARY">
+    <key id="399" parent="297" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="396" parent="296" name="events_substitutions_events_ObjectID_fk">
+    <foreign-key id="400" parent="297" name="events_substitutions_events_ObjectID_fk">
       <ColNames>ObjectID</ColNames>
       <RefTableName>events</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="397" parent="296" name="events_substitutions_players_UserName_fk">
+    <foreign-key id="401" parent="297" name="events_substitutions_players_UserName_fk">
       <ColNames>PlayerIN</ColNames>
       <RefTableName>players</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="398" parent="296" name="events_substitutions_players_UserName_fk_2">
+    <foreign-key id="402" parent="297" name="events_substitutions_players_UserName_fk_2">
       <ColNames>PlayerOut</ColNames>
       <RefTableName>players</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="399" parent="297" name="MemberUserName">
+    <column id="403" parent="298" name="MemberUserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="400" parent="297" name="PersonalPageID">
+    <column id="404" parent="298" name="PersonalPageID">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="401" parent="297" name="Alerts">
+    <column id="405" parent="298" name="Alerts">
       <Position>3</Position>
       <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="402" parent="297" name="fan_following_pages_personal_pages_PageID_fk">
+    <index id="406" parent="298" name="fan_following_pages_personal_pages_PageID_fk">
       <ColNames>PersonalPageID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="403" parent="297" name="PRIMARY">
+    <key id="407" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>MemberUserName</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="404" parent="297" name="fan_following_pages_fans_UserName_fk">
+    <foreign-key id="408" parent="298" name="fan_following_pages_fans_UserName_fk">
       <ColNames>MemberUserName</ColNames>
       <RefTableName>fans</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="405" parent="297" name="fan_following_pages_personal_pages_PageID_fk">
+    <foreign-key id="409" parent="298" name="fan_following_pages_personal_pages_PageID_fk">
       <ColNames>PersonalPageID</ColNames>
       <RefTableName>personal_pages</RefTableName>
       <RefColNames>PageID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="406" parent="298" name="UserName">
+    <column id="410" parent="299" name="UserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="407" parent="298" name="Type">
+    <column id="411" parent="299" name="Type">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Fan&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="408" parent="298" name="PRIMARY">
+    <key id="412" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>UserName</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="409" parent="298" name="fans_members_UserName_fk">
+    <foreign-key id="413" parent="299" name="fans_members_UserName_fk">
       <ColNames>UserName</ColNames>
       <RefTableName>members</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="410" parent="299" name="AssetID">
+    <column id="414" parent="300" name="AssetID">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="411" parent="299" name="teamID">
+    <column id="415" parent="300" name="teamID">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="412" parent="299" name="PRIMARY">
+    <index id="416" parent="300" name="fields_teams_TeamID_fk">
+      <ColNames>teamID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="417" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>AssetID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="413" parent="299" name="fieldAssetID">
+    <foreign-key id="418" parent="300" name="fieldAssetID">
       <ColNames>AssetID</ColNames>
       <RefTableName>assets</RefTableName>
       <RefColNames>AssetID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="414" parent="300" name="ObjectID">
+    <foreign-key id="419" parent="300" name="fields_teams_TeamID_fk">
+      <ColNames>teamID</ColNames>
+      <RefTableName>teams</RefTableName>
+      <RefColNames>TeamID</RefColNames>
+    </foreign-key>
+    <column id="420" parent="301" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="415" parent="300" name="HomeTeam">
+    <column id="421" parent="301" name="HomeTeam">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="416" parent="300" name="HomeTeamScore">
+    <column id="422" parent="301" name="HomeTeamScore">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="417" parent="300" name="AwayTeam">
+    <column id="423" parent="301" name="AwayTeam">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="418" parent="300" name="AwayScore">
+    <column id="424" parent="301" name="AwayScore">
       <Position>5</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="419" parent="300" name="Date">
+    <column id="425" parent="301" name="Date">
       <Position>6</Position>
       <DataType>date|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="420" parent="300" name="MainReferee">
+    <column id="426" parent="301" name="MainReferee">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="421" parent="300" name="MainRefType">
+    <column id="427" parent="301" name="MainRefType">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
+      <DefaultExpression>&apos;Main&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="422" parent="300" name="SecondaryReferee">
+    <column id="428" parent="301" name="SecondaryReferee">
       <Position>9</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="423" parent="300" name="SecRefType">
+    <column id="429" parent="301" name="SecRefType">
       <Position>10</Position>
       <DataType>varchar(255)|0s</DataType>
+      <DefaultExpression>&apos;Secondary&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="424" parent="300" name="Season">
+    <column id="430" parent="301" name="Season">
       <Position>11</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="425" parent="300" name="Logger">
+    <column id="431" parent="301" name="Logger">
       <Position>12</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="426" parent="300" name="games_teams_TeamID_fk">
+    <index id="432" parent="301" name="games_teams_TeamID_fk">
       <ColNames>HomeTeam</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="427" parent="300" name="games_teams_TeamID_fk_2">
+    <index id="433" parent="301" name="games_teams_TeamID_fk_2">
       <ColNames>AwayTeam</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="428" parent="300" name="games_referees_UserName_fk">
+    <index id="434" parent="301" name="games_referees_UserName_fk">
       <ColNames>MainReferee</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="429" parent="300" name="games_referees_UserName_fk_2">
+    <index id="435" parent="301" name="games_referees_UserName_fk_2">
       <ColNames>SecondaryReferee</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="430" parent="300" name="games_seasons_SeasonID_fk">
+    <index id="436" parent="301" name="games_seasons_SeasonID_fk">
       <ColNames>Season</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="431" parent="300" name="PRIMARY">
+    <index id="437" parent="301" name="games_events_logger_ObjectID_fk">
+      <ColNames>Logger</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="438" parent="301" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="432" parent="300" name="games_events_logger_ObjectID_fk">
-      <ColNames>ObjectID</ColNames>
-      <RefTableName>events_logger</RefTableName>
-      <RefColNames>ObjectID</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="433" parent="300" name="games_teams_TeamID_fk">
+    <foreign-key id="439" parent="301" name="games_teams_TeamID_fk">
       <ColNames>HomeTeam</ColNames>
       <RefTableName>teams</RefTableName>
       <RefColNames>TeamID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="434" parent="300" name="games_teams_TeamID_fk_2">
+    <foreign-key id="440" parent="301" name="games_teams_TeamID_fk_2">
       <ColNames>AwayTeam</ColNames>
       <RefTableName>teams</RefTableName>
       <RefColNames>TeamID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="435" parent="300" name="games_referees_UserName_fk">
+    <foreign-key id="441" parent="301" name="games_referees_UserName_fk">
       <ColNames>MainReferee</ColNames>
       <RefTableName>referees</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="436" parent="300" name="games_referees_UserName_fk_2">
+    <foreign-key id="442" parent="301" name="games_referees_UserName_fk_2">
       <ColNames>SecondaryReferee</ColNames>
       <RefTableName>referees</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="437" parent="300" name="games_seasons_SeasonID_fk">
+    <foreign-key id="443" parent="301" name="games_seasons_SeasonID_fk">
       <ColNames>Season</ColNames>
       <RefTableName>seasons</RefTableName>
       <RefColNames>SeasonID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="438" parent="301" name="League">
+    <foreign-key id="444" parent="301" name="games_events_logger_ObjectID_fk">
+      <ColNames>Logger</ColNames>
+      <RefTableName>events_logger</RefTableName>
+      <RefColNames>ObjectID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="445" parent="302" name="League">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="439" parent="301" name="Season">
+    <column id="446" parent="302" name="Season">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="440" parent="301" name="Year">
+    <column id="447" parent="302" name="Year">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="441" parent="301" name="leagues_seasons_leauge_ObjectID_fk">
+    <index id="448" parent="302" name="leagues_seasons_leauge_ObjectID_fk">
       <ColNames>League</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="442" parent="301" name="leagues_seasons_seasons_SeasonID_fk">
+    <index id="449" parent="302" name="leagues_seasons_seasons_SeasonID_fk">
       <ColNames>Season</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="443" parent="301" name="PRIMARY">
+    <key id="450" parent="302" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Year
 League</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="444" parent="301" name="leagues_seasons_leauge_ObjectID_fk">
+    <foreign-key id="451" parent="302" name="leagues_seasons_leauge_ObjectID_fk">
       <ColNames>League</ColNames>
       <RefTableName>leauge</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="445" parent="301" name="leagues_seasons_seasons_SeasonID_fk">
+    <foreign-key id="452" parent="302" name="leagues_seasons_seasons_SeasonID_fk">
       <ColNames>Season</ColNames>
       <RefTableName>seasons</RefTableName>
       <RefColNames>SeasonID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="446" parent="302" name="ObjectID">
+    <column id="453" parent="303" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="447" parent="302" name="PRIMARY">
+    <key id="454" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="448" parent="303" name="MemberUserName">
+    <column id="455" parent="304" name="MemberUserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="449" parent="303" name="AlertObjectID">
+    <column id="456" parent="304" name="AlertObjectID">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="450" parent="303" name="Type">
+    <column id="457" parent="304" name="Type">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="451" parent="303" name="member_alerts_AlertObjectID_uindex">
+    <column id="458" parent="304" name="Sent">
+      <Position>4</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="459" parent="304" name="member_alerts_AlertObjectID_uindex">
       <ColNames>AlertObjectID</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="452" parent="303" name="member_alerts_members_UserName_Type_fk">
+    <index id="460" parent="304" name="member_alerts_members_UserName_Type_fk">
       <ColNames>MemberUserName
 Type</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="453" parent="303" name="PRIMARY">
+    <key id="461" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>MemberUserName
-AlertObjectID</ColNames>
+      <ColNames>AlertObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="454" parent="303" name="member_alerts_AlertObjectID_uindex">
+    <key id="462" parent="304" name="member_alerts_AlertObjectID_uindex">
       <ColNames>AlertObjectID</ColNames>
       <UnderlyingIndexName>member_alerts_AlertObjectID_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="455" parent="303" name="member_alerts_members_UserName_Type_fk">
-      <ColNames>MemberUserName
-Type</ColNames>
+    <foreign-key id="463" parent="304" name="member_alerts_members_UserName_fk">
+      <ColNames>MemberUserName</ColNames>
       <RefTableName>members</RefTableName>
-      <RefColNames>UserName
-Type</RefColNames>
+      <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="456" parent="304" name="ObjectID">
+    <column id="464" parent="305" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="457" parent="304" name="Game">
+    <column id="465" parent="305" name="Game">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="458" parent="304" name="Date">
+    <column id="466" parent="305" name="Date">
       <Position>3</Position>
       <DataType>date|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="459" parent="304" name="PRIMARY">
+    <column id="467" parent="305" name="Type">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;Changed Game Alert&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="468" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="460" parent="304" name="member_alerts_changed_game_member_alerts_AlertObjectID_fk">
+    <foreign-key id="469" parent="305" name="member_alerts_changed_game_member_alerts_AlertObjectID_fk">
       <ColNames>ObjectID</ColNames>
       <RefTableName>member_alerts</RefTableName>
       <RefColNames>AlertObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="461" parent="305" name="ObjectID">
+    <column id="470" parent="306" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="462" parent="305" name="ComplaintForm">
+    <column id="471" parent="306" name="ComplaintForm">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="463" parent="305" name="PRIMARY">
+    <key id="472" parent="306" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="464" parent="305" name="member_alerts_complaints_member_alerts_AlertObjectID_fk">
+    <foreign-key id="473" parent="306" name="member_alerts_complaints_member_alerts_AlertObjectID_fk">
       <ColNames>ObjectID</ColNames>
       <RefTableName>member_alerts</RefTableName>
       <RefColNames>AlertObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="465" parent="306" name="ObjectID">
+    <column id="474" parent="307" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="466" parent="306" name="Minus">
+    <column id="475" parent="307" name="Minus">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="467" parent="306" name="PRIMARY">
+    <key id="476" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="468" parent="306" name="member_alerts_financial_member_alerts_AlertObjectID_fk">
+    <foreign-key id="477" parent="307" name="member_alerts_financial_member_alerts_AlertObjectID_fk">
       <ColNames>ObjectID</ColNames>
       <RefTableName>member_alerts</RefTableName>
       <RefColNames>AlertObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="469" parent="307" name="ObjectID">
+    <column id="478" parent="308" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="470" parent="307" name="EventMinute">
+    <column id="479" parent="308" name="EventMinute">
       <Position>2</Position>
       <DataType>double|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="471" parent="307" name="EventID">
+    <column id="480" parent="308" name="EventID">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="472" parent="307" name="member_alerts_game_alert_events_ObjectID_fk">
+    <index id="481" parent="308" name="member_alerts_game_alert_events_ObjectID_fk">
       <ColNames>EventID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="473" parent="307" name="PRIMARY">
+    <key id="482" parent="308" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="474" parent="307" name="member_alerts_game_alert_member_alerts_AlertObjectID_fk">
+    <foreign-key id="483" parent="308" name="member_alerts_game_alert_member_alerts_AlertObjectID_fk">
       <ColNames>ObjectID</ColNames>
       <RefTableName>member_alerts</RefTableName>
       <RefColNames>AlertObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="475" parent="307" name="member_alerts_game_alert_events_ObjectID_fk">
+    <foreign-key id="484" parent="308" name="member_alerts_game_alert_events_ObjectID_fk">
       <ColNames>EventID</ColNames>
       <RefTableName>events</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="476" parent="308" name="ObjectID">
+    <column id="485" parent="309" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="477" parent="308" name="TeamStatus">
+    <column id="486" parent="309" name="TeamStatus">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="478" parent="308" name="Message">
+    <column id="487" parent="309" name="Message">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="479" parent="308" name="PRIMARY">
+    <key id="488" parent="309" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="480" parent="308" name="member_alerts_management_member_alerts_AlertObjectID_fk">
+    <foreign-key id="489" parent="309" name="member_alerts_management_member_alerts_AlertObjectID_fk">
       <ColNames>ObjectID</ColNames>
       <RefTableName>member_alerts</RefTableName>
       <RefColNames>AlertObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="481" parent="309" name="ObjectID">
+    <column id="490" parent="310" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="482" parent="309" name="PageID">
+    <column id="491" parent="310" name="PageID">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="483" parent="309" name="ContentID">
+    <column id="492" parent="310" name="ContentID">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="484" parent="309" name="member_alerts_personal_page_personal_pages_PageID_fk">
+    <index id="493" parent="310" name="member_alerts_personal_page_personal_pages_PageID_fk">
       <ColNames>PageID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="485" parent="309" name="member_alerts_personal_page_page_content_ContentID_fk">
+    <index id="494" parent="310" name="member_alerts_personal_page_page_content_ContentID_fk">
       <ColNames>ContentID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="486" parent="309" name="PRIMARY">
+    <key id="495" parent="310" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="487" parent="309" name="member_alerts_personal_page_personal_pages_PageID_fk">
+    <foreign-key id="496" parent="310" name="member_alerts_personal_page_personal_pages_PageID_fk">
       <ColNames>PageID</ColNames>
       <RefTableName>personal_pages</RefTableName>
       <RefColNames>PageID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="488" parent="309" name="member_alerts_personal_page_page_content_ContentID_fk">
+    <foreign-key id="497" parent="310" name="member_alerts_personal_page_page_content_ContentID_fk">
       <ColNames>ContentID</ColNames>
       <RefTableName>page_content</RefTableName>
       <RefColNames>ContentID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="489" parent="310" name="UserName">
+    <column id="498" parent="311" name="UserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="490" parent="310" name="Type">
+    <column id="499" parent="311" name="Type">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="491" parent="310" name="Password">
+    <column id="500" parent="311" name="Password">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="492" parent="310" name="RealName">
+    <column id="501" parent="311" name="RealName">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="493" parent="310" name="MailAddress">
+    <column id="502" parent="311" name="MailAddress">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="494" parent="310" name="isActive">
+    <column id="503" parent="311" name="isActive">
       <Position>6</Position>
       <DataType>tinyint|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="495" parent="310" name="AlertsViaMail">
+    <column id="504" parent="311" name="AlertsViaMail">
       <Position>7</Position>
       <DataType>tinyint|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="496" parent="310" name="PRIMARY">
+    <key id="505" parent="311" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>UserName
 Type</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="497" parent="311" name="ContentID">
+    <column id="506" parent="312" name="ContentID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="498" parent="311" name="PageID">
+    <column id="507" parent="312" name="PageID">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="499" parent="311" name="Type">
+    <column id="508" parent="312" name="Type">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="500" parent="311" name="page_content_personal_pages_PageID_fk">
+    <index id="509" parent="312" name="page_content_personal_pages_PageID_fk">
       <ColNames>PageID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="501" parent="311" name="PRIMARY">
+    <key id="510" parent="312" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ContentID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="502" parent="311" name="page_content_personal_pages_PageID_fk">
+    <foreign-key id="511" parent="312" name="page_content_personal_pages_PageID_fk">
       <ColNames>PageID</ColNames>
       <RefTableName>personal_pages</RefTableName>
       <RefColNames>PageID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="503" parent="312" name="ContentID">
+    <column id="512" parent="313" name="ContentID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="504" parent="312" name="Team">
+    <column id="513" parent="313" name="Team">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="505" parent="312" name="Role">
+    <column id="514" parent="313" name="Role">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="506" parent="312" name="Year">
+    <column id="515" parent="313" name="Year">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="507" parent="312" name="PRIMARY">
+    <key id="516" parent="313" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ContentID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="508" parent="312" name="page_content_career_page_content_ContentID_fk">
+    <foreign-key id="517" parent="313" name="page_content_career_page_content_ContentID_fk">
       <ColNames>ContentID</ColNames>
       <RefTableName>page_content</RefTableName>
       <RefColNames>ContentID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="509" parent="313" name="ContentID">
+    <column id="518" parent="314" name="ContentID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="510" parent="313" name="Title">
+    <column id="519" parent="314" name="Title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="511" parent="313" name="Value">
+    <column id="520" parent="314" name="Value">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="512" parent="313" name="PRIMARY">
+    <key id="521" parent="314" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ContentID
 Title</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="513" parent="313" name="page_content_profile_page_content_ContentID_fk">
+    <foreign-key id="522" parent="314" name="page_content_profile_page_content_ContentID_fk">
       <ColNames>ContentID</ColNames>
       <RefTableName>page_content</RefTableName>
       <RefColNames>ContentID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="514" parent="314" name="Description">
+    <column id="523" parent="315" name="Description">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="515" parent="314" name="TeamManager">
+    <column id="524" parent="315" name="TeamManager">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="516" parent="314" name="isPermitted">
+    <column id="525" parent="315" name="isPermitted">
       <Position>3</Position>
       <DataType>tinyint|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="517" parent="314" name="teamMangerPermission_idx">
+    <index id="526" parent="315" name="teamMangerPermission_idx">
       <ColNames>TeamManager</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="518" parent="314" name="PRIMARY">
+    <key id="527" parent="315" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Description
 TeamManager</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="519" parent="314" name="teamMangerPermission">
+    <foreign-key id="528" parent="315" name="teamMangerPermission">
       <ColNames>TeamManager</ColNames>
       <RefTableName>teammanagers</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="520" parent="315" name="PageID">
+    <column id="529" parent="316" name="PageID">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="521" parent="315" name="title">
+    <column id="530" parent="316" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="522" parent="315" name="PRIMARY">
+    <key id="531" parent="316" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>PageID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="523" parent="316" name="ObjectID">
+    <column id="532" parent="317" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="524" parent="316" name="numOfGamesWithEachTeam">
+    <column id="533" parent="317" name="numOfGamesWithEachTeam">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="525" parent="316" name="PRIMARY">
+    <key id="534" parent="317" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="526" parent="317" name="UserName">
+    <column id="535" parent="318" name="UserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="527" parent="317" name="Type">
+    <column id="536" parent="318" name="Type">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
+      <DefaultExpression>&apos;Player&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="528" parent="317" name="DateOfBirth">
+    <column id="537" parent="318" name="DateOfBirth">
       <Position>3</Position>
       <DataType>date|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="529" parent="317" name="Team">
+    <column id="538" parent="318" name="Team">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="530" parent="317" name="PersonalPage">
+    <column id="539" parent="318" name="PersonalPage">
       <Position>5</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="531" parent="317" name="Role">
+    <column id="540" parent="318" name="Role">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="532" parent="317" name="AssetID">
+    <column id="541" parent="318" name="AssetID">
       <Position>7</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="533" parent="317" name="FootballRate">
+    <column id="542" parent="318" name="FootballRate">
       <Position>8</Position>
       <DataType>double|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="534" parent="317" name="playerTeam_idx">
+    <index id="543" parent="318" name="playerTeam_idx">
       <ColNames>Team</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="535" parent="317" name="playerPersonalPage_idx">
+    <index id="544" parent="318" name="playerPersonalPage_idx">
       <ColNames>PersonalPage</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="536" parent="317" name="playerAssetID_idx">
+    <index id="545" parent="318" name="playerAssetID_idx">
       <ColNames>AssetID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="537" parent="317" name="PRIMARY">
+    <key id="546" parent="318" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>UserName</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="538" parent="317" name="players_members_UserName_fk">
+    <foreign-key id="547" parent="318" name="players_members_UserName_fk">
       <ColNames>UserName</ColNames>
       <RefTableName>members</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="539" parent="317" name="playerTeam">
+    <foreign-key id="548" parent="318" name="playerTeam">
       <ColNames>Team</ColNames>
       <RefTableName>teams</RefTableName>
       <RefColNames>TeamID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="540" parent="317" name="playerPersonalPage">
+    <foreign-key id="549" parent="318" name="playerPersonalPage">
       <ColNames>PersonalPage</ColNames>
       <RefTableName>personal_pages</RefTableName>
       <RefColNames>PageID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>set-null</OnDelete>
     </foreign-key>
-    <foreign-key id="541" parent="317" name="playerAssetID">
+    <foreign-key id="550" parent="318" name="playerAssetID">
       <ColNames>AssetID</ColNames>
       <RefTableName>assets</RefTableName>
       <RefColNames>AssetID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="542" parent="318" name="Referee">
+    <column id="551" parent="319" name="Referee">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="543" parent="318" name="Game">
+    <column id="552" parent="319" name="Game">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="544" parent="318" name="referee_games_games_ObjectID_fk">
+    <index id="553" parent="319" name="referee_games_games_ObjectID_fk">
       <ColNames>Game</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="545" parent="318" name="PRIMARY">
+    <key id="554" parent="319" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Referee
 Game</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="546" parent="318" name="referee_games_referees_UserName_fk">
+    <foreign-key id="555" parent="319" name="referee_games_referees_UserName_fk">
       <ColNames>Referee</ColNames>
       <RefTableName>referees</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="547" parent="318" name="referee_games_games_ObjectID_fk">
+    <foreign-key id="556" parent="319" name="referee_games_games_ObjectID_fk">
       <ColNames>Game</ColNames>
       <RefTableName>games</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="548" parent="319" name="UserName">
+    <column id="557" parent="320" name="UserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="549" parent="319" name="Type">
+    <column id="558" parent="320" name="Type">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Referee&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="550" parent="319" name="PRIMARY">
+    <key id="559" parent="320" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>UserName</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="551" parent="319" name="referees_members_UserName_fk">
+    <foreign-key id="560" parent="320" name="referees_members_UserName_fk">
       <ColNames>UserName</ColNames>
       <RefTableName>members</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="552" parent="320" name="ObjectID">
+    <column id="561" parent="321" name="ObjectID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="553" parent="320" name="winValue">
+    <column id="562" parent="321" name="winValue">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="554" parent="320" name="loseValue">
+    <column id="563" parent="321" name="loseValue">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="555" parent="320" name="drawValue">
+    <column id="564" parent="321" name="drawValue">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="556" parent="320" name="PRIMARY">
+    <key id="565" parent="321" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ObjectID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="557" parent="321" name="SeasonID">
+    <column id="566" parent="322" name="SeasonID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="558" parent="321" name="TeamID">
+    <column id="567" parent="322" name="TeamID">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="559" parent="321" name="Score">
+    <column id="568" parent="322" name="Score">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="560" parent="321" name="season_teams_teams_TeamID_fk">
+    <index id="569" parent="322" name="season_teams_teams_TeamID_fk">
       <ColNames>TeamID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="561" parent="321" name="PRIMARY">
+    <key id="570" parent="322" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>SeasonID
 TeamID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="562" parent="321" name="season_teams_seasons_SeasonID_fk">
+    <foreign-key id="571" parent="322" name="season_teams_seasons_SeasonID_fk">
       <ColNames>SeasonID</ColNames>
       <RefTableName>seasons</RefTableName>
       <RefColNames>SeasonID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="563" parent="321" name="season_teams_teams_TeamID_fk">
+    <foreign-key id="572" parent="322" name="season_teams_teams_TeamID_fk">
       <ColNames>TeamID</ColNames>
       <RefTableName>teams</RefTableName>
       <RefColNames>TeamID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="564" parent="322" name="SeasonID">
+    <column id="573" parent="323" name="SeasonID">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="565" parent="322" name="Year">
+    <column id="574" parent="323" name="Year">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="566" parent="322" name="IsItTheBeginningOfSeason">
+    <column id="575" parent="323" name="IsItTheBeginningOfSeason">
       <Position>3</Position>
       <DataType>tinyint|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="567" parent="322" name="ScorePolicy">
+    <column id="576" parent="323" name="ScorePolicy">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="568" parent="322" name="PlacingPolicy">
+    <column id="577" parent="323" name="PlacingPolicy">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="569" parent="322" name="seasons_score_policies_ObjectID_fk">
+    <index id="578" parent="323" name="seasons_score_policies_ObjectID_fk">
       <ColNames>ScorePolicy</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="570" parent="322" name="seasons_place_teams_policies_ObjectID_fk">
+    <index id="579" parent="323" name="seasons_place_teams_policies_ObjectID_fk">
       <ColNames>PlacingPolicy</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="571" parent="322" name="PRIMARY">
+    <key id="580" parent="323" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>SeasonID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="572" parent="322" name="seasons_score_policies_ObjectID_fk">
+    <foreign-key id="581" parent="323" name="seasons_score_policies_ObjectID_fk">
       <ColNames>ScorePolicy</ColNames>
       <RefTableName>score_policies</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="573" parent="322" name="seasons_place_teams_policies_ObjectID_fk">
+    <foreign-key id="582" parent="323" name="seasons_place_teams_policies_ObjectID_fk">
       <ColNames>PlacingPolicy</ColNames>
       <RefTableName>place_teams_policies</RefTableName>
       <RefColNames>ObjectID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="574" parent="323" name="UserName">
+    <column id="583" parent="324" name="UserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="575" parent="323" name="Type">
+    <column id="584" parent="324" name="Type">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;SystemManager&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="576" parent="323" name="PRIMARY">
+    <key id="585" parent="324" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>UserName</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="577" parent="323" name="system_managers_members_UserName_fk">
+    <foreign-key id="586" parent="324" name="system_managers_members_UserName_fk">
       <ColNames>UserName</ColNames>
       <RefTableName>members</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="578" parent="324" name="UserName">
+    <column id="587" parent="325" name="UserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="579" parent="324" name="AssetID">
+    <column id="588" parent="325" name="AssetID">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="580" parent="324" name="Team">
+    <column id="589" parent="325" name="Team">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="581" parent="324" name="TeamOwnerAssignedThis">
+    <column id="590" parent="325" name="TeamOwnerAssignedThis">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="582" parent="324" name="Type">
+    <column id="591" parent="325" name="Type">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;TeamManager&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="583" parent="324" name="managerAssetID_idx">
+    <index id="592" parent="325" name="managerAssetID_idx">
       <ColNames>AssetID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="584" parent="324" name="managerTeam_idx">
+    <index id="593" parent="325" name="managerTeam_idx">
       <ColNames>Team</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="585" parent="324" name="magerTeamOwnerAssining">
+    <index id="594" parent="325" name="magerTeamOwnerAssining">
       <ColNames>TeamOwnerAssignedThis</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="586" parent="324" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>UserName</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="587" parent="324" name="teammanagers_members_UserName_fk">
-      <ColNames>UserName</ColNames>
-      <RefTableName>members</RefTableName>
-      <RefColNames>UserName</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="588" parent="324" name="managerAssetID">
-      <ColNames>AssetID</ColNames>
-      <RefTableName>assets</RefTableName>
-      <RefColNames>AssetID</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="589" parent="324" name="managerTeam">
-      <ColNames>Team</ColNames>
-      <RefTableName>teams</RefTableName>
-      <RefColNames>TeamID</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="590" parent="324" name="magerTeamOwnerAssining">
-      <ColNames>TeamOwnerAssignedThis</ColNames>
-      <RefTableName>teamowners</RefTableName>
-      <RefColNames>UserName</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <column id="591" parent="325" name="UserName">
-      <Position>1</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="592" parent="325" name="Team">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="593" parent="325" name="Type">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>&apos;TeamOwner&apos;</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="594" parent="325" name="ownerTeam_idx">
-      <ColNames>Team</ColNames>
       <Type>btree</Type>
     </index>
     <key id="595" parent="325" name="PRIMARY">
@@ -2438,108 +2424,172 @@ TeamID</ColNames>
       <ColNames>UserName</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="596" parent="325" name="teamowners_members_UserName_fk">
+    <foreign-key id="596" parent="325" name="teammanagers_members_UserName_fk">
       <ColNames>UserName</ColNames>
       <RefTableName>members</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="597" parent="325" name="ownerTeam">
+    <foreign-key id="597" parent="325" name="managerAssetID">
+      <ColNames>AssetID</ColNames>
+      <RefTableName>assets</RefTableName>
+      <RefColNames>AssetID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="598" parent="325" name="managerTeam">
       <ColNames>Team</ColNames>
       <RefTableName>teams</RefTableName>
       <RefColNames>TeamID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
+      <OnDelete>set-null</OnDelete>
+    </foreign-key>
+    <foreign-key id="599" parent="325" name="magerTeamOwnerAssining">
+      <ColNames>TeamOwnerAssignedThis</ColNames>
+      <RefTableName>teamowners</RefTableName>
+      <RefColNames>UserName</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="598" parent="326" name="TeamID">
+    <column id="600" parent="326" name="UserName">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="599" parent="326" name="Name">
+    <column id="601" parent="326" name="Team">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="600" parent="326" name="CurrentSeason">
+    <column id="602" parent="326" name="Type">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;TeamOwner&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="603" parent="326" name="ownerTeam_idx">
+      <ColNames>Team</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="604" parent="326" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>UserName</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="605" parent="326" name="teamowners_members_UserName_fk">
+      <ColNames>UserName</ColNames>
+      <RefTableName>members</RefTableName>
+      <RefColNames>UserName</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="606" parent="326" name="ownerTeam">
+      <ColNames>Team</ColNames>
+      <RefTableName>teams</RefTableName>
+      <RefColNames>TeamID</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>set-null</OnDelete>
+    </foreign-key>
+    <column id="607" parent="327" name="TeamID">
+      <Position>1</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="608" parent="327" name="Name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="609" parent="327" name="CurrentSeason">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="601" parent="326" name="PersonalPage">
+    <column id="610" parent="327" name="PersonalPage">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="602" parent="326" name="Owner">
+    <column id="611" parent="327" name="Owner">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="603" parent="326" name="TeamStatus">
+    <column id="612" parent="327" name="TeamStatus">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="604" parent="326" name="ControlBudget">
+    <column id="613" parent="327" name="ControlBudget">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="605" parent="326" name="isClosed">
+    <column id="614" parent="327" name="isClosed">
       <Position>8</Position>
       <DataType>tinyint|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="606" parent="326" name="PlayersFootballRate">
+    <column id="615" parent="327" name="PlayersFootballRate">
       <Position>9</Position>
       <DataType>double|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="607" parent="326" name="SystemManagerCloser">
+    <column id="616" parent="327" name="SystemManagerCloser">
       <Position>10</Position>
       <DataType>tinyint|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="608" parent="326" name="teamCurrentSeason_idx">
+    <index id="617" parent="327" name="teamCurrentSeason_idx">
       <ColNames>CurrentSeason</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="609" parent="326" name="teamPersonalPage_idx">
+    <index id="618" parent="327" name="teamPersonalPage_idx">
       <ColNames>PersonalPage</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="610" parent="326" name="teams_teamowners_UserName_fk">
+    <index id="619" parent="327" name="teams_teamowners_UserName_fk">
       <ColNames>Owner</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="611" parent="326" name="PRIMARY">
+    <index id="620" parent="327" name="teams_control_budgets_ObjectID_fk">
+      <ColNames>ControlBudget</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="621" parent="327" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>TeamID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="612" parent="326" name="teamCurrentSeason">
+    <foreign-key id="622" parent="327" name="teamCurrentSeason">
       <ColNames>CurrentSeason</ColNames>
       <RefTableName>seasons</RefTableName>
       <RefColNames>SeasonID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>set-null</OnDelete>
     </foreign-key>
-    <foreign-key id="613" parent="326" name="teamPersonalPage">
+    <foreign-key id="623" parent="327" name="teamPersonalPage">
       <ColNames>PersonalPage</ColNames>
       <RefTableName>personal_pages</RefTableName>
       <RefColNames>PageID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="614" parent="326" name="teams_teamowners_UserName_fk">
+    <foreign-key id="624" parent="327" name="teams_teamowners_UserName_fk">
       <ColNames>Owner</ColNames>
       <RefTableName>teamowners</RefTableName>
       <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>set-null</OnDelete>
+    </foreign-key>
+    <foreign-key id="625" parent="327" name="teams_control_budgets_ObjectID_fk">
+      <ColNames>ControlBudget</ColNames>
+      <RefTableName>control_budgets</RefTableName>
+      <RefColNames>ObjectID</RefColNames>
     </foreign-key>
   </database-model>
 </dataSource>

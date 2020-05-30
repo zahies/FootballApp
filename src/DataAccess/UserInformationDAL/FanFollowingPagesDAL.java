@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.Users.PersonalInfo;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -23,11 +24,9 @@ public class FanFollowingPagesDAL implements DAL<Pair<Pair<String, Integer>, Boo
      */
 
 
-    Connection connection = null;
-
     @Override
     public boolean insert(Pair<Pair<String, Integer>, Boolean> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO fan_following_pages (MemberUserName, PersonalPageID, alerts) VALUES (?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -41,7 +40,7 @@ public class FanFollowingPagesDAL implements DAL<Pair<Pair<String, Integer>, Boo
 
     @Override
     public boolean update(Pair<Pair<String, Integer>, Boolean> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "";
         if(checkExist(objectToUpdate.getKey(),"fan_following_pages","MemberUserName","PersonalPageID")){
             statement = " UPDATE fan_following_pages SET Alerts = ? WHERE memberUserName = ? AND PersonalPageID =? ";
@@ -58,7 +57,7 @@ public class FanFollowingPagesDAL implements DAL<Pair<Pair<String, Integer>, Boo
     }
 
     @Override
-    public Pair<Pair<String, Integer>, Boolean> select(Pair<String, Integer> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Pair<Pair<String, Integer>, Boolean> select(Pair<String, Integer> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 
