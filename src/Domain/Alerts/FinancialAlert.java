@@ -8,7 +8,7 @@ public class FinancialAlert implements IAlert {
     private UUID objectID;
     private boolean hadSent;
 
-    public FinancialAlert(int minus, UUID objectID) {
+    public FinancialAlert(int minus, UUID objectID,boolean hadSent) {
         this.minus = minus;
         this.objectID = objectID;
     }

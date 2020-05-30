@@ -35,7 +35,7 @@ public class Game extends Observable {
     private IAlert alert;
 
     /***FOR DB SELECT)*/
-    public Game(UUID objectId, Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, int scoreHome, int scoreAway, Season season, LinkedList<Observer> referees) {
+    public Game(UUID objectId, Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, int scoreHome, int scoreAway, Season season, LinkedList<Observer> referees, Event_Logger event_logger) {
         this.objectId = objectId;
         this.away = away;
         this.home = home;
@@ -46,6 +46,7 @@ public class Game extends Observable {
         this.scoreAway = scoreAway;
         this.season = season;
         this.referees = referees;
+        this.event_logger = event_logger;
     }
 
     public Game(Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, Season season) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {

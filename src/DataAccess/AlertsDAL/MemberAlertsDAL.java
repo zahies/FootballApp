@@ -1,6 +1,7 @@
 package DataAccess.AlertsDAL;
 
 import DataAccess.DAL;
+import DataAccess.EventsDAL.IEventDAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
@@ -8,6 +9,7 @@ import DataAccess.MySQLConnector;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.UserInformationDAL.TeamManagerPermissionsDAL;
 import Domain.Alerts.*;
+import Domain.Events.IEvent;
 import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.TeamStatus;
 import FootballExceptions.NoPermissionException;
@@ -76,11 +78,13 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
         Connection connection = MySQLConnector.getInstance().connect();
         String statement ="";
         if(checkExist(new Pair<String, String>(objectToUpdate.getKey().getKey(),objectToUpdate.getKey().getValue().getObjectID().toString()),"member_alerts","MemberUserName","AlertObjectID")){
-            statement = " UPDATE member_alerts SET type = ? WHERE memberUserName = ? AND alertObjectID =? ";
+            statement = " UPDATE member_alerts SET type = ?, Sent=? WHERE memberUserName = ? AND alertObjectID =? ";
             PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setString(1,objectToUpdate.getValue());
-            preparedStatement.setString(2,objectToUpdate.getKey().getKey());
-            preparedStatement.setString(3,(objectToUpdate.getKey().getValue().getObjectID().toString()));
+            preparedStatement.setBoolean(2,objectToUpdate.getKey().getValue().isHadSent());
+            preparedStatement.setString(3,objectToUpdate.getKey().getKey());
+            preparedStatement.setString(4,(objectToUpdate.getKey().getValue().getObjectID().toString()));
+
             preparedStatement.executeUpdate();
         }else{
             this.insert(objectToUpdate);
@@ -100,6 +104,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
         ResultSet rs = preparedStatement.executeQuery();
         rs.next();
         String type = rs.getString("Type");
+        Boolean sent = rs.getBoolean("Sent");
         IAlert alert = null;
         switch (type){
             case "Changed Game Alert":
@@ -109,7 +114,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
                 rs = preparedStatement.executeQuery();
                 rs.next();
                 Game game = new GamesDAL().select(rs.getString("Game"),false);
-                alert = new ChangedGameAlert(UUID.fromString(objectIdentifier.getValue()),rs.getDate("Date"),game);
+                alert = new ChangedGameAlert(UUID.fromString(objectIdentifier.getValue()),rs.getDate("Date"),game,sent);
                 break;
             case "Complaint Alert":
                 break;
@@ -119,7 +124,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
                 preparedStatement.setString(1,objectIdentifier.getValue());
                 rs = preparedStatement.executeQuery();
                 rs.next();
-                alert = new FinancialAlert(rs.getInt("Minus"),UUID.fromString(objectIdentifier.getValue()));
+                alert = new FinancialAlert(rs.getInt("Minus"),UUID.fromString(objectIdentifier.getValue()),sent);
                 break;
             case "Team Management Alert":
                 statement = "SELECT * FROM member_alerts_management WHERE ObjectID=?";
@@ -127,8 +132,16 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
                 preparedStatement.setString(1,objectIdentifier.getValue());
                 rs = preparedStatement.executeQuery();
                 rs.next();
-                alert = new TeamManagementAlert(UUID.fromString(objectIdentifier.getValue()), TeamStatus.valueOf(rs.getString("TeamStatus")),rs.getString("Message"));
+                alert = new TeamManagementAlert(UUID.fromString(objectIdentifier.getValue()), TeamStatus.valueOf(rs.getString("TeamStatus")),rs.getString("Message"),sent);
                 break;
+            case "Game Event Alert":
+                statement = "SELECT * FROM member_alerts_game_alert WHERE ObjectID=?";
+                preparedStatement = connection.prepareStatement(statement);
+                preparedStatement.setString(1,objectIdentifier.getValue());
+                rs = preparedStatement.executeQuery();
+                rs.next();
+                IEvent event= new IEventDAL().select(rs.getString("EventID"),false);
+                alert = new GameEventAlert(UUID.fromString(objectIdentifier.getValue()),rs.getDouble("EventMin"),event,sent);
         }
         return  new Pair<>(new Pair<>("",alert),"");
     }
