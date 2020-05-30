@@ -8,6 +8,9 @@ import Domain.Alerts.FinancialAlert;
 import Domain.FootballManagmentSystem;
 import Domain.Users.Commissioner;
 import Domain.Users.Member;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -30,14 +33,22 @@ public class ControlBudget {
         budget_quarter_2 = new Budget(teamID);
         budget_quarter_3 = new Budget(teamID);
         budget_quarter_4 = new Budget(teamID);
+        objectID = UUID.randomUUID();
         budget_quarter_1.setControlBudgetID(objectID);
         budget_quarter_2.setControlBudgetID(objectID);
         budget_quarter_3.setControlBudgetID(objectID);
         budget_quarter_4.setControlBudgetID(objectID);
         commissionerRule = new DefaultCommissionerRule();
-        objectID = UUID.randomUUID();
     }
 
+    public ControlBudget(UUID objectID, Budget budget_quarter_1, Budget budget_quarter_2, Budget budget_quarter_3, Budget budget_quarter_4, ICommissionerRule commissionerRule) {
+        this.objectID = objectID;
+        this.budget_quarter_1 = budget_quarter_1;
+        this.budget_quarter_2 = budget_quarter_2;
+        this.budget_quarter_3 = budget_quarter_3;
+        this.budget_quarter_4 = budget_quarter_4;
+        this.commissionerRule = commissionerRule;
+    }
 
     public void addFinanceActivity(Date date, BudgetActivity description, int amount) {
         Budget budget = findQuarter(date);
@@ -123,5 +134,21 @@ public class ControlBudget {
 
     public ICommissionerRule getCommissionerRule() {
         return commissionerRule;
+    }
+
+    public Budget getBudget_quarter_1() {
+        return budget_quarter_1;
+    }
+
+    public Budget getBudget_quarter_2() {
+        return budget_quarter_2;
+    }
+
+    public Budget getBudget_quarter_3() {
+        return budget_quarter_3;
+    }
+
+    public Budget getBudget_quarter_4() {
+        return budget_quarter_4;
     }
 }

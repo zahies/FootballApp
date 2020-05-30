@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.Alerts.TeamManagementAlert;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -15,11 +16,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class TeamManagementAlertsDAL implements DAL<TeamManagementAlert,String> {
-    Connection connection = null;
 
     @Override
     public boolean insert(TeamManagementAlert objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO member_alerts_management(objectID, teamStatus, message) VALUES (?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -37,7 +37,7 @@ public class TeamManagementAlertsDAL implements DAL<TeamManagementAlert,String> 
     }
 
     @Override
-    public TeamManagementAlert select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public TeamManagementAlert select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

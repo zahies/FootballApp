@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.Alerts.FinancialAlert;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -15,11 +16,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class FinancialAlertsDAL implements DAL<FinancialAlert,String> {
-    Connection connection = null;
+
 
     @Override
     public boolean insert(FinancialAlert objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO member_alerts_financial (objectID, Minus) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -36,7 +37,7 @@ public class FinancialAlertsDAL implements DAL<FinancialAlert,String> {
     }
 
     @Override
-    public FinancialAlert select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public FinancialAlert select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

@@ -4,7 +4,10 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
+import DataAccess.UsersDAL.PlayersDAL;
 import Domain.Events.*;
+import Domain.Users.Player;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -12,15 +15,17 @@ import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class IEventDAL implements DAL<IEvent,String> {
-    Connection connection = null;
+
 
 
     @Override
     public boolean insert(IEvent objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO events (objectID, eventMinute, PlayerCommitted,logger, Type) VALUES(?,?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -54,7 +59,7 @@ public class IEventDAL implements DAL<IEvent,String> {
 
     @Override
     public boolean update(IEvent objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         if(objectToUpdate instanceof Substitution){
             new SubstitutionDAL().update((Substitution) objectToUpdate);
@@ -71,7 +76,33 @@ public class IEventDAL implements DAL<IEvent,String> {
     }
 
     @Override
-    public IEvent select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public IEvent select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+        Connection connection = MySQLConnector.getInstance().connect();
+
+        String statement ="SELECT * FROM events WHERE ObjectID=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        ResultSet rs = preparedStatement.executeQuery();
+        String type= rs.getString("Type");
+        if(type.equals("Substitution")){
+            return new SubstitutionDAL().select(rs.getString("ObjectID"),false);
+        }
+        double eventMin = rs.getDouble("EventMinute");
+        Player playerCommitted = new PlayersDAL().select(rs.getString("PlayerCommitted"),false);
+        switch (type){
+            case "Foul":
+                return new Foul(eventMin,playerCommitted, UUID.fromString(objectIdentifier));
+            case "Goal":
+                return new Goal(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+            case "Injury":
+                return new Injury(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+            case "Offside":
+                return new OffSide(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+            case "RedCard":
+                return new RedCard(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+            case "YellowCard":
+                return new YellowCard(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+        }
         return null;
     }
 

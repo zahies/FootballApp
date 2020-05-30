@@ -3,6 +3,7 @@ package DataAccess.UserInformationDAL;
 import DataAccess.DAL;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import Domain.Users.Member;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -22,11 +23,11 @@ public class TeamManagerPermissionsDAL implements DAL<Pair<Pair<String, String>,
      * E - objectIdentifier - key = pair (key = Permissions , value = team manager user name)
      */
 
-    Connection connection = null;
+
 
     @Override
     public boolean insert(Pair<Pair<String, String>, Boolean> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String permissionStatement = "INSERT INTO permissions (Description, TeamManager,isPermitted) VALUES (?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(permissionStatement);
         preparedStatement.setString(1, objectToInsert.getKey().getKey());
@@ -39,7 +40,7 @@ public class TeamManagerPermissionsDAL implements DAL<Pair<Pair<String, String>,
 
     @Override
     public boolean update(Pair<Pair<String, String>, Boolean> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "";
         if(checkExist(objectToUpdate.getKey(),"permissions","TeamManager","Description")){
             statement = " UPDATE permissions SET isPermitted = ? WHERE TeamManager = ? AND Description =? ";
@@ -56,8 +57,8 @@ public class TeamManagerPermissionsDAL implements DAL<Pair<Pair<String, String>,
     }
 
     @Override
-    public Pair<Pair<String, String>, Boolean> select(Pair<String, String> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        connection = connect();
+    public Pair<Pair<String, String>, Boolean> select(Pair<String, String> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "SELECT isPermitted FROM permissions WHERE TeamManager = ? AND Description=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);

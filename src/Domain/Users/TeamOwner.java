@@ -1,6 +1,7 @@
 package Domain.Users;
 
 import Domain.Alerts.FinancialAlert;
+import Domain.Alerts.IAlert;
 import Domain.Alerts.RegistrationRequestAlert;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
@@ -11,15 +12,17 @@ import Domain.SeasonManagment.*;
 import FootballExceptions.*;
 
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.UUID;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class TeamOwner extends Member {
 
     Team team;
     FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+
+    public TeamOwner(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress, Team team) {
+        super(name, password, real_Name, alertsList, isActive, alertViaMail, mailAddress);
+        this.team = team;
+    }
 
     /**
      * CONSTRUCTOR FOR restoration object from DB
@@ -36,7 +39,7 @@ public class TeamOwner extends Member {
      * @param id
      * @param password
      */
-    public TeamOwner(String name, String realname, int id, String password) {
+    public TeamOwner(String name, String realname, int id, String password) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         super(name, id, password, realname);
         if (!(system.getMembers().containsKey(this.name))) {
             try {
@@ -45,23 +48,7 @@ public class TeamOwner extends Member {
                 e.printStackTrace();
             }
         }
-        try {
-            new TeamOwnersDAL().insert(this);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (UserInformationException e) {
-            e.printStackTrace();
-        } catch (NoConnectionException e) {
-            e.printStackTrace();
-        } catch (mightBeSQLInjectionException e) {
-            e.printStackTrace();
-        } catch (NoPermissionException e) {
-            e.printStackTrace();
-        } catch (UserIsNotThisKindOfMemberException e) {
-            e.printStackTrace();
-        } catch (DuplicatedPrimaryKeyException e) {
-            e.printStackTrace();
-        }
+        new TeamOwnersDAL().insert(this);
     }
 
     /**
@@ -72,7 +59,7 @@ public class TeamOwner extends Member {
      * @param password
      * @param teamID
      */
-    public TeamOwner(String name, String realname, int id, String password, UUID teamID) {
+    public TeamOwner(String name, String realname, int id, String password, UUID teamID) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         super(name, id, password, realname);
         this.team = system.getTeamByID(teamID);
         if (!(system.getMembers().containsKey(this.name))) {
@@ -82,23 +69,7 @@ public class TeamOwner extends Member {
                 e.printStackTrace();
             }
         }
-        try {
-            new TeamOwnersDAL().insert(this);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (UserInformationException e) {
-            e.printStackTrace();
-        } catch (NoConnectionException e) {
-            e.printStackTrace();
-        } catch (mightBeSQLInjectionException e) {
-            e.printStackTrace();
-        } catch (NoPermissionException e) {
-            e.printStackTrace();
-        } catch (UserIsNotThisKindOfMemberException e) {
-            e.printStackTrace();
-        } catch (DuplicatedPrimaryKeyException e) {
-            e.printStackTrace();
-        }
+        new TeamOwnersDAL().insert(this);
     }
 
     /**
@@ -107,7 +78,7 @@ public class TeamOwner extends Member {
      * @param asset - asset to be added
      * @return true if asset was added to asset
      */
-    public boolean addAssetToTeam(IAsset asset) throws InactiveTeamException, TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException {
+    public boolean addAssetToTeam(IAsset asset) throws InactiveTeamException, TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (team == null) {
             throw new TeamOwnerWithNoTeamException();
         }
@@ -120,7 +91,7 @@ public class TeamOwner extends Member {
      * @param asset - asset to be removed
      * @return - true if asset was removed
      */
-    public boolean removeAssetFromTeam(IAsset asset) throws InactiveTeamException, TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, InvalidTeamAssetException {
+    public boolean removeAssetFromTeam(IAsset asset) throws InactiveTeamException, TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, InvalidTeamAssetException, SQLException, NoConnectionException {
         if (team == null) {
             throw new TeamOwnerWithNoTeamException();
         }
@@ -133,7 +104,7 @@ public class TeamOwner extends Member {
      * @param asset - asset to be removed
      * @return - true if asset was removed
      */
-    public boolean editAsset(IAsset asset, int value) throws InactiveTeamException, TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, InvalidTeamAssetException {
+    public boolean editAsset(IAsset asset, int value) throws InactiveTeamException, TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, InvalidTeamAssetException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (team == null) {
             throw new TeamOwnerWithNoTeamException();
         }
@@ -146,7 +117,7 @@ public class TeamOwner extends Member {
      * @param newOwner - member (!!) that will become team owner
      * @return true if succeeded
      */
-    public boolean assignNewTeamOwner(Member newOwner) throws MemberIsAlreadyTeamOwnerException, MemberIsAlreadyTeamManagerException, TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserInformationException {
+    public boolean assignNewTeamOwner(Member newOwner) throws MemberIsAlreadyTeamOwnerException, MemberIsAlreadyTeamManagerException, TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (team == null) {
             throw new TeamOwnerWithNoTeamException();
         }
@@ -174,7 +145,7 @@ public class TeamOwner extends Member {
      * @param value          - his asset value
      * @return - true if succeeded
      */
-    public boolean assignNewTeamManager(Member newTeamManager, int value) throws MemberIsAlreadyTeamOwnerException, MemberIsAlreadyTeamManagerException, TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, UserInformationException, InactiveTeamException {
+    public boolean assignNewTeamManager(Member newTeamManager, int value) throws MemberIsAlreadyTeamOwnerException, MemberIsAlreadyTeamManagerException, TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, UserInformationException, InactiveTeamException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (team == null) {
             throw new TeamOwnerWithNoTeamException();
         }
@@ -188,7 +159,7 @@ public class TeamOwner extends Member {
      * @param permissionBol   - the value
      * @return - true if succeeded
      */
-    public boolean editManagerPermissions(Member member, String permissionsType, boolean permissionBol) throws PersonalPageYetToBeCreatedException, UnauthorizedPageOwnerException, UnauthorizedTeamOwnerException, InactiveTeamException, UserInformationException, TeamOwnerWithNoTeamException {
+    public boolean editManagerPermissions(Member member, String permissionsType, boolean permissionBol) throws PersonalPageYetToBeCreatedException, UnauthorizedPageOwnerException, UnauthorizedTeamOwnerException, InactiveTeamException, UserInformationException, TeamOwnerWithNoTeamException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (team == null) {
             throw new TeamOwnerWithNoTeamException();
         }

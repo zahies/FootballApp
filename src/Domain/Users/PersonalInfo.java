@@ -1,5 +1,9 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UserInformationDAL.PersonalPagesDAL;
 import Domain.Alerts.IAlert;
 import Domain.Alerts.PersonalPageAlert;
 import Domain.PersonalPages.APersonalPageContent;
@@ -7,9 +11,9 @@ import Domain.PersonalPages.ProfileContent;
 import Domain.SeasonManagment.Game;
 import Domain.FootballManagmentSystem;
 import Domain.SystemLog;
-import FootballExceptions.PersonalPageYetToBeCreatedException;
-import FootballExceptions.UnauthorizedPageOwnerException;
+import FootballExceptions.*;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Observable;
 
@@ -38,7 +42,7 @@ public class PersonalInfo extends Observable {
         this.pageID = pageID;
     }
 
-    public PersonalInfo(Member pageMemberOwner) {
+    public PersonalInfo(Member pageMemberOwner) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (pageMemberOwner instanceof TeamManager) {
             teamPageMembersOwners = new LinkedList<>();
             teamPageMembersOwners.add(pageMemberOwner);
@@ -53,6 +57,7 @@ public class PersonalInfo extends Observable {
         SystemLog.getInstance().UpdateLog(this.pageMemberOwner.getName() + " created his personal page");
         this.followers = new LinkedList<>();
         pageContent = new LinkedList<>();
+        new PersonalPagesDAL().insert(this);
     }
 
 
@@ -64,7 +69,7 @@ public class PersonalInfo extends Observable {
      * @param val           - value
      * @return - true if succeeded
      */
-    public boolean editProfile(Member memberEditing, String title, String val) throws UnauthorizedPageOwnerException, PersonalPageYetToBeCreatedException {
+    public boolean editProfile(Member memberEditing, String title, String val) throws UnauthorizedPageOwnerException, PersonalPageYetToBeCreatedException, SQLException {
         if (!isPageOwner(memberEditing)) { //for constraint 4.a.
             throw new UnauthorizedPageOwnerException();
         }
@@ -73,6 +78,7 @@ public class PersonalInfo extends Observable {
         } else {
             profile.addFeatureToProfile(title, val);
             SystemLog.getInstance().UpdateLog(this.pageMemberOwner.getName() + " edited content on personal page");
+            new PersonalPagesDAL().update(this);
             return true;
         }
     }
@@ -84,7 +90,7 @@ public class PersonalInfo extends Observable {
      * @param content            - abstract - can be any type of content
      * @return - true if succeeded
      */
-    public boolean addContentToPage(Member memberContentMaker, APersonalPageContent content) throws UnauthorizedPageOwnerException {
+    public boolean addContentToPage(Member memberContentMaker, APersonalPageContent content) throws UnauthorizedPageOwnerException, SQLException {
         if (!isPageOwner(memberContentMaker)) { //for constraint 4.a.
             throw new UnauthorizedPageOwnerException();
         }
@@ -96,6 +102,7 @@ public class PersonalInfo extends Observable {
         SystemLog.getInstance().UpdateLog(this.pageMemberOwner.getName() + " added content to personal page");
         IAlert newContentAlert = new PersonalPageAlert(this, content);
         notifyFansOnNewContent(newContentAlert);
+        new PersonalPagesDAL().update(this);
         return true;
     }
 

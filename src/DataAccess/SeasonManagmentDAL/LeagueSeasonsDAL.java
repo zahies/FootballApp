@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -14,7 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class LeagueSeasonsDAL implements DAL<Pair<Pair<String,Integer>,String>,Pair<String,Integer>> {
-    Connection connection = null;
 
     /**
      * T - objectToInsert - key = pair (key = League , value = year)
@@ -24,7 +24,7 @@ public class LeagueSeasonsDAL implements DAL<Pair<Pair<String,Integer>,String>,P
 
     @Override
     public boolean insert(Pair<Pair<String, Integer>, String> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement ="INSERT INTO leagues_seasons (League, Season, Year) VALUES (?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -38,7 +38,7 @@ public class LeagueSeasonsDAL implements DAL<Pair<Pair<String,Integer>,String>,P
 
     @Override
     public boolean update(Pair<Pair<String, Integer>, String> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection =connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "";
         int ans=0;
@@ -58,7 +58,7 @@ public class LeagueSeasonsDAL implements DAL<Pair<Pair<String,Integer>,String>,P
     }
 
     @Override
-    public Pair<Pair<String, Integer>, String> select(Pair<String, Integer> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Pair<Pair<String, Integer>, String> select(Pair<String, Integer> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 
