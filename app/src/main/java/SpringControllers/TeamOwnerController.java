@@ -116,7 +116,8 @@ public class TeamOwnerController extends MemberController {
 
     public Map<String, LinkedList<String>> getMyteam(String username) throws TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
         HashMap<String,LinkedList<String>> toreturn = new HashMap<>();
-        Team teamHome = new TeamsDAL().select(username,true);
+        TeamOwner owner = new TeamOwnersDAL().select(username,true);
+        Team teamHome = owner.getTeam();
         LinkedList<String> players = new LinkedList<>();
         for (IAsset ass:teamHome.getTeamPlayers().values()
         ) {
