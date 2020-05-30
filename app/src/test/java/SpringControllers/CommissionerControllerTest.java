@@ -38,7 +38,7 @@ public class CommissionerControllerTest {
 
 
     @Before
-    public void init() throws LeagueIDAlreadyExist, IDWasNotEnterdException {
+    public void init() throws LeagueIDAlreadyExist, IDWasNotEnterdException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         name = "Tzah";
         id = 3333;
         commissioner = new Commissioner(name, id, "222", "Tzahi");

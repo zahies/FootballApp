@@ -30,8 +30,8 @@ public class CoachControllerTest {
     public void init() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         String username = "Shira";
         Member coachToInsert = new Coach(username, "noa", 312427404, "noanoa123", 1, null, CoachRole.HeadCoach);
-        new CoachesDAL().insert(coachToInsert);
-        coach = (Coach) new CoachesDAL().select(username);
+        new CoachesDAL().insert((Coach) coachToInsert);
+        coach = (Coach) new CoachesDAL().select(username,true);
         profileContent = new ProfileContent();
 
 

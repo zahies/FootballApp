@@ -6,6 +6,7 @@ import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.UsersDAL.MembersDAL;
 import Domain.FootballManagmentSystem;
 import Domain.Users.Member;
+import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -18,7 +19,7 @@ public class MemberController {
 
 
 
-    public boolean logOut(String username) throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+    public boolean logOut(String username) throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, EmptyPersonalPageException {
         boolean flag = false;
         Member member = (Member) new MembersDAL().select(username,true);
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();

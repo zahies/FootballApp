@@ -18,10 +18,7 @@ import Domain.SeasonManagment.IAsset;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Team;
 import Domain.Users.*;
-import FootballExceptions.LeagueIDAlreadyExist;
-import FootballExceptions.NoPermissionException;
-import FootballExceptions.UserInformationException;
-import FootballExceptions.UserIsNotThisKindOfMemberException;
+import FootballExceptions.*;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
@@ -42,7 +39,7 @@ import javax.mail.internet.*;
 
 public class FootballManagmentSystem extends TimerTask {
 
-    public void restoreDatabase() throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException {
+    public void restoreDatabase() throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException, EmptyPersonalPageException {
         allTeams = new TeamsDAL().selectALl();
         allLeagus = new LeaguesDAL().selectAll();
         allRefs = new RefereesDAL().selectAll();
@@ -531,7 +528,7 @@ public class FootballManagmentSystem extends TimerTask {
                 e.printStackTrace();
             } catch (NoConnectionException e) {
                 e.printStackTrace();
-            } catch (UserIsNotThisKindOfMemberException e) {
+            } catch (UserIsNotThisKindOfMemberException | EmptyPersonalPageException e) {
                 e.printStackTrace();
             }
         }

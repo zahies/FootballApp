@@ -90,7 +90,7 @@ public class AlertsControllerTest {
 
 
     @Test
-    public void showAlerts() throws AlreadyFollowThisPageException, EventNotMatchedException, PersonalPageYetToBeCreatedException, UserInformationException, UnauthorizedTeamOwnerException, MemberIsAlreadyTeamManagerException, TeamOwnerWithNoTeamException, MemberIsAlreadyTeamOwnerException, InactiveTeamException, UserIsNotThisKindOfMemberException, UnauthorizedPageOwnerException, UnauthorizedTeamManagerException {
+    public void showAlerts() throws AlreadyFollowThisPageException, EventNotMatchedException, PersonalPageYetToBeCreatedException, UserInformationException, UnauthorizedTeamOwnerException, MemberIsAlreadyTeamManagerException, TeamOwnerWithNoTeamException, MemberIsAlreadyTeamOwnerException, InactiveTeamException, UserIsNotThisKindOfMemberException, UnauthorizedPageOwnerException, UnauthorizedTeamManagerException, mightBeSQLInjectionException, SQLException, DuplicatedPrimaryKeyException, NoPermissionException, NoConnectionException, EmptyPersonalPageException {
         infos.add(player.getInfo());
         fan.addPersonalPagesToFollow(infos);
         ref.addEventToGame("bla", 22, game, player);
@@ -105,7 +105,7 @@ public class AlertsControllerTest {
         fan.turnAlertForPersonalPageOn(teamHome.getInfo());
         alert = new PersonalPageAlert(teamHome.getInfo(), profileContent);
         fan.update(game,alert);
-        String msg = alertsController.showAlerts(fan.getName());
+        Map<String, List<String>> msg = alertsController.showAlerts(fan.getName());
         assertNotNull(msg);
     }
 }

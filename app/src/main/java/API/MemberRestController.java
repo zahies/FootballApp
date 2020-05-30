@@ -5,6 +5,7 @@ import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.FootballManagmentSystem;
 import Domain.Users.Member;
+import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -31,7 +32,7 @@ public class MemberRestController {
     }
 
     @PutMapping("/{userName}")
-    public List<Member> logOut(@PathVariable String userName) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+    public List<Member> logOut(@PathVariable String userName) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, EmptyPersonalPageException {
         List<Member> members =FootballManagmentSystem.getInstance().getMemberByUserName(userName);
         for (Member member: members) {
             memberController.logOut(member.getName());

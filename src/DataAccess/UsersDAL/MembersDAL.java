@@ -94,6 +94,7 @@ public class MembersDAL implements DAL<Member, String> {
         String statement ="SELECT UserName , Type FROM members";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
         String type = rs.getString("Type");
         String userNameFromTable = rs.getString("UserName");
         Member member = null;

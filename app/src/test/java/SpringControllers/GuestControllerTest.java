@@ -1,11 +1,14 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.Users.Commissioner;
-import FootballExceptions.IDWasNotEnterdException;
-import FootballExceptions.LeagueIDAlreadyExist;
-import FootballExceptions.UserInformationException;
+import FootballExceptions.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +22,7 @@ public class GuestControllerTest {
 
 
     @Before
-    public void init() throws LeagueIDAlreadyExist, IDWasNotEnterdException {
+    public void init() throws LeagueIDAlreadyExist, IDWasNotEnterdException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         name = "Alon";
         id = 222;
         password = "223";
@@ -28,7 +31,7 @@ public class GuestControllerTest {
     }
 
     @Test
-    public void login() throws UserInformationException {
+    public void login() throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         String ans;
         ans = guestController.login(name,password);
         assertNotNull(ans); //fixme
