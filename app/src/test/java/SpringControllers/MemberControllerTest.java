@@ -11,6 +11,7 @@ import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.sql.SQLException;
 
@@ -18,7 +19,7 @@ import static org.junit.Assert.*;
 
 public class MemberControllerTest {
 
-    //FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+    FootballManagmentSystem system = FootballManagmentSystem.getInstance();
     private MemberController memberController;
     TeamOwner teamowner;
     Member com;
@@ -31,9 +32,9 @@ public class MemberControllerTest {
         com = new Commissioner("zaza",12,"123","zahi zahi");
         memberController = new MemberController();
     }
-//
-//    @org.junit.Test
-//    public void logOut() {
-//        assertEquals(2,system.getMembers().size());
-//    }
+
+    @Test
+    public void logOut() {
+        assertEquals(2,system.getMembers().size());
+    }
 }

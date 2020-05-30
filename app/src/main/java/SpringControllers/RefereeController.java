@@ -1,11 +1,15 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.UsersDAL.PlayersDAL;
 import DataAccess.UsersDAL.RefereesDAL;
 import Domain.Events.AGameEvent;
 import Domain.SeasonManagment.Game;
+import Domain.SeasonManagment.IAsset;
+import Domain.SeasonManagment.Team;
 import Domain.Users.Member;
 import Domain.Users.Player;
 import Domain.Users.Referee;
@@ -13,6 +17,8 @@ import Domain.Users.RefereeType;
 import FootballExceptions.*;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RefereeController extends MemberController {
 
@@ -186,7 +192,7 @@ public class RefereeController extends MemberController {
         boolean flag = false;
         Game game=null;
         try {
-            game = new GamesDAL().select(gameID);
+            game = new GamesDAL().select(gameID, true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
