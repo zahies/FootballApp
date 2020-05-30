@@ -133,7 +133,6 @@ public class CoachesDAL implements DAL<Coach, String> {
         try {
             personalInfo = new PersonalPagesDAL().select(rs.getInt("PersonalPage"),false);
         } catch (EmptyPersonalPageException e) {
-            e.printStackTrace();
         }
         int assetID = rs.getInt("AssetID");
         String training = rs.getString("Training");

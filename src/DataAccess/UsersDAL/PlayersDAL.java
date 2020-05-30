@@ -159,7 +159,6 @@ public class PlayersDAL implements DAL<Player, String> {
         try {
             page = new PersonalPagesDAL().select(personlPID,false);
         } catch (EmptyPersonalPageException e) {
-            e.printStackTrace();
         }
         String role = rs.getString(3);
         int assetID = rs.getInt(4);
