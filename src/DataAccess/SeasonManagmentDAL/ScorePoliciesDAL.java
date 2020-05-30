@@ -5,6 +5,7 @@ import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.MySQLConnector;
+import Domain.SeasonManagment.DefaultIScorePolicy;
 import Domain.SeasonManagment.IScorePolicy;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -12,7 +13,9 @@ import FootballExceptions.UserIsNotThisKindOfMemberException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class ScorePoliciesDAL implements DAL<IScorePolicy,String> {
 
@@ -49,7 +52,15 @@ public class ScorePoliciesDAL implements DAL<IScorePolicy,String> {
 
     @Override
     public IScorePolicy select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        return null;
+        Connection connection = MySQLConnector.getInstance().connect();
+
+        String statement="SELECT * FROM score_policies WHERE ObjectID=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+
+        return new DefaultIScorePolicy(UUID.fromString(objectIdentifier),rs.getInt("winValue"),rs.getInt("loseValue"),rs.getInt("drawValue"));
     }
 
     @Override

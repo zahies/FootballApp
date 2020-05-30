@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class LeaguesDAL implements DAL<Leaugue,String> {
 
@@ -56,7 +57,21 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
 
     @Override
     public Leaugue select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
-        return null;
+        Connection connection = MySQLConnector.getInstance().connect();
+
+        /**LEAGUE SEASONS*/
+        HashMap<Integer, Season> seasons = new HashMap<>();
+        String statement = "SELECT * FROM leagues_seasons WHERE League=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        ResultSet rs =preparedStatement.executeQuery();
+        while (rs.next()){
+            int year = rs.getInt("Year");
+            Season season = new SeasonDAL().select(rs.getString("Season"),false);
+            seasons.put(year,season);
+        }
+
+        return new Leaugue(UUID.fromString(objectIdentifier),seasons);
     }
 
     @Override

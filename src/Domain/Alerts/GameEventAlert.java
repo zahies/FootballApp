@@ -11,6 +11,13 @@ public class GameEventAlert implements IAlert {
     IEvent event;
     private boolean hadSent;
 
+    public GameEventAlert(UUID objectID, double eventMin, IEvent event, boolean hadSent) {
+        this.objectID = objectID;
+        this.eventMin = eventMin;
+        this.event = event;
+        this.hadSent = hadSent;
+    }
+
     public GameEventAlert(double eventMin, IEvent event) {
         this.eventMin = eventMin;
         this.event = event;
