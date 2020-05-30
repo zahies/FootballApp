@@ -225,4 +225,10 @@ public class Fan extends Member implements Observer {
     }
 
 
+    @Override
+    public String toString() {
+        return "Fan{" +
+                ", searchHistory=" + searchHistory.toString() +
+                '}';
+    }
 }

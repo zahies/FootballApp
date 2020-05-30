@@ -304,7 +304,7 @@ public class Team {
                 for (Member member : memberAccounts) {
                     if (member instanceof TeamOwner) {
                         secondaryOwners.add((TeamOwner) member);
-                        IAlert alert = new TeamManagementAlert("Your are now Team owner of " + this.Name,status);
+                        IAlert alert = new TeamManagementAlert(status, this);
                         member.handleAlert(alert);
                         return true;
                     }
@@ -334,7 +334,7 @@ public class Team {
             LinkedList<Member> list = new LinkedList<>();
             list.add(teamOwnerToRemove);
             system.RemoveMember(list);
-            IAlert teamAlert = new TeamManagementAlert(teamOwnerToRemove.getName() + " is no longer a team owner",status);
+            IAlert teamAlert = new TeamManagementAlert(status, this);
             teamOwnerToRemove.handleAlert(teamAlert); /**notify the team owner he is not team owner anymore*/
             secondaryOwners.remove(teamOwnerToRemove);
             return true;
@@ -371,7 +371,7 @@ public class Team {
                 for (Member member : memberAccounts) {
                     if (member instanceof TeamManager) {
                         teamMangers.put(((TeamManager) member).getAssetID(), (TeamManager) member);
-                        IAlert alert = new TeamManagementAlert("Your are now Team manager of " + this.Name,status);
+                        IAlert alert = new TeamManagementAlert(status,this);
                         member.handleAlert(alert);
                         return true;
                     }
@@ -846,6 +846,8 @@ public class Team {
     }
 
     public String toString() {
-        return this.getName();
+        return "Team{" +
+                "Name=" + getName() +
+                '}';
     }
 }

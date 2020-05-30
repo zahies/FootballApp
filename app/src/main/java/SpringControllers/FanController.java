@@ -13,10 +13,7 @@ import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.Team;
 import Domain.Users.Fan;
 import Domain.Users.PersonalInfo;
-import FootballExceptions.AlreadyFollowThisPageException;
-import FootballExceptions.NoPermissionException;
-import FootballExceptions.UserInformationException;
-import FootballExceptions.UserIsNotThisKindOfMemberException;
+import FootballExceptions.*;
 import javafx.util.Pair;
 
 import java.sql.SQLException;
@@ -43,7 +40,7 @@ public class FanController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return flag;
@@ -64,7 +61,7 @@ public class FanController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return flag;
@@ -86,6 +83,8 @@ public class FanController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (EmptyPersonalPageException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -105,7 +104,7 @@ public class FanController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return flag;
@@ -129,7 +128,7 @@ public class FanController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return null;
@@ -148,7 +147,7 @@ public class FanController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return null;
@@ -172,7 +171,7 @@ public class FanController {
             e.printStackTrace();
         } catch (mightBeSQLInjectionException e) {
             e.printStackTrace();
-        } catch (DuplicatedPrimaryKeyException e) {
+        } catch (DuplicatedPrimaryKeyException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return false;
@@ -195,7 +194,7 @@ public class FanController {
             e.printStackTrace();
         } catch (mightBeSQLInjectionException e) {
             e.printStackTrace();
-        } catch (DuplicatedPrimaryKeyException e) {
+        } catch (DuplicatedPrimaryKeyException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return false;
@@ -218,7 +217,7 @@ public class FanController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return -999999999; //fixme
@@ -243,7 +242,7 @@ public class FanController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | EmptyPersonalPageException e) {
             e.printStackTrace();
         }
         return null;

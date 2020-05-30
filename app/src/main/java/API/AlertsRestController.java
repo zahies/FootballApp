@@ -2,6 +2,7 @@ package API;
 
 
 import DataAccess.Exceptions.NoConnectionException;
+import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -42,8 +43,23 @@ public class AlertsRestController {
 
     /** alert for online user */
     @GetMapping("/myalerts/{username}")
-    public Map<String, List<String>> sendAlerts(@PathVariable String username,final HttpServletResponse response) throws IOException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoPermissionException, NoConnectionException {
-        Map<String, List<String>> alertsJson= alertsController.showAlerts(username);
+    public Map<String, List<String>> sendAlerts(@PathVariable String username,final HttpServletResponse response) throws IOException {
+        Map<String, List<String>> alertsJson = null;
+        try{
+           alertsJson = alertsController.showAlerts(username);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (EmptyPersonalPageException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        }
         if (alertsJson.get("alerts content:").size() == 0){
             response.sendError(HttpServletResponse.SC_CONFLICT,"No more alerts");
         }

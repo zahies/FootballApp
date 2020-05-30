@@ -91,7 +91,7 @@ public class Game extends Observable {
     @Override
     public String toString() {
         return "Game{" +
-                "objectId=" + objectId +
+                "objectId=" + objectId.toString() +
                 ", away=" + away +
                 ", home=" + home +
                 ", dateGame=" + dateGame +

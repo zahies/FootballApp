@@ -296,5 +296,12 @@ public class Season {
         return calendar.getTime();
     }
 
-
+    @Override
+    public String toString() {
+        return "Season{" +
+                "objectID=" + objectID +
+                ", year=" + year +
+                ", isItTheBeginningOfSeason=" + isItTheBeginningOfSeason +
+                '}';
+    }
 }

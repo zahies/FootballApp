@@ -8,6 +8,8 @@ import DataAccess.UsersDAL.PlayersDAL;
 import DataAccess.UsersDAL.RefereesDAL;
 import Domain.Events.AGameEvent;
 import Domain.SeasonManagment.Game;
+import Domain.SeasonManagment.IAsset;
+import Domain.SeasonManagment.Team;
 import Domain.Users.Member;
 import Domain.Users.Player;
 import Domain.Users.Referee;
@@ -15,6 +17,8 @@ import Domain.Users.RefereeType;
 import FootballExceptions.*;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RefereeController extends MemberController {
 
@@ -182,5 +186,44 @@ public class RefereeController extends MemberController {
 //        }
         return flag;
     }
+
+
+    public HashMap<String, String> gamePlayers(String gameID) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
+        boolean flag = false;
+        Game game=null;
+        try {
+            game = new GamesDAL().select(gameID, true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Team teamhome1 = game.getHome();
+        Team teamaway1 = game.getAway();
+
+        String teamNameHome = teamhome1.getName();
+        String teamNameAway = teamaway1.getName();
+
+        HashMap<Integer, IAsset> playerListHome = teamhome1.getTeamPlayers();
+        HashMap<Integer, IAsset> playerListAway = teamaway1.getTeamPlayers();
+
+        HashMap<String, String> ans = new HashMap<>();
+
+        for (Map.Entry curr: playerListHome.entrySet()){
+            String playerUsertName = ((Player)curr.getValue()).getName();
+            String playerRealName = ((Player)curr.getValue()).getReal_Name();
+            String value = teamNameHome + " - " + playerRealName;
+            ans.put(playerUsertName, value);
+        }
+
+        for (Map.Entry curr: playerListAway.entrySet()){
+            String playerUsertName = ((Player)curr.getValue()).getName();
+            String playerRealName = ((Player)curr.getValue()).getReal_Name();
+            String value = teamNameAway + " - " + playerRealName;
+            ans.put(playerUsertName, value);
+        }
+
+        return ans;
+    }
+
 
 }

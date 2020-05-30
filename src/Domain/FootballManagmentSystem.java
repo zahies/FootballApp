@@ -543,7 +543,7 @@ public class FootballManagmentSystem extends TimerTask {
                 e.printStackTrace();
             } catch (NoConnectionException e) {
                 e.printStackTrace();
-            } catch (UserIsNotThisKindOfMemberException e) {
+            } catch (UserIsNotThisKindOfMemberException | EmptyPersonalPageException e) {
                 e.printStackTrace();
             } catch (EmptyPersonalPageException e) {
                 e.printStackTrace();

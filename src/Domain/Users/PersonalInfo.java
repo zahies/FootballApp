@@ -241,4 +241,17 @@ public class PersonalInfo extends Observable {
     public LinkedList<Fan> getFollowers() {
         return followers;
     }
+
+
+    @Override
+    public String toString() {
+        return "PersonalInfo{" +
+                "pageID=" + pageID +
+                ", pageMemberOwner=" + pageMemberOwner.getName() +
+                ", pageTitle='" + pageTitle + '\'' +
+                ", profile=" + profile +
+                ", pageContent=" + pageContent +
+                ", followers=" + followers +
+                '}';
+    }
 }
