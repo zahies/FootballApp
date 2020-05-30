@@ -1,16 +1,22 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.Searcher.Searcher;
 import Domain.Users.*;
+import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.LinkedList;
 
 
 public class GuestController {
-    public String login(String username, String password) throws UserInformationException {
+    public String login(String username, String password) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         LinkedList<Member> membersAccounts = new Guest().login(username, password);
         JSONObject json2 = new JSONObject();
         for (Member member : membersAccounts) {

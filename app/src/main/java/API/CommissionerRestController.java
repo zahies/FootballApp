@@ -2,7 +2,9 @@ package API;
 
 
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.ErrorLog;
 import Domain.Events.Error_Loger;
 import Domain.FootballManagmentSystem;
@@ -69,6 +71,12 @@ public class CommissionerRestController {
             e.printStackTrace();
             alert = e.getMessage();
         } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
             alert = e.getMessage();
         }
@@ -239,7 +247,7 @@ public class CommissionerRestController {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
         if (!succeeded){

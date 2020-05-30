@@ -7806,3 +7806,4 @@ Sat May 30 12:17:01 EEST 2020 New teamTel Aviv has been added to system by owner
 Sat May 30 12:17:01 EEST 2020 New teamHaifa has been added to system by owner: yam
 Sat May 30 12:17:01 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
 Sat May 30 12:17:01 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 15:12:56 EEST 2020 New teamBet has been added to system by owner: Moshe

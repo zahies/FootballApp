@@ -218,7 +218,7 @@ public class Commissioner extends Member {
         return financeAssociationActivity;
     }
 
-    public boolean responseToRegisterTeamByAlert(String teamName){
+    public boolean responseToRegisterTeamByAlert(String teamName) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         Queue<IAlert> alerts = getAlertsList();
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         for (IAlert alert : alerts) {

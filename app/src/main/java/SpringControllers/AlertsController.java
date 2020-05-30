@@ -3,6 +3,7 @@ package SpringControllers;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.MembersDAL;
 import Domain.Alerts.ChangedGameAlert;
 import Domain.Alerts.GameEventAlert;
 import Domain.Alerts.IAlert;
@@ -28,13 +29,13 @@ public class AlertsController {
 
     private static boolean happend = false;
 
-    public AlertsController() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
-    }
+
 
 
     /** alert for online user */
-    public Map<String, List<String>> showAlerts(String username) {
-        Member member = Mem
+    public Map<String, List<String>> showAlerts(String username) throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException {
+        Member member = new MembersDAL().select(username,true);
+
 
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
 
@@ -43,7 +44,7 @@ public class AlertsController {
 
         /**test all kinds of alerts:*/
         //1. ChanfgedGameAlert
-        IAlert changeGameAlert = new ChangedGameAlert(new Date(), game);
+
 
 
 
@@ -51,7 +52,7 @@ public class AlertsController {
         IEvent foul = new Foul(32);
         GameEventAlert al = new GameEventAlert(2,foul);
 
-        Queue<IAlert> alerts = fan.getAlertsList();
+        Queue<IAlert> alerts = member.getAlertsList();
 
         HashMap<String,List<String>> to = new HashMap();
         List<String> size = new LinkedList<>();

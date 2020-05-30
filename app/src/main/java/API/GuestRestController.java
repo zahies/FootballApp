@@ -1,8 +1,13 @@
 package API;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.ErrorLog;
 import Domain.Users.*;
+import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import SpringControllers.GuestController;
 import SpringControllers.MemberController;
 import SpringControllers.PlayerController;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -47,7 +53,7 @@ public class GuestRestController {
             String json = guestController.login(body.get("username"),body.get("password"));
             usersWhoAreLoggedIn.add(body.get("username"));
             return json;
-        } catch (UserInformationException e) {
+        } catch (UserInformationException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException | NoPermissionException | SQLException | UserIsNotThisKindOfMemberException | NoConnectionException e) {
            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Login Details");
             ErrorLog.getInstance().UpdateLog("The error is: " + "Incorrect Login Details");
 
