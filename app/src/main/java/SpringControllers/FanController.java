@@ -7,7 +7,6 @@ import DataAccess.SeasonManagmentDAL.ComplaintFormsDAL;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import DataAccess.UsersDAL.FansDAL;
-import DataAccess.UsersDAL.PersonalInfoDAL;
 import Domain.Searcher.Searcher;
 import Domain.SeasonManagment.ComplaintForm;
 import Domain.SeasonManagment.Game;

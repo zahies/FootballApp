@@ -208,7 +208,22 @@ public class FootballManagmentSystem extends TimerTask {
         if (members.get(userName) != null) {
             throw new UserInformationException(); //username is taken;
         } else {
-            Member addTo = new Fan(userName, realname, id, pass);
+            Member addTo = null;
+            try {
+                addTo = new Fan(userName, realname, id, pass);
+            } catch (mightBeSQLInjectionException e) {
+                e.printStackTrace();
+            } catch (DuplicatedPrimaryKeyException e) {
+                e.printStackTrace();
+            } catch (NoPermissionException e) {
+                e.printStackTrace();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (UserIsNotThisKindOfMemberException e) {
+                e.printStackTrace();
+            } catch (NoConnectionException e) {
+                e.printStackTrace();
+            }
             LinkedList<Member> memberAccounts = new LinkedList<>();
             memberAccounts.add(addTo);
             members.put(userName, memberAccounts);
@@ -529,6 +544,8 @@ public class FootballManagmentSystem extends TimerTask {
             } catch (NoConnectionException e) {
                 e.printStackTrace();
             } catch (UserIsNotThisKindOfMemberException | EmptyPersonalPageException e) {
+                e.printStackTrace();
+            } catch (EmptyPersonalPageException e) {
                 e.printStackTrace();
             }
         }

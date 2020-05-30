@@ -184,7 +184,7 @@ public class TeamsDAL implements DAL<Team, String>  {
             upcomingGames.add(game);
         }
 
-        Team team = new Team(null,name,null,owner,teamStatus,0, UUID.fromString(teamID),controlBudget,isClosed,secondaryTeamOwner,players,fields,teamManagers,coaches,playersRate,null,sysManClosed);
+        Team team = new Team(null,name,personalInfo,owner,teamStatus,0, UUID.fromString(teamID),controlBudget,isClosed,secondaryTeamOwner,players,fields,teamManagers,coaches,playersRate,null,sysManClosed);
 
         /**Setters for bidirectional Association */
         team.getOwner().setTeam(team);

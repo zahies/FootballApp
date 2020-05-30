@@ -3,6 +3,7 @@ package Domain.Users;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.FansDAL;
 import Domain.Alerts.IAlert;
 import Domain.FootballManagmentSystem;
 import Domain.Searcher.Searcher;
@@ -29,7 +30,7 @@ public class Fan extends Member implements Observer {
         searchHistory = new LinkedList<>();
     }
 
-    public Fan(String name, String realname, int id, String password) {
+    public Fan(String name, String realname, int id, String password) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         super(name, id, password, realname);
         searchHistory = new LinkedList<>();
         system = FootballManagmentSystem.getInstance();
@@ -42,6 +43,7 @@ public class Fan extends Member implements Observer {
                 e.printStackTrace();
             }
         }
+        new FansDAL().insert(this);
     }
 
     /**
@@ -83,13 +85,14 @@ public class Fan extends Member implements Observer {
     /**
      * 2 fucns for UC - 3.2: one to follow and the other to unfollow
      */
-    public void addPersonalPagesToFollow(List<PersonalInfo> pagesToFollow) throws AlreadyFollowThisPageException {
+    public void addPersonalPagesToFollow(List<PersonalInfo> pagesToFollow) throws AlreadyFollowThisPageException, SQLException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         for (PersonalInfo page : pagesToFollow) {
             if (personalPagesFollowed.containsKey(page)) {
                 throw new AlreadyFollowThisPageException();
             }
             page.addFollower(this);
             personalPagesFollowed.put(page, false); //By default alerts are of
+            new FansDAL().update(this);
         }
     }
 
@@ -105,11 +108,12 @@ public class Fan extends Member implements Observer {
      * @param page - personal page
      * @return true if succeeded
      */
-    public boolean turnAlertForPersonalPageOn(PersonalInfo page) {
+    public boolean turnAlertForPersonalPageOn(PersonalInfo page) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (!personalPagesFollowed.containsKey(page)) {//this fan doesn't follow this page
             return false;
         }
         personalPagesFollowed.replace(page, true);
+        new FansDAL().update(this);
         return true;
     }
 

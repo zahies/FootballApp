@@ -123,8 +123,9 @@ public class PersonalInfo extends Observable {
      *
      * @param fan - fan
      */
-    public void addFollower(Fan fan) {
+    public void addFollower(Fan fan) throws SQLException {
         followers.add(fan);
+        new PersonalPagesDAL().update(this);
     }
 
     /**
@@ -134,6 +135,7 @@ public class PersonalInfo extends Observable {
      */
     public void removeFollower(Fan fan) {
         followers.remove(fan);
+
     }
 
     /**

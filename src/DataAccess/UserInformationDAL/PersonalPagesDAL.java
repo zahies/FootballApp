@@ -58,6 +58,9 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1,objectIdentifier);
         ResultSet rs = preparedStatement.executeQuery();
+        if(!rs.next()){
+            throw new EmptyPersonalPageException();
+        }
         String title = rs.getString("title");
         LinkedList<Fan> followers = new LinkedList<>();
 
@@ -68,9 +71,10 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
         rs = preparedStatement.executeQuery();
         while (rs.next()){
             Fan follower = new FansDAL().select(rs.getString("MemberUserName"),false);
+            followers.add(follower);
         }
 
-        return  new PersonalInfo(objectIdentifier,null,null,null,null,null,followers);
+        return  new PersonalInfo(objectIdentifier,null,null,title,null,null,followers);
     }
 
     @Override
