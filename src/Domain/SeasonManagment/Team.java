@@ -846,6 +846,8 @@ public class Team {
     }
 
     public String toString() {
-        return this.getName();
+        return "Team{" +
+                "Name=" + getName() +
+                '}';
     }
 }

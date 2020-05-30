@@ -1,8 +1,6 @@
 package SpringControllers;
 
-import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
-import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.UsersDAL.PlayersDAL;
 import DataAccess.UsersDAL.RefereesDAL;
@@ -182,5 +180,44 @@ public class RefereeController extends MemberController {
 //        }
         return flag;
     }
+
+
+    public HashMap<String, String> gamePlayers(String gameID) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
+        boolean flag = false;
+        Game game=null;
+        try {
+            game = new GamesDAL().select(gameID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Team teamhome1 = game.getHome();
+        Team teamaway1 = game.getAway();
+
+        String teamNameHome = teamhome1.getName();
+        String teamNameAway = teamaway1.getName();
+
+        HashMap<Integer, IAsset> playerListHome = teamhome1.getTeamPlayers();
+        HashMap<Integer, IAsset> playerListAway = teamaway1.getTeamPlayers();
+
+        HashMap<String, String> ans = new HashMap<>();
+
+        for (Map.Entry curr: playerListHome.entrySet()){
+            String playerUsertName = ((Player)curr.getValue()).getName();
+            String playerRealName = ((Player)curr.getValue()).getReal_Name();
+            String value = teamNameHome + " - " + playerRealName;
+            ans.put(playerUsertName, value);
+        }
+
+        for (Map.Entry curr: playerListAway.entrySet()){
+            String playerUsertName = ((Player)curr.getValue()).getName();
+            String playerRealName = ((Player)curr.getValue()).getReal_Name();
+            String value = teamNameAway + " - " + playerRealName;
+            ans.put(playerUsertName, value);
+        }
+
+        return ans;
+    }
+
 
 }

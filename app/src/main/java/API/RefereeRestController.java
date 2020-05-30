@@ -72,10 +72,21 @@ public class RefereeRestController {
     }
 
 
-    @GetMapping("/games/{username}")
-    public HashMap<String, String> test() {
-        HashMap<String, String> ans = new HashMap<>();
-        //ans.put(game.getObjectId().toString(), game.getHome() + " - " + game.getAway());
+    @GetMapping("/players/{gameid}")
+    public HashMap<String, String> testGame(@PathVariable String gameid) {
+        HashMap<String, String> ans = null;
+        try {
+            ans = refereeController.gamePlayers(gameid);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        }
+
         return ans;
     }
 
