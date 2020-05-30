@@ -3,6 +3,7 @@ package SpringControllers;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.LeaguesDAL;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import DataAccess.UsersDAL.MembersDAL;
 import DataAccess.UsersDAL.TeamManagerDAL;
@@ -329,22 +330,22 @@ public class TeamOwnerController extends MemberController {
 
     public boolean sendRegisterRequestForNewTeam(String username, String teamName, int leaugueID, int year){
         boolean succeeded = false;
-//        try {
-//            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(username);
-//            Leaugue league = new LeaugueDAL().select(leaugueID);
-//            teamOwner.sendRegisterRequestForNewTeam(teamName,league,year);
-//            succeeded = true;
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        } catch (UserInformationException e) {
-//            e.printStackTrace();
-//        } catch (UserIsNotThisKindOfMemberException e) {
-//            e.printStackTrace();
-//        } catch (NoConnectionException e) {
-//            e.printStackTrace();
-//        } catch (NoPermissionException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(username, true);
+            Leaugue league = (Leaugue) new LeaguesDAL().select(String.valueOf(leaugueID), true);
+            teamOwner.sendRegisterRequestForNewTeam(teamName,league,year);
+            succeeded = true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        }
         return succeeded;
     }
 }
