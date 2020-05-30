@@ -1,6 +1,8 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.UsersDAL.MembersDAL;
 import DataAccess.UsersDAL.TeamManagerDAL;
 import DataAccess.UsersDAL.TeamOwnersDAL;
@@ -23,7 +25,7 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean addAssetToTeam(String username, IAsset asset) {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(username);
+            TeamOwner teamOwner = new TeamOwnersDAL().select(username,true);
             teamOwner.addAssetToTeam(asset);
         } catch (InactiveTeamException e) {
             System.out.println(e.getMessage());
@@ -39,6 +41,12 @@ public class TeamOwnerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
         return true;
     }
@@ -48,7 +56,7 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean removeAssetFromTeam(String username, IAsset asset) {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(username);
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(username,true);
             return teamOwner.removeAssetFromTeam(asset);
         } catch (InactiveTeamException e) {
             System.out.println(e.getMessage());
@@ -66,6 +74,8 @@ public class TeamOwnerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -75,7 +85,7 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean editAsset(String username, IAsset asset, int value) {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(username);
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(username,true);
             return teamOwner.editAsset(asset, value);
         } catch (InactiveTeamException e) {
             System.out.println(e.getMessage());
@@ -93,6 +103,12 @@ public class TeamOwnerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -106,7 +122,7 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean assignNewTeamOwner(String username, Member member) {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(username);
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(username,true);
             return teamOwner.assignNewTeamOwner(member);
         } catch (TeamOwnerWithNoTeamException e) {
             System.out.println(e.getMessage());
@@ -126,6 +142,12 @@ public class TeamOwnerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -136,8 +158,8 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean removeTeamOwner(String teamOwnerstring, String memberstring) {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(teamOwnerstring);
-            TeamOwner member = (TeamOwner) new TeamManagerDAL().select(memberstring);
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(teamOwnerstring,true);
+            TeamOwner member = (TeamOwner) new TeamOwnersDAL().select(memberstring,true);
             return teamOwner.removeTeamOwner(member);
         } catch (TeamOwnerWithNoTeamException e) {
             System.out.println(e.getMessage());
@@ -155,6 +177,8 @@ public class TeamOwnerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -164,8 +188,8 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean assignNewTeamManager(String teamOwnerstring, String memberstring, int value) {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(teamOwnerstring);
-            TeamOwner member = (TeamOwner) new TeamManagerDAL().select(memberstring);
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(teamOwnerstring,true);
+            TeamOwner member = (TeamOwner) new TeamOwnersDAL().select(memberstring,true);
             return teamOwner.assignNewTeamManager(member, value);
         } catch (TeamOwnerWithNoTeamException e) {
             System.out.println(e.getMessage());
@@ -185,6 +209,12 @@ public class TeamOwnerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -199,8 +229,8 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean removeTeamManager(String teamOwnerstring, String teamManagerstring) throws UserIsNotThisKindOfMemberException {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(teamOwnerstring);
-            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(teamManagerstring);
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(teamOwnerstring,true);
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(teamManagerstring,true);
             return teamOwner.removeTeamManager(teamManager);
         } catch (TeamOwnerWithNoTeamException e) {
             System.out.println(e.getMessage());
@@ -214,6 +244,8 @@ public class TeamOwnerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -225,7 +257,7 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean changeTeamStatus(String teamOwnerstring, TeamStatus teamStatus) {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(teamOwnerstring);
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(teamOwnerstring,true);
             return teamOwner.changeTeamStatus(teamStatus);
         } catch (TeamOwnerWithNoTeamException e) {
             System.out.println(e.getMessage());
@@ -239,7 +271,7 @@ public class TeamOwnerController extends MemberController {
             e.printStackTrace();
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | NoPermissionException e) {
             e.printStackTrace();
         }
         return false;
@@ -254,7 +286,7 @@ public class TeamOwnerController extends MemberController {
      */
     public boolean addBudgetActivity(String teamOwnerstring, Date date, BudgetActivity budgetActivity, int amount) {
         try {
-            TeamOwner teamOwner = (TeamOwner) new TeamManagerDAL().select(teamOwnerstring);
+            TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(teamOwnerstring,true);
             return teamOwner.addBudgetActivity(date, budgetActivity, amount);
         } catch (TeamOwnerWithNoTeamException e) {
             System.out.println(e.getMessage());
@@ -269,6 +301,8 @@ public class TeamOwnerController extends MemberController {
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
         } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
             e.printStackTrace();
         }
         return false;

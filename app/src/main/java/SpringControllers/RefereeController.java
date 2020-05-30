@@ -1,6 +1,8 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.UsersDAL.PlayersDAL;
 import DataAccess.UsersDAL.RefereesDAL;
@@ -24,7 +26,7 @@ public class RefereeController extends MemberController {
     public boolean changeName(String username, String name) {
         boolean flag = false;
         try {
-            Member referee = new RefereesDAL().select(username);
+            Member referee = new RefereesDAL().select(username,true);
             ((Referee)referee).changeName(name);
             flag = true;
         } catch (UserInformationException ue) {
@@ -47,7 +49,7 @@ public class RefereeController extends MemberController {
     public boolean changeTraining(String username, RefereeType type) {
         boolean flag = false;
         try {
-            Member referee = new RefereesDAL().select(username);
+            Member referee = new RefereesDAL().select(username,true);
             ((Referee)referee).changeTraining(type); //todo change refType to String?
             flag = true;
         } catch (SQLException e) {
@@ -60,6 +62,10 @@ public class RefereeController extends MemberController {
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
         } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
         return flag;
@@ -98,12 +104,16 @@ public class RefereeController extends MemberController {
     public boolean addEventToGame(String username, String eventType, double minute, Integer gameID, String playerusername) throws PersonalPageYetToBeCreatedException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, EventNotMatchedException {
         boolean flag = false;
         try {
-            Member referee = new RefereesDAL().select(username);
-            Game game = new GamesDAL().select(gameID.toString());
-            Member playerWhoCommit = new PlayersDAL().select(playerusername);
+            Member referee = new RefereesDAL().select(username,true);
+            Game game = new GamesDAL().select(gameID.toString(),true);
+            Member playerWhoCommit = new PlayersDAL().select(playerusername,true);
             ((Referee) referee).addEventToGame(eventType, minute, game, (Player) playerWhoCommit);
             flag = true;
         }catch (SQLException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
 //        } catch (EventNotMatchedException ee) {
@@ -128,8 +138,8 @@ public class RefereeController extends MemberController {
         public boolean editEventsAfterGame(String username, Integer gameID, AGameEvent oldEvent, AGameEvent newEvent) throws UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
             boolean flag = false;
             try {
-            Member referee = new RefereesDAL().select(username);
-            Game game = new GamesDAL().select(gameID.toString());
+            Member referee = new RefereesDAL().select(username,true);
+            Game game = new GamesDAL().select(gameID.toString(),true);
             ((Referee)referee).editEventsAfterGame(game, oldEvent, newEvent); //todo change AGameEvent to String?
             flag = true;
             } catch (NoPermissionException ne) {
@@ -154,8 +164,8 @@ public class RefereeController extends MemberController {
     public boolean addReportForGame(String username, Integer gameID) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
         boolean flag = false;
         try {
-            Member referee = new RefereesDAL().select(username);
-            Game game = new GamesDAL().select(gameID.toString());
+            Member referee = new RefereesDAL().select(username,true);
+            Game game = new GamesDAL().select(gameID.toString(),true);
             ((Referee)referee).addReportForGame(game);
             flag = true;
         } catch (SQLException e) {

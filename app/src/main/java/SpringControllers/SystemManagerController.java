@@ -22,8 +22,8 @@ public class SystemManagerController extends MemberController {
     public boolean deleteMember(String systemManagerusername, String memberusername) {
         boolean flag = false;
         try {
-            SystemManager systemManager = (SystemManager)new SystemManagerDAL().select(systemManagerusername);
-            Member member = (Member)new SystemManagerDAL().select(memberusername);
+            SystemManager systemManager = (SystemManager)new SystemManagerDAL().select(systemManagerusername,true);
+            Member member = (Member)new SystemManagerDAL().select(memberusername,true);
             systemManager.deleteMember(member);
             flag=true;
         } catch (UnableToRemoveException e) {
@@ -45,8 +45,8 @@ public class SystemManagerController extends MemberController {
     public boolean closeTeam(String systemManagerusername, String teamstring, String reason) {
         boolean flag = false;
         try {
-            SystemManager systemManager = (SystemManager)new SystemManagerDAL().select(systemManagerusername);
-            Team team = (Team) new TeamsDAL().select(teamstring);
+            SystemManager systemManager = (SystemManager)new SystemManagerDAL().select(systemManagerusername,true);
+            Team team = (Team) new TeamsDAL().select(teamstring,true);
             systemManager.closeTeam(team, reason);
             flag=true;
         } catch (InactiveTeamException e) {
@@ -71,7 +71,7 @@ public class SystemManagerController extends MemberController {
 
     public String showLog(String systemManagerusername) throws IOException {
         try {
-            SystemManager systemManager = (SystemManager) new SystemManagerDAL().select(systemManagerusername);
+            SystemManager systemManager = (SystemManager) new SystemManagerDAL().select(systemManagerusername,true);
             return systemManager.getLog();
         } catch (UserIsNotThisKindOfMemberException e) {
 
@@ -91,7 +91,7 @@ public class SystemManagerController extends MemberController {
 
     public List<ComplaintForm> checkComplaints(String systemManagerusername) {
         try {
-            SystemManager systemManager = (SystemManager) new SystemManagerDAL().select(systemManagerusername);
+            SystemManager systemManager = (SystemManager) new SystemManagerDAL().select(systemManagerusername,true);
             return systemManager.checkComplaints();
 
         } catch (UserIsNotThisKindOfMemberException e) {
@@ -111,8 +111,8 @@ public class SystemManagerController extends MemberController {
     public boolean CommentOnComplaint(String systemManagerusername, String compstring, String response) {
         boolean flag=false;
         try {
-            SystemManager sm = (SystemManager) new SystemManagerDAL().select(systemManagerusername);
-            ComplaintForm comp = (ComplaintForm) new ComplaintFormsDAL().select(compstring);
+            SystemManager sm = (SystemManager) new SystemManagerDAL().select(systemManagerusername,true);
+            ComplaintForm comp = (ComplaintForm) new ComplaintFormsDAL().select(compstring,true);
             sm.CommentOnComplaint(comp, response);
             flag=true;
         } catch (ShortCommentException e) {

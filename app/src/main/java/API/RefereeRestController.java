@@ -22,20 +22,7 @@ import java.util.*;
 public class RefereeRestController {
 
     private final RefereeController refereeController;
-    Referee ref = new Referee("John", "Snow", 555, "Halisi", RefereeType.Secondary);
-    Player player = new Player("Jamie", "Lanister", 666, "Sarsei", 222, "bla", new Date());
-    Player player2 = new Player("Jamie", "Lanister", 666, "Sarsei", 222, "bla", new Date());
-    RefereeType refereeType = RefereeType.Main;
-    RefereeType refereeType2 = RefereeType.Secondary;
-    Referee refereeTest = new Referee("Yossi43", "Yossi", 1234, "0101", refereeType);
-    Referee refereeTest2 = new Referee("Paul33", "Paul", 1235, "0102", refereeType2);
-    TeamOwner ownerHome = new TeamOwner("yakir", "yaki", 35, "3535");
-    TeamOwner ownerOut = new TeamOwner("yam", "yami", 32, "3536");
-    Team teamHome = new Team("Tel Aviv", ownerHome);
-    Team teamOut = new Team("Haifa", ownerOut);
-    Date date1 = new Date("31/03/2020");
-    Game game = new Game(teamOut, teamHome, date1, ref, refereeTest2, null);
-    List<Game> games = new LinkedList<>();
+
 
 
 
@@ -88,7 +75,7 @@ public class RefereeRestController {
     @GetMapping("/games/{username}")
     public HashMap<String, String> test() {
         HashMap<String, String> ans = new HashMap<>();
-        ans.put(game.getObjectId().toString(), game.getHome() + " - " + game.getAway());
+        //ans.put(game.getObjectId().toString(), game.getHome() + " - " + game.getAway());
         return ans;
     }
 

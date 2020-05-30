@@ -87,8 +87,44 @@ public class MembersDAL implements DAL<Member, String> {
     }
 
     @Override
-    public Member select(String userName, boolean  bidirectionalAssociation) {
-        return null;
+    public Member select(String userName, boolean  bidirectionalAssociation) throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException {
+
+        Connection connection = MySQLConnector.getInstance().connect();
+        String statement ="SELECT UserName , Type FROM members";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        String type = rs.getString("Type");
+        String userNameFromTable = rs.getString("UserName");
+        Member member = null;
+        switch (type) {
+            case "Coach":
+                member = new CoachesDAL().select(userName, true);
+                break;
+            case "Commissioner":
+                member = new CommissionersDAL().select(userName, true);
+                break;
+            case "Fan":
+                member = new FansDAL().select(userName, true);
+                break;
+            case "Player":
+                member = new PlayersDAL().select(userName, true);
+                break;
+            case "Referee":
+                member = new RefereesDAL().select(userName, true);
+                break;
+            case "SystemManager":
+                member = new SystemManagerDAL().select(userName, true);
+                break;
+            case "TeamManager":
+                member = new TeamManagerDAL().select(userName, true);
+                break;
+            case "TeamOwner":
+                member = new TeamOwnersDAL().select(userName, true);
+                break;
+        }
+
+        return member;
     }
 
     @Override
