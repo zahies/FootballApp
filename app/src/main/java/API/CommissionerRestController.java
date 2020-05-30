@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RequestMapping("footballapp/commissioner")
 @RestController
 public class CommissionerRestController {

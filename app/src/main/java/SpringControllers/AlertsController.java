@@ -44,6 +44,7 @@ public class AlertsController {
     IAlert alert;
     ProfileContent profileContent = new ProfileContent();
 
+    private static boolean happend = false;
 
 
 
@@ -54,44 +55,48 @@ public class AlertsController {
 
     /** alert for online user */
     public Map<String, List<String>> showAlerts(String username) {
-
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
-        try {
-            owner.setTeam(teamHome);
-            owner.assignNewTeamManager(futureManager2,5);
-            futureManager2 = system.getMemberInstanceByKind(futureManager2.getName(),"Team Manager");
-            owner.editManagerPermissions(futureManager2,"Create Personal Page",true);
-            ((TeamManager)futureManager2).createPersonalPageForTeam();
-            infos.add(teamHome.getInfo());
-            fan.addPersonalPagesToFollow(infos);
-            pageToFollowTest = fan.getPersonalPagesFollowed();
-            fan.turnAlertForPersonalPageOn(teamHome.getInfo());
-            alert = new PersonalPageAlert(teamHome.getInfo(),profileContent);
-            fan.update(game,alert);
-        } catch (MemberIsAlreadyTeamOwnerException e) {
-            e.printStackTrace();
-        } catch (MemberIsAlreadyTeamManagerException e) {
-            e.printStackTrace();
-        } catch (TeamOwnerWithNoTeamException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedTeamOwnerException e) {
-            e.printStackTrace();
-        } catch (UserInformationException e) {
-            e.printStackTrace();
-        } catch (InactiveTeamException | UserIsNotThisKindOfMemberException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedPageOwnerException e) {
-            e.printStackTrace();
-        } catch (PersonalPageYetToBeCreatedException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedTeamManagerException e) {
-            e.printStackTrace();
-        } catch (AlreadyFollowThisPageException e) {
-            e.printStackTrace();
+
+        if (!happend){
+
+            try {
+                owner.setTeam(teamHome);
+                owner.assignNewTeamManager(futureManager2,5);
+                futureManager2 = system.getMemberInstanceByKind(futureManager2.getName(),"Team Manager");
+                owner.editManagerPermissions(futureManager2,"Create Personal Page",true);
+                ((TeamManager)futureManager2).createPersonalPageForTeam();
+                infos.add(teamHome.getInfo());
+                fan.addPersonalPagesToFollow(infos);
+                pageToFollowTest = fan.getPersonalPagesFollowed();
+                fan.turnAlertForPersonalPageOn(teamHome.getInfo());
+                alert = new PersonalPageAlert(teamHome.getInfo(),profileContent);
+                fan.update(game,alert);
+
+            } catch (MemberIsAlreadyTeamOwnerException e) {
+                e.printStackTrace();
+            } catch (MemberIsAlreadyTeamManagerException e) {
+                e.printStackTrace();
+            } catch (TeamOwnerWithNoTeamException e) {
+                e.printStackTrace();
+            } catch (UnauthorizedTeamOwnerException e) {
+                e.printStackTrace();
+            } catch (UserInformationException e) {
+                e.printStackTrace();
+            } catch (InactiveTeamException | UserIsNotThisKindOfMemberException e) {
+                e.printStackTrace();
+            } catch (UnauthorizedPageOwnerException e) {
+                e.printStackTrace();
+            } catch (PersonalPageYetToBeCreatedException e) {
+                e.printStackTrace();
+            } catch (UnauthorizedTeamManagerException e) {
+                e.printStackTrace();
+            } catch (AlreadyFollowThisPageException e) {
+                e.printStackTrace();
+            }
+
+            happend = true;
+
         }
-
-
-
 
 
 
@@ -106,6 +111,9 @@ public class AlertsController {
         GameEventAlert al = new GameEventAlert(2,foul);
 
         Queue<IAlert> alerts = fan.getAlertsList();
+
+
+        //alerts.add(changeGameAlert); //fixme
 
         String message = "";
         HashMap<String,List<String>> to = new HashMap();
@@ -126,7 +134,6 @@ public class AlertsController {
 
             /** via APP */
         }else{
-            alerts.add(changeGameAlert); //fixme
             if (alerts.size() == 0){
                 message = " Have no messages.";
             }else{
