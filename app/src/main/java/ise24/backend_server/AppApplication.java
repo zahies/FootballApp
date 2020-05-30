@@ -1,7 +1,11 @@
 package ise24.backend_server;
 
 import API.GuestRestController;
+import Domain.Alerts.ChangedGameAlert;
+import Domain.Alerts.IAlert;
+import Domain.Alerts.RegistrationRequestAlert;
 import Domain.FootballManagmentSystem;
+import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Team;
 import Domain.Users.Commissioner;
 import Domain.Users.Member;
@@ -13,15 +17,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Collections;
+import java.util.Date;
 
 @SpringBootApplication
 @ComponentScan(basePackageClasses = GuestRestController.class)
 public class AppApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UserInformationException {
         Member member = new Player("Ohana","FSAF",416,"123",214,"GSDG",null);
-        Member teamowner = new TeamOwner("Moshe","DASD",123,"asd");
+        TeamOwner teamowner = new TeamOwner("Moshe","DASD",123,"asd");
         Member com = new Commissioner("zaza",12,"123","zahi zahi");
+        FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+        Leaugue leaugue = new Leaugue();
+        IAlert regAlert = new RegistrationRequestAlert("hpoel",leaugue,1900,teamowner);
+        com.addAlert(regAlert);
+        //system.addMember(com);
         Team team = new Team("Bet",((TeamOwner)teamowner));
         try {
             ((TeamOwner)teamowner).assignNewTeamManager(member,12431);

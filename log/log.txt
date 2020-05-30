@@ -7743,3 +7743,66 @@ Fri May 29 21:26:00 EEST 2020 New teamHaifa has been added to system by owner: y
 Fri May 29 21:26:02 EEST 2020 manager2has become team manager of : Tel Aviv
 Fri May 29 21:26:02 EEST 2020 Team Manager: manager2 Permissions to Create Personal Pageare now off
 Fri May 29 21:26:02 EEST 2020 manager2 created his personal page
+Sat May 30 11:37:36 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 11:37:36 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 11:37:38 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 11:37:38 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 11:37:38 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 11:37:38 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 11:37:53 EEST 2020 manager2has become team manager of : Tel Aviv
+Sat May 30 11:37:53 EEST 2020 Team Manager: manager2 Permissions to Create Personal Pageare now off
+Sat May 30 11:37:53 EEST 2020 manager2 created his personal page
+Sat May 30 11:40:21 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 11:40:21 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 11:40:24 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 11:40:24 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 11:40:24 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 11:40:24 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 11:40:30 EEST 2020 manager2has become team manager of : Tel Aviv
+Sat May 30 11:40:30 EEST 2020 Team Manager: manager2 Permissions to Create Personal Pageare now off
+Sat May 30 11:40:30 EEST 2020 manager2 created his personal page
+Sat May 30 11:42:38 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 11:42:38 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 11:42:40 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 11:42:40 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 11:42:40 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 11:42:40 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 11:42:46 EEST 2020 manager2has become team manager of : Tel Aviv
+Sat May 30 11:42:46 EEST 2020 Team Manager: manager2 Permissions to Create Personal Pageare now off
+Sat May 30 11:42:46 EEST 2020 manager2 created his personal page
+Sat May 30 12:06:36 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 12:06:36 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 12:06:38 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 12:06:38 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:06:38 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 12:06:38 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:07:25 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 12:07:25 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 12:07:28 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 12:07:28 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:07:28 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 12:07:28 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:13:00 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 12:13:00 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 12:13:03 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 12:13:03 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:13:03 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 12:13:03 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:13:51 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 12:13:51 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 12:13:54 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 12:13:54 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:13:54 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 12:13:54 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:15:48 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 12:15:48 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 12:15:51 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 12:15:51 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:15:51 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 12:15:51 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:16:59 EEST 2020 New teamBet has been added to system by owner: Moshe
+Sat May 30 12:16:59 EEST 2020 Ohanahas become team manager of : Bet
+Sat May 30 12:17:01 EEST 2020 New teamTel Aviv has been added to system by owner: asif
+Sat May 30 12:17:01 EEST 2020 New teamHaifa has been added to system by owner: yam
+Sat May 30 12:17:01 EEST 2020 New teamTel Aviv has been added to system by owner: yakir
+Sat May 30 12:17:01 EEST 2020 New teamHaifa has been added to system by owner: yam

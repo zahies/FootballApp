@@ -6,17 +6,18 @@ import DataAccess.SeasonManagmentDAL.LeaguesDAL;
 import DataAccess.UsersDAL.CoachesDAL;
 import DataAccess.UsersDAL.CommissionersDAL;
 import DataAccess.UsersDAL.RefereesDAL;
+import Domain.Alerts.ChangedGameAlert;
+import Domain.Alerts.IAlert;
+import Domain.Alerts.RegistrationRequestAlert;
+import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.*;
-import Domain.Users.Coach;
-import Domain.Users.Commissioner;
-import Domain.Users.Referee;
+import Domain.Users.*;
 import FootballExceptions.*;
 import javafx.util.Pair;
 
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class CommissionerController extends MemberController {
 
@@ -357,4 +358,26 @@ public class CommissionerController extends MemberController {
         return flag;
     }
 
+    public Map<String, String> getReplyForRegistration(String user) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
+        Commissioner commissioner = (Commissioner) new CommissionersDAL().select(user);
+
+        TeamOwner teamowner = new TeamOwner("Moshe","DASD",123,"asd");
+        Member com = new Commissioner("zaza",12,"123","zahi zahi");
+        FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+        Leaugue leaugue = new Leaugue();
+        IAlert regAlert = new RegistrationRequestAlert("hpoel",leaugue,1900,teamowner);
+        com.addAlert(regAlert);
+        system.addMember(com);
+
+        Queue<IAlert> alerts = com.getAlertsList();   /** change to commissioner */
+        Map<String,String> map = new HashMap<>();
+        for (IAlert alert: alerts) {
+            if (alert instanceof RegistrationRequestAlert){
+                map.put("teamname",((RegistrationRequestAlert) alert).getTeamName());
+                map.put("username", ((RegistrationRequestAlert) alert).getOwner().getName());
+                break;
+            }
+        }
+        return map;
+    }
 }

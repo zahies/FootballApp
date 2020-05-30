@@ -57,6 +57,7 @@ public class AlertsController {
     public Map<String, List<String>> showAlerts(String username) {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
 
+
         if (!happend){
 
             try {
@@ -112,10 +113,6 @@ public class AlertsController {
 
         Queue<IAlert> alerts = fan.getAlertsList();
 
-
-        //alerts.add(changeGameAlert); //fixme
-
-        String message = "";
         HashMap<String,List<String>> to = new HashMap();
         List<String> size = new LinkedList<>();
         List<String> content = new LinkedList<>();
@@ -123,34 +120,25 @@ public class AlertsController {
 
         /** via MAIL */
         if (member.isAlertViaMail()){
-           // FootballManagmentSystem system = FootballManagmentSystem.getInstance();
             for (IAlert alert:alerts) {
                 if (!alert.isHadSent()){
                     system.sendInvitationByMail(member.getMailAddress(),alert.getClass().getSimpleName(),alert.toString());
-                    //member.deleteSpecificAlert(alert);
                     alert.setHadSent(true);
                 }
             }
-
-            /** via APP */
+        /** via APP */
         }else{
-            if (alerts.size() == 0){
-                message = " Have no messages.";
-            }else{
-                if (alerts.size() > 1){
-                    message = "[";
+
+            size.add(String.valueOf(alerts.size()));
+            to.put("num of alerts:",size);
+            for (IAlert alert:alerts) {
+                if (!alert.isHadSent()){
+                    content.add(alert.toString());
+                  // member.deleteSpecificAlert(alert);
+                    alert.setHadSent(true);
                 }
-                size.add(String.valueOf(alerts.size()));
-                to.put("num of alerts:",size);
-                for (IAlert alert:alerts) {
-                    if (!alert.isHadSent()){
-                        content.add(alert.toString());
-                      // member.deleteSpecificAlert(alert);
-                        alert.setHadSent(true);
-                    }
-                }
-                to.put("alerts content:", content);
             }
+            to.put("alerts content:", content);
         }
         return to;
     }
