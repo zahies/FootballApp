@@ -2,7 +2,9 @@ package API;
 
 
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.ErrorLog;
 import Domain.Events.Error_Loger;
 import Domain.FootballManagmentSystem;
@@ -18,10 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.*;
 
 @CrossOrigin
 @RequestMapping("footballapp/commissioner")
@@ -71,6 +71,12 @@ public class CommissionerRestController {
             e.printStackTrace();
             alert = e.getMessage();
         } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
             alert = e.getMessage();
         }
@@ -221,6 +227,33 @@ public class CommissionerRestController {
         message += "]";
 
         return leauguesID;
+    }
+
+
+
+    @CrossOrigin
+    @GetMapping("/proveTeam/{user}")
+    public Map<String,String> getReplyForRegistration(@PathVariable String user, final HttpServletResponse response) throws IOException{
+        Map<String,String> map = new HashMap<>();
+        boolean succeeded=false;
+        try {
+            map = comController.getReplyForRegistration(user);
+            succeeded = true;
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        }
+        if (!succeeded){
+            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+        }
+        return map;
     }
 
 }

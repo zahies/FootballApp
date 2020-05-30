@@ -1,11 +1,18 @@
 package API;
 
 
+import DataAccess.Exceptions.NoConnectionException;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import SpringControllers.AlertsController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,8 +42,11 @@ public class AlertsRestController {
 
     /** alert for online user */
     @GetMapping("/myalerts/{username}")
-    public Map<String, List<String>> sendAlerts(@PathVariable String username){
+    public Map<String, List<String>> sendAlerts(@PathVariable String username,final HttpServletResponse response) throws IOException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoPermissionException, NoConnectionException {
         Map<String, List<String>> alertsJson= alertsController.showAlerts(username);
+        if (alertsJson.get("alerts content:").size() == 0){
+            response.sendError(HttpServletResponse.SC_CONFLICT,"No more alerts");
+        }
         return alertsJson;
     }
 

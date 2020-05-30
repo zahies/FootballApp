@@ -1,22 +1,25 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.SeasonManagmentDAL.LeaguesDAL;
 import DataAccess.UsersDAL.CoachesDAL;
 import DataAccess.UsersDAL.CommissionersDAL;
 import DataAccess.UsersDAL.RefereesDAL;
+import Domain.Alerts.ChangedGameAlert;
+import Domain.Alerts.IAlert;
+import Domain.Alerts.RegistrationRequestAlert;
+import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.*;
-import Domain.Users.Coach;
-import Domain.Users.Commissioner;
-import Domain.Users.Referee;
+import Domain.Users.*;
 import FootballExceptions.*;
 import javafx.util.Pair;
 
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class CommissionerController extends MemberController {
 
@@ -28,7 +31,7 @@ public class CommissionerController extends MemberController {
         boolean flag = false;
         try {
             //test
-            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);
             commissioner.defineLeague(id);
             flag = true;
         } catch (LeagueIDAlreadyExist | IDWasNotEnterdException le) {
@@ -53,8 +56,8 @@ public class CommissionerController extends MemberController {
     public boolean addSeasonToLeague(String username, int year, String leaugueString) {
         boolean flag = false;
         try {
-            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
-            Leaugue leaugue = (Leaugue) new LeaguesDAL().select(leaugueString);
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);
+            Leaugue leaugue = (Leaugue) new LeaguesDAL().select(leaugueString,true);
             commissioner.addSeasonToLeague(year, leaugue);
             flag = true;
         } catch (SeasonYearAlreadyExist se) {
@@ -80,8 +83,8 @@ public class CommissionerController extends MemberController {
     public boolean defineReferee(String comstring, String refstring) {
         boolean flag = false;
         try {
-            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(comstring);
-            Referee ref = (Referee) new RefereesDAL().select(comstring);
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(comstring,true);
+            Referee ref = (Referee) new RefereesDAL().select(comstring,true);
             commissioner.defineReferee(ref);
             flag = true;
         } catch (RefereeEmailWasNotEntered | UnknownHostException re) {
@@ -114,8 +117,8 @@ public class CommissionerController extends MemberController {
     public boolean addRefereeToSeason(String comstring, int idLeg, int year, String refstring) {
         boolean flag = false;
         try {
-            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(comstring);
-            Referee ref = (Referee) new RefereesDAL().select(comstring);
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(comstring,true);
+            Referee ref = (Referee) new RefereesDAL().select(comstring,true);
             commissioner.addRefereeToSeason(idLeg, year, ref);
             flag = true;
         } catch (LeagueNotFoundException le) {
@@ -165,7 +168,7 @@ public class CommissionerController extends MemberController {
         };
 
         try {
-            Commissioner commissioner = new CommissionersDAL().select(username);
+            Commissioner commissioner = new CommissionersDAL().select(username,true);
             commissioner.setNewScorePolicy(idLeg, year, sp);
             succeeded = true;
         } catch (SQLException throwables) {
@@ -204,7 +207,7 @@ public class CommissionerController extends MemberController {
             }
         };
         try {
-            Commissioner commissioner = new CommissionersDAL().select(username);
+            Commissioner commissioner = new CommissionersDAL().select(username,true);
             commissioner.setNewPlaceTeamsPolicy(idLeg, year, pp);
             succeeded = true;
         } catch (SQLException throwables) {
@@ -229,7 +232,7 @@ public class CommissionerController extends MemberController {
     public boolean runPlacingAlgo(String username, int idLeg, int year) {
         boolean flag = false;
         try {
-            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);
             commissioner.runPlacingAlgo(idLeg, year);
             flag = true;
         } catch (NotEnoughTeamsInLeague ne) {
@@ -243,6 +246,10 @@ public class CommissionerController extends MemberController {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
         return flag;
@@ -274,7 +281,7 @@ public class CommissionerController extends MemberController {
         };
 
         try {
-            Commissioner commissioner = new CommissionersDAL().select(username);
+            Commissioner commissioner = new CommissionersDAL().select(username,true);
             commissioner.defineBudgetControl(newRule);
             succeeded = true;
         } catch (SQLException throwables) {
@@ -301,7 +308,7 @@ public class CommissionerController extends MemberController {
     public boolean addToFinanceAssociationActivity(String username, String info, int amount) {
         boolean flag = false;
         try {
-            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);
             commissioner.addToFinanceAssociationActivity(info, amount);
             flag = true;
         } catch (UserIsNotThisKindOfMemberException e) {
@@ -325,7 +332,7 @@ public class CommissionerController extends MemberController {
     public boolean delFromFinanceAssociationActivity(String username, Pair<String, Integer> pair) {
         boolean flag = false;
         try {
-            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);
             commissioner.delFromFinanceAssociationActivity(pair);
             flag = true;
         } catch (FinanceAssActivityNotFound fe) {
@@ -344,10 +351,10 @@ public class CommissionerController extends MemberController {
         return flag;
     }
 
-    public boolean responseToRegistrationRequest(String username,String teamName) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
+    public boolean responseToRegistrationRequest(String username,String teamName) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         boolean flag = false;
         try {
-            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username);
+            Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);
             flag = commissioner.responseToRegisterTeamByAlert(teamName);
         }catch (SQLException e) {
         e.printStackTrace();
@@ -357,4 +364,26 @@ public class CommissionerController extends MemberController {
         return flag;
     }
 
+    public Map<String, String> getReplyForRegistration(String user) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+        Commissioner commissioner = (Commissioner) new CommissionersDAL().select(user,true);
+
+        TeamOwner teamowner = new TeamOwner("Moshe","DASD",123,"asd");
+        Member com = new Commissioner("zaza",12,"123","zahi zahi");
+        FootballManagmentSystem system = FootballManagmentSystem.getInstance();
+        Leaugue leaugue = new Leaugue();
+        IAlert regAlert = new RegistrationRequestAlert("hpoel",leaugue,1900,teamowner);
+        com.addAlert(regAlert);
+        system.addMember(com);
+
+        Queue<IAlert> alerts = com.getAlertsList();   /** change to commissioner */
+        Map<String,String> map = new HashMap<>();
+        for (IAlert alert: alerts) {
+            if (alert instanceof RegistrationRequestAlert){
+                map.put("teamname",((RegistrationRequestAlert) alert).getTeamName());
+                map.put("username", ((RegistrationRequestAlert) alert).getOwner().getName());
+                break;
+            }
+        }
+        return map;
+    }
 }
