@@ -40,7 +40,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
         preparedStatement.setString(1,objectToInsert.getKey().getKey());
         preparedStatement.setString(2,objectToInsert.getKey().getValue().getObjectID().toString());
         preparedStatement.setString(3,objectToInsert.getValue());
-        preparedStatement.setBoolean(4,objectToInsert.getKey().getValue().isSent());
+        preparedStatement.setBoolean(4,objectToInsert.getKey().getValue().isHadSent());
         preparedStatement.execute();
 
         String type =  objectToInsert.getValue();

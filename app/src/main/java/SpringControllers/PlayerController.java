@@ -1,6 +1,8 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.UserInformationDAL.PersonalPageContentDAL;
 import DataAccess.UsersDAL.PlayersDAL;
 import Domain.PersonalPages.APersonalPageContent;
@@ -26,8 +28,8 @@ public class PlayerController extends MemberController {
 
     public boolean addContentToPage(String username, String contstring) {
         try {
-            Player player = (Player) new PlayersDAL().select(username);
-            APersonalPageContent cont = (APersonalPageContent) new PersonalPageContentDAL().select(contstring);
+            Player player = (Player) new PlayersDAL().select(username,true);
+            APersonalPageContent cont = (APersonalPageContent) new PersonalPageContentDAL().select(contstring,true);
             player.addContentToPersonalPage(cont);
         } catch (UnauthorizedPageOwnerException e) {
             System.out.println(e.getMessage());
@@ -50,7 +52,7 @@ public class PlayerController extends MemberController {
     public boolean EditPage(String username, String title, String val) {
         boolean flag = false;
         try {
-            Player player = (Player) new PlayersDAL().select(username);
+            Player player = (Player) new PlayersDAL().select(username,true);
             player.editProfile(title, val);
             flag = true;
         } catch (UnauthorizedPageOwnerException e) {
@@ -73,7 +75,7 @@ public class PlayerController extends MemberController {
 
     public boolean changeUserName(String username, String newUserName) {
         try {
-            Player player = (Player) new PlayersDAL().select(username);
+            Player player = (Player) new PlayersDAL().select(username,true);
             return player.changeUserName(newUserName);
         } catch (UserInformationException e) {
             return false;
@@ -85,6 +87,10 @@ public class PlayerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -92,7 +98,7 @@ public class PlayerController extends MemberController {
     public boolean createPersonalPage(String username) {
         Player player = null;
         try {
-            player = (Player) new PlayersDAL().select(username);
+            player = (Player) new PlayersDAL().select(username,true);
             return player.createPersonalPage();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,6 +109,10 @@ public class PlayerController extends MemberController {
         } catch (NoConnectionException e) {
             e.printStackTrace();
         } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
         return false;

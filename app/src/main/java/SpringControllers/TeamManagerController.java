@@ -1,6 +1,8 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.UsersDAL.TeamManagerDAL;
 import Domain.PersonalPages.APersonalPageContent;
 import Domain.SeasonManagment.IAsset;
@@ -28,7 +30,7 @@ public class TeamManagerController extends MemberController {
 
     public boolean hireCoach(String username, IAsset newCoach) {
         try {
-            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username);
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username,true);
             return teamManager.hireCoach(newCoach);
         } catch (UserInformationException e) {
             e.printStackTrace();
@@ -41,6 +43,12 @@ public class TeamManagerController extends MemberController {
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
         } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
             e.printStackTrace();
         }
         return false;
@@ -55,7 +63,7 @@ public class TeamManagerController extends MemberController {
             e.printStackTrace();
         } catch (InactiveTeamException e) {
             System.out.println(e.getMessage());
-        } catch (UnauthorizedTeamManagerException e) {
+        } catch (UnauthorizedTeamManagerException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException | NoPermissionException | SQLException | UserIsNotThisKindOfMemberException | NoConnectionException e) {
             System.out.println(e.getMessage());
         }
         return false;
@@ -64,7 +72,7 @@ public class TeamManagerController extends MemberController {
 
     public boolean createPersonalPageForTeam(String username) {
         try {
-            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username);
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username,true);
             return teamManager.createPersonalPageForTeam();
         } catch (UnauthorizedPageOwnerException e) {
             System.out.println(e.getMessage());
@@ -79,6 +87,12 @@ public class TeamManagerController extends MemberController {
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
         } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
             e.printStackTrace();
         }
         return false;
@@ -93,7 +107,7 @@ public class TeamManagerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (UnauthorizedTeamManagerException e) {
             System.out.println(e.getMessage());
-        } catch (InactiveTeamException e) {
+        } catch (InactiveTeamException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException | NoPermissionException | SQLException | UserInformationException | UserIsNotThisKindOfMemberException | NoConnectionException e) {
             System.out.println(e.getMessage());
         }
         return false;
@@ -101,7 +115,7 @@ public class TeamManagerController extends MemberController {
 
     public boolean addContentToTeamsPersonalPage(String username, APersonalPageContent content) {
         try {
-            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username);
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username,true);
             return teamManager.addContentToTeamsPersonalPage(content);
         } catch (UnauthorizedPageOwnerException e) {
             System.out.println(e.getMessage());
@@ -117,6 +131,8 @@ public class TeamManagerController extends MemberController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -127,7 +143,7 @@ public class TeamManagerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (UnauthorizedTeamManagerException e) {
             System.out.println(e.getMessage());
-        } catch (InactiveTeamException e) {
+        } catch (InactiveTeamException | SQLException e) {
             System.out.println(e.getMessage());
         }
         return false;
@@ -135,7 +151,7 @@ public class TeamManagerController extends MemberController {
 
     public boolean editProfileOnPersonalPage(String username, String title, String val) {
         try {
-            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username);
+            TeamManager teamManager = (TeamManager) new TeamManagerDAL().select(username,true);
             return teamManager.editProfileOnPersonalPage(title, val);
         } catch (UnauthorizedPageOwnerException e) {
             System.out.println(e.getMessage());
@@ -152,6 +168,8 @@ public class TeamManagerController extends MemberController {
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
         } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
             e.printStackTrace();
         }
         return false;
@@ -165,7 +183,7 @@ public class TeamManagerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (InactiveTeamException e) {
             System.out.println(e.getMessage());
-        } catch (PersonalPageYetToBeCreatedException e) {
+        } catch (PersonalPageYetToBeCreatedException | SQLException e) {
             System.out.println(e.getMessage());
         }
         return false;

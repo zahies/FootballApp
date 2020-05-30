@@ -1,6 +1,8 @@
 package SpringControllers;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.ComplaintFormsDAL;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
@@ -32,7 +34,7 @@ public class FanController {
     public boolean addPersonalPagesToFollow(String username, List<PersonalInfo> pagesToFollow) {
         boolean flag = false;
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
+            Fan fan = (Fan) new FansDAL().select(username,true);
             fan.addPersonalPagesToFollow(pagesToFollow);
             flag = true;
         } catch (AlreadyFollowThisPageException e) {
@@ -54,8 +56,8 @@ public class FanController {
     public boolean unFollowPage(String username,  String pagestring) {
         boolean flag = false;
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
-             PersonalInfo page = (PersonalInfo) new PersonalInfoDAL().select(pagestring);
+            Fan fan = (Fan) new FansDAL().select(username,true);
+             PersonalInfo page = (PersonalInfo) new PersonalInfoDAL().select(pagestring,true);
             fan.unFollowPage(page);
             flag = true;
         } catch (UserIsNotThisKindOfMemberException e) {
@@ -75,8 +77,8 @@ public class FanController {
 
     public boolean turnAlertForPersonalPageOn(String username,  String pagestring) {
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
-            PersonalInfo page = (PersonalInfo) new PersonalInfoDAL().select(pagestring);
+            Fan fan = (Fan) new FansDAL().select(username,true);
+            PersonalInfo page = (PersonalInfo) new PersonalInfoDAL().select(pagestring,true);
             return fan.turnAlertForPersonalPageOn(page);
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
@@ -95,8 +97,8 @@ public class FanController {
     public boolean submitComplaintForm(String username, String complaintFormstring) {
         boolean flag = false;
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
-            ComplaintForm complaintForm = (ComplaintForm) new ComplaintFormsDAL().select(complaintFormstring);
+            Fan fan = (Fan) new FansDAL().select(username,true);
+            ComplaintForm complaintForm = (ComplaintForm) new ComplaintFormsDAL().select(complaintFormstring,true);
             fan.submitComplaintForm(complaintForm);
             flag = true;
         } catch (UserIsNotThisKindOfMemberException e) {
@@ -117,7 +119,7 @@ public class FanController {
 
     public LinkedList<String> viewSearchHistory(String username) {
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
+            Fan fan = (Fan) new FansDAL().select(username,true);
             if (fan.viewSearchHistory().size() == 0) {
                 System.out.println("no search history yet");
                 return null;
@@ -140,7 +142,7 @@ public class FanController {
 
     public ArrayList<Pair<String, String>> viewPersonalDetails(String username) {
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
+            Fan fan = (Fan) new FansDAL().select(username,true);
             return fan.viewPersonalDetails();
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
@@ -159,7 +161,7 @@ public class FanController {
 
     public boolean changePassword(String username, String newPassword) {
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
+            Fan fan = (Fan) new FansDAL().select(username,true);
             return fan.changePassword(newPassword);
         } catch (UserInformationException e) {
             System.out.println("wrong user name");
@@ -172,13 +174,17 @@ public class FanController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
         return false;
     }
 
     public boolean changeUserName(String username, String newUserName) {
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
+            Fan fan = (Fan) new FansDAL().select(username,true);
             return fan.changeUserName(newUserName);
         } catch (UserInformationException e) {
             System.out.println("wrong user name");
@@ -191,6 +197,10 @@ public class FanController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -199,9 +209,9 @@ public class FanController {
 
     public double useReccommandationSystem(String username, String gamestr, String teamstr) {
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
-            Game game = (Game) new GamesDAL().select(gamestr);
-            Team team = (Team) new TeamsDAL().select(teamstr);
+            Fan fan = (Fan) new FansDAL().select(username,true);
+            Game game = (Game) new GamesDAL().select(gamestr,true);
+            Team team = (Team) new TeamsDAL().select(teamstr,true);
 
             return fan.useRecommandationSystem(game, team);
         } catch (UserIsNotThisKindOfMemberException e) {
@@ -227,7 +237,7 @@ public class FanController {
 
     public HashSet<Object> search(String username, String str, Searcher searcher) {
         try {
-            Fan fan = (Fan) new FansDAL().select(username);
+            Fan fan = (Fan) new FansDAL().select(username,true);
             return fan.search(str, searcher);
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
