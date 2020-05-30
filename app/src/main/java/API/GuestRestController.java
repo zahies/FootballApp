@@ -48,17 +48,41 @@ public class GuestRestController {
     @PostMapping("/login")
     @JsonIgnore
     public String login(@RequestBody Map <String,String> body, final HttpServletResponse response) throws IOException {
+        boolean succeeded = false;
+        String json = "";
+        String alert = "";
         try {
             usersWhoAreLoggedIn = new LinkedList<>(); /** username */
-            String json = guestController.login(body.get("username"),body.get("password"));
+            json = guestController.login(body.get("username"),body.get("password"));
             usersWhoAreLoggedIn.add(body.get("username"));
-            return json;
-        } catch (UserInformationException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException | NoPermissionException | SQLException | UserIsNotThisKindOfMemberException | NoConnectionException e) {
-           response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Login Details");
-            ErrorLog.getInstance().UpdateLog("The error is: " + "Incorrect Login Details");
-
-            return null;
+            succeeded = true;
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
         }
+        if (!succeeded){
+            response.sendError(HttpServletResponse.SC_CONFLICT,alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
+        }
+            return json;
     }
 
 
