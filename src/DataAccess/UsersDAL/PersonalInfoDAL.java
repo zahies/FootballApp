@@ -25,7 +25,7 @@ public class PersonalInfoDAL implements DAL<PersonalInfo, String> {
     }
 
     @Override
-    public PersonalInfo select(String objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public PersonalInfo select(String objectIdentifier,boolean a) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

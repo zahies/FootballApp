@@ -33,7 +33,8 @@ public class AlertsController {
 
 
     /** alert for online user */
-    public Map<String, List<String>> showAlerts(String username) throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException {
+    public Map<String, List<String>> showAlerts(String username) throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException, EmptyPersonalPageException {
+
         Member member = new MembersDAL().select(username,true);
 
 
