@@ -46,4 +46,14 @@ public class ComplaintForm {
     public UUID getObjectID() {
         return objectID;
     }
+
+
+    @Override
+    public String toString() {
+        return "ComplaintForm{" +
+                "objectID=" + objectID +
+                ", complaint='" + complaint + '\'' +
+                ", response='" + response + '\'' +
+                '}';
+    }
 }

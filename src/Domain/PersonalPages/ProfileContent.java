@@ -26,4 +26,12 @@ public class ProfileContent extends APersonalPageContent {
         return profile;
     }
 
+
+    @Override
+    public String toString() {
+        return "ProfileContent{" +
+                "profile=" + profile.toString() +
+                ", team=" + team.getName() +
+                '}';
+    }
 }

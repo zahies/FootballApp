@@ -29,7 +29,7 @@ public class TeamManagementAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "team status = " + teamStatus + " , message = " + message +
+        return "team status = " + teamStatus.toString() + " , message = " + message +
                 " }";
     }
 

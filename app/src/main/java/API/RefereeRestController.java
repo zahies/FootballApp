@@ -85,50 +85,65 @@ public class RefereeRestController {
     }
 
 
-    @GetMapping("/games")
-    public HashMap<String, String> test() {
-        HashMap<String, String> ans = new HashMap<>();
-        ans.put(game.getObjectId().toString(), game.getHome() + " - " + game.getAway());
-        return ans;
-    }
-
-
-    /**
-     * input: teamID
-     * @return key: username
-     *         value: teamname + realname
-     */
-    @GetMapping("/players/{teamid}")
-    public HashMap<String, String> testPlayers(@PathVariable String teamid) {
-
-//        Member teamowner = new TeamOwner("Moshe","DASD",123,"asd");
-//        Team team = new Team("Bet",((TeamOwner)teamowner));
-//        team.getId();
-//        Player player = new Player("Jamie", "Lanister", 666, "Sarsei", 222, "bla", new Date());
-//        Player player2 = new Player("Apolo", "The King", 234, "Sarsei", 555, "bla", new Date());
-//        HashMap<Integer, IAsset> teamList = new HashMap<>();
-//        teamList.put(666, player);
-//        teamList.put(234, player2);
-//        team.setTeamPlayers(teamList);
-
-
-        UUID teamUUID = UUID.fromString(teamid);
-
-        Team team = (Team)FootballManagmentSystem.getInstance().getTeamByID(teamUUID);
-        String teamName = team.getName();
-        HashMap<Integer, IAsset> playerList = team.getTeamPlayers();
-
-        HashMap<String, String> ans = new HashMap<>();
-
-        for (Map.Entry curr: playerList.entrySet()){
-            String playerUsertName = ((Player)curr.getValue()).getName();
-            String playerRealName = ((Player)curr.getValue()).getReal_Name();
-            String value = teamName + " - " + playerRealName;
-            ans.put(playerUsertName, value);
+    @GetMapping("/players/{gameid}")
+    public HashMap<String, String> testGame(@PathVariable String gameid) {
+        HashMap<String, String> ans = null;
+        try {
+            ans = refereeController.gamePlayers(gameid);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
 
         return ans;
     }
+
+
+
+
+
+//
+//    /**
+//     * input: teamID
+//     * @return key: username
+//     *         value: teamname + realname
+//     */
+//    @GetMapping("/players/{teamid}")
+//    public HashMap<String, String> testPlayers(@PathVariable String teamid) {
+//
+////        Member teamowner = new TeamOwner("Moshe","DASD",123,"asd");
+////        Team team = new Team("Bet",((TeamOwner)teamowner));
+////        team.getId();
+////        Player player = new Player("Jamie", "Lanister", 666, "Sarsei", 222, "bla", new Date());
+////        Player player2 = new Player("Apolo", "The King", 234, "Sarsei", 555, "bla", new Date());
+////        HashMap<Integer, IAsset> teamList = new HashMap<>();
+////        teamList.put(666, player);
+////        teamList.put(234, player2);
+////        team.setTeamPlayers(teamList);
+//
+//
+//        UUID teamUUID = UUID.fromString(teamid);
+//
+//        Team team = (Team)FootballManagmentSystem.getInstance().getTeamByID(teamUUID);
+//        String teamName = team.getName();
+//        HashMap<Integer, IAsset> playerList = team.getTeamPlayers();
+//
+//        HashMap<String, String> ans = new HashMap<>();
+//
+//        for (Map.Entry curr: playerList.entrySet()){
+//            String playerUsertName = ((Player)curr.getValue()).getName();
+//            String playerRealName = ((Player)curr.getValue()).getReal_Name();
+//            String value = teamName + " - " + playerRealName;
+//            ans.put(playerUsertName, value);
+//        }
+//
+//        return ans;
+//    }
 
 
 

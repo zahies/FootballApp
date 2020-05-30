@@ -197,7 +197,7 @@ public class Referee extends Member implements Observer {
     public String toString() {
         return "Referee{" +
                 "email='" + email + '\'' +
-                ", type=" + type +
+                ", type=" + type.toString() +
 //                ", games=" + games +
 //                ", system=" + system +
                 '}';

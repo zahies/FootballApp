@@ -70,79 +70,79 @@ public class AlertsController {
 //        } catch (PersonalPageYetToBeCreatedException e) {
 //            e.printStackTrace();
 //        }
-
+//
+//        try {
+//            owner.setTeam(teamHome);
+//            owner.assignNewTeamManager(futureManager2,5);
+//        } catch (MemberIsAlreadyTeamOwnerException e) {
+//            e.printStackTrace();
+//        } catch (MemberIsAlreadyTeamManagerException e) {
+//            e.printStackTrace();
+//        } catch (TeamOwnerWithNoTeamException e) {
+//            e.printStackTrace();
+//        } catch (UnauthorizedTeamOwnerException e) {
+//            e.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (InactiveTeamException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            futureManager2 = system.getMemberInstanceByKind(futureManager2.getName(),"Team Manager");
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            owner.editManagerPermissions(futureManager2,"Create Personal Page",true);
+//        } catch (PersonalPageYetToBeCreatedException e) {
+//            e.printStackTrace();
+//        } catch (UnauthorizedPageOwnerException e) {
+//            e.printStackTrace();
+//        } catch (UnauthorizedTeamOwnerException e) {
+//            e.printStackTrace();
+//        } catch (InactiveTeamException e) {
+//            e.printStackTrace();
+//        } catch (UserInformationException e) {
+//            e.printStackTrace();
+//        } catch (TeamOwnerWithNoTeamException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            ((TeamManager)futureManager2).createPersonalPageForTeam();
+//        } catch (UnauthorizedPageOwnerException e) {
+//            e.printStackTrace();
+//        } catch (UnauthorizedTeamManagerException e) {
+//            e.printStackTrace();
+//        } catch (InactiveTeamException e) {
+//            e.printStackTrace();
+//        }
+//        infos.add(teamHome.getInfo());
+//        try {
+//            fan.addPersonalPagesToFollow(infos);
+//        } catch (AlreadyFollowThisPageException e) {
+//            e.printStackTrace();
+//        }
+//        pageToFollowTest = fan.getPersonalPagesFollowed();
+//        fan.turnAlertForPersonalPageOn(teamHome.getInfo());
+//        alert = new PersonalPageAlert(teamHome.getInfo(),profileContent);
+//        fan.update(game,alert);
+//
+//
+//
+//
+//        /**test all kinds of alerts:*/
+//        //1. ChanfgedGameAlert
+//        IAlert changeGameAlert = new ChangedGameAlert(new Date(), game);
+//
+//
+//
+//
+//        IEvent foul = new Foul(32);
+//        GameEventAlert al = new GameEventAlert(2,foul);
+//
+        Member member = (Member) new MembersDAL().select(username);
+        Queue<IAlert> alerts = member.getAlertsList();
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
-        try {
-            owner.setTeam(teamHome);
-            owner.assignNewTeamManager(futureManager2,5);
-        } catch (MemberIsAlreadyTeamOwnerException e) {
-            e.printStackTrace();
-        } catch (MemberIsAlreadyTeamManagerException e) {
-            e.printStackTrace();
-        } catch (TeamOwnerWithNoTeamException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedTeamOwnerException e) {
-            e.printStackTrace();
-        } catch (UserInformationException e) {
-            e.printStackTrace();
-        } catch (InactiveTeamException e) {
-            e.printStackTrace();
-        }
-        try {
-            futureManager2 = system.getMemberInstanceByKind(futureManager2.getName(),"Team Manager");
-        } catch (UserIsNotThisKindOfMemberException e) {
-            e.printStackTrace();
-        }
-        try {
-            owner.editManagerPermissions(futureManager2,"Create Personal Page",true);
-        } catch (PersonalPageYetToBeCreatedException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedPageOwnerException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedTeamOwnerException e) {
-            e.printStackTrace();
-        } catch (InactiveTeamException e) {
-            e.printStackTrace();
-        } catch (UserInformationException e) {
-            e.printStackTrace();
-        } catch (TeamOwnerWithNoTeamException e) {
-            e.printStackTrace();
-        }
-        try {
-            ((TeamManager)futureManager2).createPersonalPageForTeam();
-        } catch (UnauthorizedPageOwnerException e) {
-            e.printStackTrace();
-        } catch (UnauthorizedTeamManagerException e) {
-            e.printStackTrace();
-        } catch (InactiveTeamException e) {
-            e.printStackTrace();
-        }
-        infos.add(teamHome.getInfo());
-        try {
-            fan.addPersonalPagesToFollow(infos);
-        } catch (AlreadyFollowThisPageException e) {
-            e.printStackTrace();
-        }
-        pageToFollowTest = fan.getPersonalPagesFollowed();
-        fan.turnAlertForPersonalPageOn(teamHome.getInfo());
-        alert = new PersonalPageAlert(teamHome.getInfo(),profileContent);
-        fan.update(game,alert);
-
-
-
-
-        /**test all kinds of alerts:*/
-        //1. ChanfgedGameAlert
-        IAlert changeGameAlert = new ChangedGameAlert(new Date(), game);
-
-
-
-
-        IEvent foul = new Foul(32);
-        GameEventAlert al = new GameEventAlert(2,foul);
-
-        Queue<IAlert> alerts = fan.getAlertsList();
-
         String message = "";
 
         /** via MAIL */
@@ -155,7 +155,7 @@ public class AlertsController {
 
             /** via APP */
         }else{
-            alerts.add(changeGameAlert); //fixme
+           // alerts.add(changeGameAlert); //fixme
             if (alerts.size() == 0){
                 message = " Have no messages.";
             }else{

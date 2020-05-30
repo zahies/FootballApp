@@ -7587,3 +7587,9 @@ Fri May 29 11:48:36 IDT 2020 New teamHaifa has been added to system by owner: ya
 Fri May 29 11:48:51 IDT 2020 manager2has become team manager of : Tel Aviv
 Fri May 29 11:48:56 IDT 2020 Team Manager: manager2 Permissions to Create Personal Pageare now off
 Fri May 29 11:48:58 IDT 2020 manager2 created his personal page
+Fri May 29 20:25:11 IDT 2020 New teamBet has been added to system by owner: Moshe
+Fri May 29 20:25:11 IDT 2020 Ohanahas become team manager of : Bet
+Fri May 29 20:25:13 IDT 2020 New teamTel Aviv has been added to system by owner: asif
+Fri May 29 20:25:13 IDT 2020 New teamHaifa has been added to system by owner: yam
+Fri May 29 20:25:13 IDT 2020 New teamTel Aviv has been added to system by owner: yakir
+Fri May 29 20:25:13 IDT 2020 New teamHaifa has been added to system by owner: yam
