@@ -5,7 +5,9 @@ import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.MySQLConnector;
+import DataAccess.UsersDAL.FansDAL;
 import Domain.PersonalPages.APersonalPageContent;
+import Domain.Users.Fan;
 import Domain.Users.PersonalInfo;
 import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
@@ -18,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
@@ -47,7 +50,7 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
     }
 
     @Override
-    public PersonalInfo select(Integer objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, NoConnectionException, EmptyPersonalPageException {
+    public PersonalInfo select(Integer objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, NoConnectionException, EmptyPersonalPageException, NoPermissionException, UserIsNotThisKindOfMemberException {
         Connection connection = MySQLConnector.getInstance().connect();
 
         /**PersonalPage Details*/
@@ -55,13 +58,19 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setInt(1,objectIdentifier);
         ResultSet rs = preparedStatement.executeQuery();
+        String title = rs.getString("title");
+        LinkedList<Fan> followers = new LinkedList<>();
 
-        if(!rs.next()){
-            return null;
+        /***FOLLOWERS*/
+        statement = "SELECT * FROM fan_following_pages WHERE PersonalPageID=?";
+        preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setInt(1,objectIdentifier);
+        rs = preparedStatement.executeQuery();
+        while (rs.next()){
+            Fan follower = new FansDAL().select(rs.getString("MemberUserName"),false);
         }
 
-        String title = rs.getString("title");
-        return  null;
+        return  new PersonalInfo(objectIdentifier,null,null,null,null,null,followers);
     }
 
     @Override

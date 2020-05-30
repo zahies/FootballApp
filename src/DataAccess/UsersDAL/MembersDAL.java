@@ -8,6 +8,7 @@ import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.MySQLConnector;
 import Domain.Alerts.IAlert;
 import Domain.Users.*;
+import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -87,8 +88,43 @@ public class MembersDAL implements DAL<Member, String> {
     }
 
     @Override
-    public Member select(String userName, boolean  bidirectionalAssociation) {
-        return null;
+    public Member select(String userName, boolean  bidirectionalAssociation) throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException, EmptyPersonalPageException {
+
+        Connection connection = MySQLConnector.getInstance().connect();
+        String statement ="SELECT UserName , Type FROM members";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        ResultSet rs = preparedStatement.executeQuery();
+        String type = rs.getString("Type");
+        String userNameFromTable = rs.getString("UserName");
+        Member member = null;
+        switch (type) {
+            case "Coach":
+                member = new CoachesDAL().select(userName, true);
+                break;
+            case "Commissioner":
+                member = new CommissionersDAL().select(userName, true);
+                break;
+            case "Fan":
+                member = new FansDAL().select(userName, true);
+                break;
+            case "Player":
+                member = new PlayersDAL().select(userName, true);
+                break;
+            case "Referee":
+                member = new RefereesDAL().select(userName, true);
+                break;
+            case "SystemManager":
+                member = new SystemManagerDAL().select(userName, true);
+                break;
+            case "TeamManager":
+                member = new TeamManagerDAL().select(userName, true);
+                break;
+            case "TeamOwner":
+                member = new TeamOwnersDAL().select(userName, true);
+                break;
+        }
+
+        return member;
     }
 
     @Override
@@ -112,7 +148,7 @@ public class MembersDAL implements DAL<Member, String> {
         return ans;
     }
 
-    public HashMap<String, LinkedList<Member>> selectAll() throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException {
+    public HashMap<String, LinkedList<Member>> selectAll() throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException, EmptyPersonalPageException {
         HashMap<String, LinkedList<Member>> allMembers = new HashMap<>();
 
         Connection connection = MySQLConnector.getInstance().connect();
@@ -122,33 +158,7 @@ public class MembersDAL implements DAL<Member, String> {
         while (rs.next()){
             String type = rs.getString("Type");
             String userName = rs.getString("UserName");
-            Member member = null;
-            switch (type) {
-                case "Coach":
-                    member = new CoachesDAL().select(userName, true);
-                    break;
-                case "Commissioner":
-                    member = new CommissionersDAL().select(userName, true);
-                    break;
-                case "Fan":
-                    member = new FansDAL().select(userName, true);
-                    break;
-                case "Player":
-                    member = new PlayersDAL().select(userName, true);
-                    break;
-                case "Referee":
-                    member = new RefereesDAL().select(userName, true);
-                    break;
-                case "SystemManager":
-                    member = new SystemManagerDAL().select(userName, true);
-                    break;
-                case "TeamManager":
-                    member = new TeamManagerDAL().select(userName, true);
-                    break;
-                case "TeamOwner":
-                    member = new TeamOwnersDAL().select(userName, true);
-                    break;
-                }
+            Member member = this.select(userName,true);
             if(!allMembers.containsKey(userName)){
                 LinkedList <Member> memberAccounts = new LinkedList<>();
                 memberAccounts.add(member);

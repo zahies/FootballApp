@@ -42,6 +42,18 @@ public class PersonalInfo extends Observable {
         this.pageID = pageID;
     }
 
+    public PersonalInfo(int pageID, Member pageMemberOwner, LinkedList<Member> teamPageMembersOwners, String pageTitle, ProfileContent profile, LinkedList<APersonalPageContent> pageContent, LinkedList<Fan> followers) {
+        this.pageID = pageID;
+        this.pageMemberOwner = pageMemberOwner;
+        this.teamPageMembersOwners = teamPageMembersOwners;
+        this.pageTitle = pageTitle;
+        this.profile = profile;
+        this.pageContent = pageContent;
+        this.followers = followers;
+    }
+
+    /***DB CONSTRUCTOR*/
+
     public PersonalInfo(Member pageMemberOwner) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (pageMemberOwner instanceof TeamManager) {
             teamPageMembersOwners = new LinkedList<>();

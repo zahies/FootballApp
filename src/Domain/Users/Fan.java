@@ -22,6 +22,12 @@ public class Fan extends Member implements Observer {
     private FootballManagmentSystem system;
     private RecommendationSystem recommendationSystem;
 
+    public Fan(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress, HashMap<PersonalInfo, Boolean> personalPagesFollowed) {
+        super(name, password, real_Name, alertsList, isActive, alertViaMail, mailAddress);
+        this.personalPagesFollowed = personalPagesFollowed;
+        recommendationSystem = new RecommendationSystem();
+        searchHistory = new LinkedList<>();
+    }
 
     public Fan(String name, String realname, int id, String password) {
         super(name, id, password, realname);
