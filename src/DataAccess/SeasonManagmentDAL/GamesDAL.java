@@ -140,7 +140,7 @@ public class GamesDAL implements DAL<Game, String> {
         referees.add(secRef);
         Event_Logger event_logger = new EventLoggersDAL().select(rs.getString("Logger"),false);
 
-        return new Game(UUID.fromString(objectIdentifier),awayTeam,homeTeam,date,mainRef,secRef,homeScore,awayScore,null,referees);
+        return new Game(UUID.fromString(objectIdentifier),awayTeam,homeTeam,date,mainRef,secRef,homeScore,awayScore,null,referees,event_logger);
 
 
     }

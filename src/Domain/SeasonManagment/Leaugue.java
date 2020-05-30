@@ -18,6 +18,13 @@ public class Leaugue {
      */
     private int currentYear;
 
+    public Leaugue(UUID objectID, HashMap<Integer, Season> seasons) {
+        this.objectID = objectID;
+        this.seasons = seasons;
+    }
+
+    /***DB CONSTRUCTOR*/
+
     public Leaugue() {
         objectID = UUID.randomUUID();
         FootballManagmentSystem system1 = FootballManagmentSystem.getInstance();

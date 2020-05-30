@@ -13,7 +13,7 @@ public class TeamManagementAlert implements IAlert {
     String message;
     private boolean hadSent;
 /***FOR DB*/
-    public TeamManagementAlert(UUID objectID, TeamStatus teamStatus, String message) {
+    public TeamManagementAlert(UUID objectID, TeamStatus teamStatus, String message,boolean hadSent) {
         this.objectID = objectID;
         this.teamStatus = teamStatus;
         this.message = message;

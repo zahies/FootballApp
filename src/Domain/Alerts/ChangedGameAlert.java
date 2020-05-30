@@ -12,7 +12,7 @@ public class ChangedGameAlert implements IAlert {
     private Game game;
     private boolean hadSent;
 
-    public ChangedGameAlert(UUID objectID, Date matchDate, Game game) {
+    public ChangedGameAlert(UUID objectID, Date matchDate, Game game,boolean hadSent) {
         /**DB -SELECT*/
 
         this.objectID = objectID;

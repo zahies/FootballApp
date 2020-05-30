@@ -5,6 +5,12 @@ import java.util.UUID;
 public class DefaultTeamsPolicy implements IPlaceTeamsPolicy {
 
     UUID id;
+    int numOfGamesWithEachTeam =2;
+
+    public DefaultTeamsPolicy(UUID id, int numOfGamesWithEachTeam) {
+        this.id = id;
+        this.numOfGamesWithEachTeam = numOfGamesWithEachTeam;
+    }
 
     public DefaultTeamsPolicy() {
         id = UUID.randomUUID();
@@ -16,6 +22,6 @@ public class DefaultTeamsPolicy implements IPlaceTeamsPolicy {
 
     @Override
     public int numOfGamesWithEachTeam() {  /**must be even num*/
-        return 2;
+        return numOfGamesWithEachTeam;
     }
 }

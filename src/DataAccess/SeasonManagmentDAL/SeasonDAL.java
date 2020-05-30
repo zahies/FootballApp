@@ -5,6 +5,8 @@ import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.MySQLConnector;
+import Domain.SeasonManagment.IPlaceTeamsPolicy;
+import Domain.SeasonManagment.IScorePolicy;
 import Domain.SeasonManagment.Season;
 import Domain.SeasonManagment.Team;
 import FootballExceptions.NoPermissionException;
@@ -12,10 +14,7 @@ import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.LinkedList;
 
 public class SeasonDAL implements DAL<Season, String> {
@@ -79,6 +78,18 @@ public class SeasonDAL implements DAL<Season, String> {
 
     @Override
     public Season select(String objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+        Connection connection = MySQLConnector.getInstance().connect();
+
+        /***SEASON DETAILS*/
+        String statement ="SELECT * FROM seasons WHERE SeasonID=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        int year = rs.getInt("Year");
+        boolean isItBeginning = rs.getBoolean("IsItBeginningOfSeason");
+        IScorePolicy scorePolicy = new ScorePoliciesDAL().select(rs.getString("ScorePolicy"),false);
+        IPlaceTeamsPolicy placeTeamsPolicy = new PlaceTeamsPoliciesDAL().select(rs.getString("PlacingPolicy"),false);
         return null;
     }
 
