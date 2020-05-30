@@ -8,11 +8,13 @@ public class ComplaintAlert implements IAlert {
 
     UUID objectID;
     ComplaintForm response;
+    private boolean hadSent;
 
 
     public ComplaintAlert(ComplaintForm response) {
         objectID = UUID.randomUUID();
         this.response = response;
+        hadSent = false;
     }
 
     public ComplaintForm getComplaintResponse() {
@@ -35,7 +37,15 @@ public class ComplaintAlert implements IAlert {
 
     @Override
     public String toString() {
-        return "response = " + response +
-                " }";
+        return "response = " + response;
+    }
+
+
+    public boolean isHadSent() {
+        return hadSent;
+    }
+
+    public void setHadSent(boolean hadSent) {
+        this.hadSent = hadSent;
     }
 }

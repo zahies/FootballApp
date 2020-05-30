@@ -27,7 +27,7 @@ public class MemberRestController {
     public List<Member> logOut(@PathVariable String userName){
         List<Member> members =FootballManagmentSystem.getInstance().getMemberByUserName(userName);
         for (Member member: members) {
-            memberController.logOut(member);
+            memberController.logOut(member.getName());
         }
         return members;
     }

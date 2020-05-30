@@ -1,8 +1,17 @@
 package Domain;
 
 import DataAccess.DAL;
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.AssetsDAL;
+import DataAccess.SeasonManagmentDAL.ComplaintFormsDAL;
+import DataAccess.SeasonManagmentDAL.LeaguesDAL;
+import DataAccess.SeasonManagmentDAL.TeamsDAL;
+import DataAccess.UserInformationDAL.PersonalPagesDAL;
+import DataAccess.UsersDAL.MembersDAL;
+import DataAccess.UsersDAL.RefereesDAL;
+import DataAccess.UsersDAL.SystemManagerDAL;
 import Domain.Alerts.IAlert;
 import Domain.SeasonManagment.ComplaintForm;
 import Domain.SeasonManagment.IAsset;
@@ -10,6 +19,7 @@ import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Team;
 import Domain.Users.*;
 import FootballExceptions.LeagueIDAlreadyExist;
+import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 
@@ -32,6 +42,16 @@ import javax.mail.internet.*;
 
 public class FootballManagmentSystem extends TimerTask {
 
+    public void restoreDatabase() throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException {
+        allTeams = new TeamsDAL().selectALl();
+        allLeagus = new LeaguesDAL().selectAll();
+        allRefs = new RefereesDAL().selectAll();
+        allInCharge = new SystemManagerDAL().selectAll();
+        personalPages = new PersonalPagesDAL().selectAll();
+        allcomplaints = new ComplaintFormsDAL().selectAll();
+        allAssests = new AssetsDAL().selectAll();
+        members = new MembersDAL().selectAll();
+    }
     // HashMap<Integer, Leaugue> leagues = new HashMap<Integer, Leaugue>();
     private List<Leaugue> allLeagus = new ArrayList<>();
     private HashMap<UUID, Team> allTeams = new HashMap<>();
@@ -44,6 +64,7 @@ public class FootballManagmentSystem extends TimerTask {
     private static FootballManagmentSystem single_instance = new FootballManagmentSystem();
     private List<ComplaintForm> allcomplaints = new ArrayList<>(); // username - complaints
     private Date upComingDateToCheck;
+    private boolean restore=true;
     /**
      * constraint 7
      */
@@ -58,45 +79,72 @@ public class FootballManagmentSystem extends TimerTask {
     private FootballManagmentSystem() {
         /**maybe read some text file from pc to see who are the systemManager that registered ?? */
 
-        File fileNew = new File("log/init.txt");
-//        File file = new File(getClass().getClassLoader().getResource("log/init.txt").getFile());
-        if (fileNew == null) return;
-        String userName;
-        String realName;
-        int id;
-        String password;
+//        File fileNew = new File("log/init.txt");
+////        File file = new File(getClass().getClassLoader().getResource("log/init.txt").getFile());
+//        if (fileNew == null) return;
+//        String userName;
+//        String realName;
+//        int id;
+//        String password;
+//
+//        try (FileReader reader = new FileReader(fileNew);
+//             BufferedReader br = new BufferedReader(reader)) {
+//
+//            String line;
+//            int i = 0;
+//            while ((line = br.readLine()) != null) {
+//                String[] details = line.split(" ");
+//                userName = details[1];
+//                realName = details[2];
+//                realName += " " + details[3];
+//                id = Integer.parseInt(details[4]);
+//                if (id == 0) {
+//                    throw new UserInformationException();
+//                }
+//                password = details[5];
+//                SystemManager currentSysManager = new SystemManager(userName, realName, id, password);
+//                allInCharge.add(currentSysManager);
+//                LinkedList<Member> list = new LinkedList<>();
+//                list.add(allInCharge.get(i));
+//                members.put(allInCharge.get(i).getName(), list);
+//                i++;
+//            }
+//        } catch (UserInformationException ue) {
+//            ue.printStackTrace();
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (UserIsNotThisKindOfMemberException e) {
+//            e.printStackTrace();
+//        } catch (NoPermissionException e) {
+//            e.printStackTrace();
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (NoConnectionException e) {
+//            e.printStackTrace();
+//        } catch (mightBeSQLInjectionException e) {
+//            e.printStackTrace();
+//        } catch (DuplicatedPrimaryKeyException e) {
+//            e.printStackTrace();
+//        }
 
-        try (FileReader reader = new FileReader(fileNew);
-             BufferedReader br = new BufferedReader(reader)) {
+//            try {
+//                restoreDatabase();
+//            } catch (UserInformationException e) {
+//                e.printStackTrace();
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            } catch (NoPermissionException e) {
+//                e.printStackTrace();
+//            } catch (NoConnectionException e) {
+//                e.printStackTrace();
+//            } catch (UserIsNotThisKindOfMemberException e) {
+//                e.printStackTrace();
+//            }
 
-            String line;
-            int i = 0;
-            while ((line = br.readLine()) != null) {
-                String[] details = line.split(" ");
-                userName = details[1];
-                realName = details[2];
-                realName += " " + details[3];
-                id = Integer.parseInt(details[4]);
-                if (id == 0) {
-                    throw new UserInformationException();
-                }
-                password = details[5];
-                SystemManager currentSysManager = new SystemManager(userName, realName, id, password);
-                allInCharge.add(currentSysManager);
-                LinkedList<Member> list = new LinkedList<>();
-                list.add(allInCharge.get(i));
-                members.put(allInCharge.get(i).getName(), list);
-                i++;
-            }
-        } catch (UserInformationException ue) {
-            ue.printStackTrace();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        firstSystemManager = allInCharge.get(0);
+        //firstSystemManager = allInCharge.get(0);
         /** initialize connection with servers */
 
         /** constraint 7 - balanced budget  */
@@ -107,7 +155,7 @@ public class FootballManagmentSystem extends TimerTask {
     }
 
 
-    public LinkedList<Member> login(String username, String password) throws UserInformationException {
+    public LinkedList<Member> login(String username, String password) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         LinkedList<Member> logging = members.get(username);
         if (logging == null) {
             throw new UserInformationException();
@@ -118,6 +166,7 @@ public class FootballManagmentSystem extends TimerTask {
                 correctPW = true;
                 for (Member member1 : logging) {
                     member1.setActive(true);
+                    new MembersDAL().update(member1);
                 }
             }
         }
@@ -135,7 +184,7 @@ public class FootballManagmentSystem extends TimerTask {
         }
     }
 
-    public boolean logOut(Member mem) {
+    public boolean logOut(Member mem) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (mem == null) {
             return false;
         }
@@ -145,6 +194,7 @@ public class FootballManagmentSystem extends TimerTask {
         }
         for (Member member : memberAccounts) {
             member.setActive(false);
+            new MembersDAL().update(member);
         }
         return true;
     }
@@ -176,7 +226,7 @@ public class FootballManagmentSystem extends TimerTask {
      */
     public boolean registerTeam(Team team) {
         //////need confirmation from Comissioner
-       // allTeams.put(team.getId(), team);
+        allTeams.put(team.getId(), team);
         SystemLog.getInstance().UpdateLog("New team" + team.getName() + " has been added to system by owner: " + team.getOwner().getName());/////add TEam name to team and to log!
         return true;
     }
@@ -305,7 +355,6 @@ public class FootballManagmentSystem extends TimerTask {
      */
     public boolean addPersonalPage(PersonalInfo personalInfo) {
         personalPages.put(personalInfo.getPageID(), personalInfo);
-
         return true;
     }
 
@@ -334,19 +383,6 @@ public class FootballManagmentSystem extends TimerTask {
             pageID = idGenerator();
         }
         return pageID;
-    }
-
-    /**
-     * this func is a generator for unique team IDs
-     *
-     * @return page ID
-     */
-    public int generateTeamID() {
-        int teamID = idGenerator();
-        while (allTeams.containsKey(teamID)) {
-            teamID = idGenerator();
-        }
-        return teamID;
     }
 
 
@@ -394,7 +430,7 @@ public class FootballManagmentSystem extends TimerTask {
      * @param name - new name
      * @return - true if new name is available and change succeeded
      */
-    public boolean changeUserName(Member mem, String name) throws UserInformationException {
+    public boolean changeUserName(Member mem, String name) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (members.containsKey(name)) {
             throw new UserInformationException();
         }
@@ -406,18 +442,20 @@ public class FootballManagmentSystem extends TimerTask {
         members.remove(oldName);
         for (Member member : memberAccounts) {
             member.setName(name);
+            new MembersDAL().update(member);
         }
         members.put(name, memberAccounts);
         return true;
     }
 
-    public boolean changeUserPassword(Member mem, String newPassowrd) throws UserInformationException {
+    public boolean changeUserPassword(Member mem, String newPassowrd) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         LinkedList<Member> memberAccounts = members.get(mem.getName());
         if (memberAccounts == null) {
             throw new UserInformationException();
         }
         for (Member member : memberAccounts) {
             member.setPassword(newPassowrd);
+            new MembersDAL().update(member);
         }
         members.replace(mem.getName(), memberAccounts);
         return true;
@@ -430,7 +468,7 @@ public class FootballManagmentSystem extends TimerTask {
      * @param team     - the team he will own
      * @return true if succeeded
      */
-    public LinkedList<Member> makeMemberTeamOwner(Member newOwner, Team team) {
+    public LinkedList<Member> makeMemberTeamOwner(Member newOwner, Team team) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (members.containsKey(newOwner.getName())) {
             TeamOwner newOwnerAccount = new TeamOwner(newOwner.getName(), newOwner.getReal_Name(), newOwner.getId(), newOwner.getPassword(), team.getId());
             LinkedList<Member> memberAccounts = members.get(newOwner.getName());
@@ -455,7 +493,7 @@ public class FootballManagmentSystem extends TimerTask {
      * @param value      - his asset value
      * @return - the new team manager object
      */
-    public LinkedList<Member> makeMemberTeamManger(Member newManager, Team team, int value, TeamOwner teamOwnerAssigned) {
+    public LinkedList<Member> makeMemberTeamManger(Member newManager, Team team, int value, TeamOwner teamOwnerAssigned) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (members.containsKey(newManager.getName())) {
             LinkedList<Member> memberAccounts = members.get(newManager.getName());
             TeamManager newManagerAccount = new TeamManager(newManager.getName(), newManager.getReal_Name(), newManager.getId(), newManager.getPassword(), value, team, teamOwnerAssigned);
@@ -478,8 +516,25 @@ public class FootballManagmentSystem extends TimerTask {
     }
 
     public static FootballManagmentSystem getInstance() {
-        if (single_instance == null)
+        if (single_instance == null) {
             single_instance = new FootballManagmentSystem();
+        }
+        if(single_instance.restore){
+            single_instance.restore=false;
+            try {
+                single_instance.restoreDatabase();
+            } catch (UserInformationException e) {
+                e.printStackTrace();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (NoPermissionException e) {
+                e.printStackTrace();
+            } catch (NoConnectionException e) {
+                e.printStackTrace();
+            } catch (UserIsNotThisKindOfMemberException e) {
+                e.printStackTrace();
+            }
+        }
         return single_instance;
     }
 
@@ -546,6 +601,7 @@ public class FootballManagmentSystem extends TimerTask {
         LinkedList<Member> memberAccounts = new LinkedList<>();
         memberAccounts.add(m);
         members.put(m.getName(), memberAccounts);
+
     }
 
     public Member getMemberInstanceByKind(String userName, String instance) throws UserIsNotThisKindOfMemberException {
@@ -670,7 +726,7 @@ public class FootballManagmentSystem extends TimerTask {
     }
 
     public void addTeam(Team team) {
-        //allTeams.put(team.getId(), team);
+        allTeams.put(team.getId(), team);
     }
 
     public void addComplaint(ComplaintForm complaintForm) {
@@ -762,6 +818,7 @@ public class FootballManagmentSystem extends TimerTask {
         pi.addAll(personalPages.values());
         return (pi);
     }
+
 }
 
 

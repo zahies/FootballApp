@@ -1,11 +1,16 @@
 package Service;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.Events.AGameEvent;
 import Domain.SeasonManagment.Game;
 import Domain.Users.Player;
 import Domain.Users.Referee;
 import Domain.Users.RefereeType;
 import FootballExceptions.*;
+
+import java.sql.SQLException;
 
 public class RefereeController extends MemberController {
 
@@ -29,6 +34,18 @@ public class RefereeController extends MemberController {
             referee.changeTraining(type);
         } catch (UserInformationException ue) {
             System.out.println(ue.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
 
     }

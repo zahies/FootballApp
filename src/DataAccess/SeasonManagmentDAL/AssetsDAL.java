@@ -2,6 +2,7 @@ package DataAccess.SeasonManagmentDAL;
 
 import DataAccess.DAL;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.MySQLConnector;
 import Domain.SeasonManagment.IAsset;
 import Domain.Users.Player;
 import javafx.util.Pair;
@@ -10,13 +11,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class AssetsDAL implements DAL<IAsset, Integer> {
-    Connection connection = null;
+
 
     @Override
     public boolean insert(IAsset objectToInsert) throws SQLException, NoConnectionException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "INSERT INTO assets (AssetID, Value) VALUES (?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -30,7 +32,7 @@ public class AssetsDAL implements DAL<IAsset, Integer> {
     @Override
     public boolean update(IAsset objectToUpdate) throws SQLException, NoConnectionException {
 
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
 
         String statement = "UPDATE assets SET Value =  ? WHERE AssetID = ?; ";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -43,7 +45,7 @@ public class AssetsDAL implements DAL<IAsset, Integer> {
     }
 
     @Override
-    public IAsset select(Integer objectIdentifier) {
+    public IAsset select(Integer objectIdentifier, boolean  bidirectionalAssociation) {
         return null;
     }
 
@@ -51,5 +53,15 @@ public class AssetsDAL implements DAL<IAsset, Integer> {
     @Override
     public boolean delete(Integer objectIdentifier) {
         return false;
+    }
+
+    public HashMap<Integer, IAsset> selectAll() throws NoConnectionException, SQLException {
+        HashMap<Integer, IAsset> allAssets= new HashMap<>();
+        Connection connection = MySQLConnector.getInstance().connect();
+        String statement = "";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+        return allAssets;
+
     }
 }

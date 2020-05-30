@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.MySQLConnector;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -20,11 +21,11 @@ public class FinancialActivitiesDAL implements DAL<Pair<Pair<String,String>,Inte
      * Value = amount
      * E - objectIdentifier - key = pair (key = Info , value = commissioner user name)
      */
-    Connection connection =null;
+
 
     @Override
     public boolean insert(Pair<Pair<String, String>, Integer> objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String permissionStatement = "INSERT INTO association_financial_activities (Info,Commissioner,Amount) VALUES (?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(permissionStatement);
         preparedStatement.setString(1, objectToInsert.getKey().getKey());
@@ -37,7 +38,7 @@ public class FinancialActivitiesDAL implements DAL<Pair<Pair<String,String>,Inte
 
     @Override
     public boolean update(Pair<Pair<String, String>, Integer> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
-        connection = connect();
+        Connection connection = MySQLConnector.getInstance().connect();
         String statement = "";
         if(checkExist(objectToUpdate.getKey(),"association_financial_activities","Info","Commissioner")){
             statement = " UPDATE association_financial_activities SET Amount = ? WHERE Info = ? AND Commissioner =? ";
@@ -54,7 +55,7 @@ public class FinancialActivitiesDAL implements DAL<Pair<Pair<String,String>,Inte
     }
 
     @Override
-    public Pair<Pair<String, String>, Integer> select(Pair<String, String> objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+    public Pair<Pair<String, String>, Integer> select(Pair<String, String> objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
         return null;
     }
 

@@ -16,6 +16,13 @@ public abstract class AGameEvent implements IEvent {
         return event_logger;
     }
 
+    /***FOR DB SELECT*/
+    public AGameEvent(double gameMinute, Player playerWhocommit, UUID objectID) {
+        this.gameMinute = gameMinute;
+        this.playerWhocommit = playerWhocommit;
+        this.objectID = objectID;
+    }
+
     public void setEvent_logger(Event_Logger event_logger) {
         this.event_logger = event_logger;
     }

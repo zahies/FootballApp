@@ -1,13 +1,19 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.Alerts.IAlert;
 import Domain.FootballManagmentSystem;
 import Domain.Searcher.Searcher;
 import Domain.SeasonManagment.*;
 import FootballExceptions.AlreadyFollowThisPageException;
+import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class Fan extends Member implements Observer {
@@ -140,11 +146,11 @@ public class Fan extends Member implements Observer {
      * @param newPassword - new password
      * @return - true if password was changed
      */
-    public boolean changePassword(String newPassword) throws UserInformationException {
+    public boolean changePassword(String newPassword) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         return system.changeUserPassword(this, newPassword);
     }
 
-    public boolean changeUserName(String newUserName) throws UserInformationException {
+    public boolean changeUserName(String newUserName) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
         return system.changeUserName(this, newUserName);
     }
 

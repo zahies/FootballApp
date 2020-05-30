@@ -1,13 +1,20 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.SeasonManagmentDAL.SeasonDAL;
 import Domain.FootballManagmentSystem;
 import Domain.Users.Referee;
+import FootballExceptions.NoPermissionException;
 import FootballExceptions.NotEnoughTeamsInLeague;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 import javafx.util.Pair;
 
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class Season {
@@ -189,7 +196,7 @@ public class Season {
     /**
      * UC 9.7   (only comissioner can)
      */
-    public void runPlacingTeamsAlgorithm() throws NotEnoughTeamsInLeague {
+    public void runPlacingTeamsAlgorithm() throws NotEnoughTeamsInLeague, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         placingAlgorithm();
     }
 
@@ -205,7 +212,7 @@ public class Season {
     /**
      * UC 9.7   (only comissioner can run)
      */
-    private void placingAlgorithm() throws NotEnoughTeamsInLeague {
+    private void placingAlgorithm() throws NotEnoughTeamsInLeague, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         Calendar c = Calendar.getInstance();
 
         if (teams.size() > 1) {

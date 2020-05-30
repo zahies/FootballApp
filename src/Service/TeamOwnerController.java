@@ -1,5 +1,8 @@
 package Service;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.SeasonManagment.BudgetActivity;
 import Domain.SeasonManagment.IAsset;
 import Domain.SeasonManagment.TeamStatus;
@@ -8,6 +11,7 @@ import Domain.Users.TeamManager;
 import Domain.Users.TeamOwner;
 import FootballExceptions.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 public class TeamOwnerController extends MemberController {
@@ -24,6 +28,20 @@ public class TeamOwnerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (UnauthorizedTeamOwnerException e) {
             System.out.println(e.getMessage());
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
         }
         return true;
     }
@@ -42,6 +60,10 @@ public class TeamOwnerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (InvalidTeamAssetException e) {
             System.out.println(e.getMessage());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -60,6 +82,20 @@ public class TeamOwnerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (InvalidTeamAssetException e) {
             System.out.println(e.getMessage());
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -82,6 +118,18 @@ public class TeamOwnerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (MemberIsAlreadyTeamManagerException e) {
             System.out.println(e.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -122,6 +170,18 @@ public class TeamOwnerController extends MemberController {
             System.out.println(e.getMessage());
         } catch (MemberIsAlreadyTeamManagerException e) {
             System.out.println(e.getMessage());
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
         return false;
     }

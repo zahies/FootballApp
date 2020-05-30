@@ -1,5 +1,10 @@
 package Domain.Users;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.CoachesDAL;
+import DataAccess.UsersDAL.CommissionersDAL;
 import Domain.Alerts.IAlert;
 import Domain.Alerts.RegistrationRequestAlert;
 import Domain.FootballManagmentSystem;
@@ -8,6 +13,7 @@ import FootballExceptions.*;
 import javafx.util.Pair;
 
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +24,12 @@ public class Commissioner extends Member {
 
 
     LinkedList<Pair<String, Integer>> financeAssociationActivity;
+
+    /**DB - SELECT*/
+    public Commissioner(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress, LinkedList<Pair<String, Integer>> financeAssociationActivity) {
+        super(name, password, real_Name, alertsList, isActive, alertViaMail, mailAddress);
+        this.financeAssociationActivity = financeAssociationActivity;
+    }
 
     /**
      * UC 9.9
@@ -30,9 +42,10 @@ public class Commissioner extends Member {
      * @param password
      */
 
-    public Commissioner(String name, int id, String password, String realName) {
+    public Commissioner(String name, int id, String password, String realName) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         super(name, id, password, realName);
         financeAssociationActivity = new LinkedList<>();
+        new CommissionersDAL().insert(this);
     }
 
 
@@ -151,7 +164,7 @@ public class Commissioner extends Member {
     /**
      * UC 9.7 - Define new PLACING policy to specific season
      */
-    public void runPlacingAlgo(int idLeg, int year) throws NotEnoughTeamsInLeague {
+    public void runPlacingAlgo(int idLeg, int year) throws NotEnoughTeamsInLeague, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> legs = system.getAllLeagus();
         Leaugue leaugue = new Leaugue();
@@ -205,13 +218,18 @@ public class Commissioner extends Member {
         return financeAssociationActivity;
     }
 
-    public void responseToRegisterTeamByAlert(){
+    public boolean responseToRegisterTeamByAlert(String teamName){
         Queue<IAlert> alerts = getAlertsList();
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         for (IAlert alert : alerts) {
             if (alert instanceof RegistrationRequestAlert){
-                system.addTeam(((RegistrationRequestAlert) alert).getTeam());
+                if (teamName.equals(((RegistrationRequestAlert) alert).getTeamName())){
+                    Team newTeam = new Team(((RegistrationRequestAlert) alert).getTeamName(),((RegistrationRequestAlert) alert).getOwner());
+                    alertsList.remove(alert);
+                    return true;
+                }
             }
         }
+        return false;
     }
 }

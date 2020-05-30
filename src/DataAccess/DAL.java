@@ -4,9 +4,11 @@ import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.Users.Member;
+import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
+import com.mysql.jdbc.MySQLConnection;
 import javafx.util.Pair;
 
 import java.sql.*;
@@ -20,18 +22,18 @@ public interface DAL<T, E> {
     /**
      * TO PREVENT SQL INJECTION
      */
-
+    public static MySQLConnector mySQLConnector = MySQLConnector.getInstance();
     public boolean insert(T objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException;
 
     public boolean update(T objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException;
 
-    public T select(E objectIdentifier) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException;
+    public T select(E objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException, EmptyPersonalPageException;
 
     public boolean delete(E objectIdentifier);
 
     public default boolean checkExist(E objectIdentifier, String tableName, String primaryKeyName, String primaryKeyName2) throws NoConnectionException, SQLException, mightBeSQLInjectionException {
 
-        Connection connection = connect();
+        Connection connection = mySQLConnector.connect();
 //        if (!allTablesName.contains(tableName) || !allPrimaryKeysName.contains(primaryKeyName)|| !allPrimaryKeysName.contains(primaryKeyName2)) {
 //            throw new mightBeSQLInjectionException();
 //        }
@@ -43,6 +45,7 @@ public interface DAL<T, E> {
             preparedStatement.setInt(1, ((Integer) objectIdentifier));
         } else if(objectIdentifier instanceof Pair){
             statement = "SELECT * FROM " + tableName + " Where " + primaryKeyName + " = ? and " + primaryKeyName2 +" =?";
+            preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setString(1,((Pair) objectIdentifier).getKey().toString());
             if(((Pair) objectIdentifier).getValue()instanceof Integer){
                 preparedStatement.setInt(2, (Integer) ((Pair) objectIdentifier).getValue());
@@ -52,21 +55,9 @@ public interface DAL<T, E> {
         }
         ResultSet rs = preparedStatement.executeQuery();
         boolean ans = rs.next();
-        connection.close();
+        MySQLConnector.getInstance().disconnect();
         return ans;
     }
 
 
-
-
-    public default Connection connect() throws NoConnectionException {
-        String url = "jdbc:mysql://132.72.65.125:3306/footballappdb?useSSL=false";
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url, "root", "ISE2424!");
-            return connection;
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new NoConnectionException();
-        }
-    }
 }
