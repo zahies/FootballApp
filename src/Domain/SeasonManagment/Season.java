@@ -30,6 +30,20 @@ public class Season {
     private HashSet<Game> games;
     private boolean isItTheBeginningOfSeason;
 
+
+    /***DB CONSTRUCTOR*/
+    public Season(UUID objectID, int year, LinkedList<Pair<Integer, Team>> teams, HashSet<Referee> referees, IScorePolicy scorePolicy, IPlaceTeamsPolicy placeTeamsPolicy, HashSet<Game> games, boolean isItTheBeginningOfSeason) {
+        this.objectID = objectID;
+        this.year = year;
+        this.teams = teams;
+        this.referees = referees;
+        this.scorePolicy = scorePolicy;
+        this.placeTeamsPolicy = placeTeamsPolicy;
+        this.games = games;
+        this.isItTheBeginningOfSeason = isItTheBeginningOfSeason;
+    }
+
+
     public Season(int year) {
         if (year > 0) {
             this.year = year;
