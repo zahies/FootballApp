@@ -174,15 +174,6 @@ public class CommissionerController extends MemberController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-//        } catch (UserInformationException e) {
-//            e.printStackTrace();
-//        } catch (UserIsNotThisKindOfMemberException e) {
-//            e.printStackTrace();
-//        } catch (NoConnectionException e) {
-//            e.printStackTrace();
-//        } catch (NoPermissionException e) {
-//            e.printStackTrace();
-//        }
         return succeeded;
     }
 
@@ -213,15 +204,6 @@ public class CommissionerController extends MemberController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-//        catch (UserInformationException e) {
-//            e.printStackTrace();
-//        } catch (UserIsNotThisKindOfMemberException e) {
-//            e.printStackTrace();
-//        } catch (NoConnectionException e) {
-//            e.printStackTrace();
-//        } catch (NoPermissionException e) {
-//            e.printStackTrace();
-//        }
         return succeeded;
     }
 
@@ -287,15 +269,6 @@ public class CommissionerController extends MemberController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-//        catch (UserInformationException e) {
-//            e.printStackTrace();
-//        } catch (UserIsNotThisKindOfMemberException e) {
-//            e.printStackTrace();
-//        } catch (NoConnectionException e) {
-//            e.printStackTrace();
-//        } catch (NoPermissionException e) {
-//            e.printStackTrace();
-//        }
 
         return succeeded;
 
@@ -366,16 +339,7 @@ public class CommissionerController extends MemberController {
 
     public Map<String, String> getReplyForRegistration(String user) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         Commissioner commissioner = (Commissioner) new CommissionersDAL().select(user,true);
-
-        TeamOwner teamowner = new TeamOwner("Moshe","DASD",123,"asd");
-        Member com = new Commissioner("zaza",12,"123","zahi zahi");
-        FootballManagmentSystem system = FootballManagmentSystem.getInstance();
-        Leaugue leaugue = new Leaugue();
-        IAlert regAlert = new RegistrationRequestAlert("hpoel",leaugue,1900,teamowner);
-        com.addAlert(regAlert);
-        system.addMember(com);
-
-        Queue<IAlert> alerts = com.getAlertsList();   /** change to commissioner */
+        Queue<IAlert> alerts = commissioner.getAlertsList();   /** change to commissioner */
         Map<String,String> map = new HashMap<>();
         for (IAlert alert: alerts) {
             if (alert instanceof RegistrationRequestAlert){
