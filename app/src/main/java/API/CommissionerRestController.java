@@ -80,7 +80,7 @@ public class CommissionerRestController {
         }
         if (succeeded){
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Score Policy Added Successfully ! ");
+            response.setStatus(HttpServletResponse.SC_OK, "Score Policy Added Successfully ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,alert);
@@ -301,11 +301,11 @@ public class CommissionerRestController {
 
     @CrossOrigin
     @GetMapping("/proveTeam/{commUserName}")
-    public Map<String,String> getReplyForRegistration(@PathVariable String user, final HttpServletResponse response) throws IOException{
-        Map<String,String> map = new HashMap<>();
+    public LinkedList<Map<String,String>> getReplyForRegistration(@PathVariable String commUserName, final HttpServletResponse response) throws IOException{
+        LinkedList<Map<String,String>> map = new LinkedList<>();
         boolean succeeded=false;
         try {
-            map = comController.getReplyForRegistration(user);
+            map = comController.getReplyForRegistration(commUserName);
             succeeded = true;
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();

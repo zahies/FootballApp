@@ -337,18 +337,19 @@ public class CommissionerController extends MemberController {
         return flag;
     }
 
-    public Map<String, String> getReplyForRegistration(String user) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+    public LinkedList<Map<String,String>> getReplyForRegistration(String user) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         Commissioner commissioner = (Commissioner) new CommissionersDAL().select(user,true);
         Queue<IAlert> alerts = commissioner.getAlertsList();   /** change to commissioner */
-        Map<String,String> map = new HashMap<>();
+        LinkedList<Map<String,String>> returnto = new LinkedList<>();
         for (IAlert alert: alerts) {
             if (alert instanceof RegistrationRequestAlert){
+                Map<String,String> map = new HashMap<>();
                 map.put("teamname",((RegistrationRequestAlert) alert).getTeamName());
                 map.put("username", ((RegistrationRequestAlert) alert).getOwner().getName());
-                break;
+                returnto.add(map);
             }
         }
-        return map;
+        return returnto;
     }
 
 

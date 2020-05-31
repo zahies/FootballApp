@@ -58,6 +58,7 @@ public class RegisterAlertDAL implements DAL<RegistrationRequestAlert,String> {
         ResultSet rs = preparedStatement.executeQuery();
         statement = "SELECT * FROM member_alerts WHERE AlertObjectID=?";
         preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
         ResultSet rs2 = preparedStatement.executeQuery();
         rs.next();
         rs2.next();

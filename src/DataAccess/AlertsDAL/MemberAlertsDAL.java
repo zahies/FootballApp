@@ -12,6 +12,7 @@ import Domain.Alerts.*;
 import Domain.Events.IEvent;
 import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.TeamStatus;
+import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
@@ -71,7 +72,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
             default:
                 throw new SQLException();
         }
-        connection.close();
+        //connection.close();
         return true;
     }
 
@@ -92,7 +93,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
         }else{
             this.insert(objectToUpdate);
         }
-        connection.close();
+       // connection.close();
         return true;
     }
 
@@ -120,6 +121,13 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
                 alert = new ChangedGameAlert(UUID.fromString(objectIdentifier.getValue()),rs.getDate("Date"),game,sent);
                 break;
             case "Complaint Alert":
+                break;
+            case "Registration Request":
+                try {
+                    alert =  new RegisterAlertDAL().select(objectIdentifier.getValue(),false);
+                } catch (EmptyPersonalPageException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "Financial Alert":
                 statement = "SELECT * FROM member_alerts_financial WHERE ObjectID=?";
