@@ -48,7 +48,7 @@ public class SeasonDAL implements DAL<Season, String> {
         for (Referee ref: referees) {
             new SeasonRefereesDAL().insert(new Pair<String, String>(objectToInsert.getObjectID().toString(),ref.getName()));
         }
-        connection.close();
+
         return true;
     }
 
@@ -81,7 +81,6 @@ public class SeasonDAL implements DAL<Season, String> {
             new SeasonRefereesDAL().update(new Pair<String, String>(objectToUpdate.getObjectID().toString(),ref.getName()));
         }
         int ans = preparedStatement.executeUpdate();
-        connection.close();
 
         return ans==1;
     }

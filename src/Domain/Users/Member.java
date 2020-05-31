@@ -85,9 +85,6 @@ public abstract class Member extends GeneralUser {
             //system.sendInvitationByMail(this.mailAddress, "You have A new Alert in Football App", newAlert.toString());
             system.sendInvitationByMail("shira.wert@gmail.cpm","hi there","nice");
             return;
-        }
-        if (isActive) {
-            System.out.println(newAlert);
         } else {
             alertsList.add(newAlert);
             try {

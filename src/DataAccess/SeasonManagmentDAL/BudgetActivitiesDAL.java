@@ -33,7 +33,7 @@ public class BudgetActivitiesDAL implements DAL<Pair<Pair<String,String>,Integer
         preparedStatement.setString(2,objectToInsert.getKey().getValue());
         preparedStatement.setInt(3,objectToInsert.getValue());
         preparedStatement.execute();
-        connection.close();
+
 
         return true;
     }
@@ -48,7 +48,7 @@ public class BudgetActivitiesDAL implements DAL<Pair<Pair<String,String>,Integer
         preparedStatement.setString(2,objectToUpdate.getKey().getValue());
         preparedStatement.setInt(1,objectToUpdate.getValue());
         preparedStatement.execute();
-        connection.close();
+
 
         return true;
     }

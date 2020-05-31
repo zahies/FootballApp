@@ -27,7 +27,7 @@ public class TeamManagementAlertsDAL implements DAL<TeamManagementAlert,String> 
         preparedStatement.setString(2, objectToInsert.getTeamStatus().toString());
         preparedStatement.setString(3, objectToInsert.getMessage());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

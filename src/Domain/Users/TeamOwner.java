@@ -226,7 +226,7 @@ public class TeamOwner extends Member {
         for (String name : members.keySet()) {
             for (int i = 0; i < members.get(name).size(); i++) {
                 if (members.get(name).get(i) instanceof Commissioner) {
-                    members.get(name).get(i).addAlert(new RegistrationRequestAlert(teamName,leaugue,year,this));
+                    members.get(name).get(i).handleAlert(new RegistrationRequestAlert(teamName,leaugue,year,this));
                     found = true;
                     break;
                 }

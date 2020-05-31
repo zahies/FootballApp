@@ -26,7 +26,6 @@ public class RefereeGamesDAL implements DAL<Pair<String,String>, Pair<String,Str
         preparedStatement.setString(1,objectToInsert.getKey());
         preparedStatement.setString(2,objectToInsert.getValue());
         preparedStatement.execute();
-        connection.close();
         return true;
     }
 

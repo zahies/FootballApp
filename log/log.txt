@@ -7633,3 +7633,39 @@ Sun May 31 11:17:01 IDT 2020 New teamHapoel Haifa has been added to system by ow
 Sun May 31 11:17:03 IDT 2020 New teamMaccabi Haifa has been added to system by owner: gabiPrince120
 Sun May 31 11:17:04 IDT 2020 New teamHapoel Kosi-lam-lam has been added to system by owner: gabiKing120
 Sun May 31 11:17:05 IDT 2020 New teamEfrohei Tapash has been added to system by owner: gabiKing0
+Sun May 31 15:01:09 IDT 2020 New teamBeiter Jerusalem has been added to system by owner: Ohana
+Sun May 31 15:01:39 IDT 2020 New teamBeiter Jerusalem has been added to system by owner: Ohana
+Sun May 31 15:01:41 IDT 2020 New HeadCoach class domain.users.coach has been added to team: Team{Name=Beiter Jerusalem}byOhana
+Sun May 31 15:01:42 IDT 2020 New Player: class domain.users.player has been added to team: Team{Name=Beiter Jerusalem}byOhana
+Sun May 31 15:01:43 IDT 2020 Player: class domain.users.player asset was edited from team: Team{Name=Beiter Jerusalem}byOhana
+Sun May 31 15:01:43 IDT 2020 RoniLevy$has become team owner of : Beiter Jerusalem
+Sun May 31 15:01:45 IDT 2020 Aliran92has become team manager of : Beiter Jerusalem
+Sun May 31 15:01:46 IDT 2020 Team Manager: Aliran92 Permissions to Create Personal Pageare now off
+Sun May 31 15:01:49 IDT 2020 Aliran92 created his personal page
+Sun May 31 15:01:49 IDT 2020 Team Manager: Aliran92 Permissions to Add Content To Personal Pageare now off
+Sun May 31 15:01:52 IDT 2020 Aliran92 added content to personal page
+Sun May 31 15:01:52 IDT 2020 Aliran92 added content to personal page
+Sun May 31 15:01:55 IDT 2020 Ohana has changer team Beiter Jerusalem status to Close
+Sun May 31 15:03:47 IDT 2020 New teamBeiter Jerusalem has been added to system by owner: Ohana
+Sun May 31 15:03:50 IDT 2020 New HeadCoach class domain.users.coach has been added to team: Team{Name=Beiter Jerusalem}byOhana
+Sun May 31 15:03:51 IDT 2020 New Player: class domain.users.player has been added to team: Team{Name=Beiter Jerusalem}byOhana
+Sun May 31 15:03:51 IDT 2020 Player: class domain.users.player asset was edited from team: Team{Name=Beiter Jerusalem}byOhana
+Sun May 31 15:03:52 IDT 2020 RoniLevy$has become team owner of : Beiter Jerusalem
+Sun May 31 15:03:54 IDT 2020 Aliran92has become team manager of : Beiter Jerusalem
+Sun May 31 15:03:55 IDT 2020 Team Manager: Aliran92 Permissions to Create Personal Pageare now off
+Sun May 31 15:03:58 IDT 2020 Aliran92 created his personal page
+Sun May 31 15:03:58 IDT 2020 Team Manager: Aliran92 Permissions to Add Content To Personal Pageare now off
+Sun May 31 15:04:01 IDT 2020 Aliran92 added content to personal page
+Sun May 31 15:04:01 IDT 2020 Aliran92 added content to personal page
+Sun May 31 15:04:02 IDT 2020 New Field: class domain.seasonmanagment.field has been added to team: Team{Name=Beiter Jerusalem}byOhana
+Sun May 31 15:04:04 IDT 2020 New teamMaccabi Haifa has been added to system by owner: TabibE
+Sun May 31 15:04:05 IDT 2020 New teamHapoel Tel Aviv has been added to system by owner: NissanovBt
+Sun May 31 15:04:06 IDT 2020 New teamIroni Raanana has been added to system by owner: ArkadiG
+Sun May 31 15:04:09 IDT 2020 New HeadCoach class domain.users.coach has been added to team: Team{Name=Maccabi Haifa}byTabibE
+Sun May 31 15:04:10 IDT 2020 New Player: class domain.users.player has been added to team: Team{Name=Maccabi Haifa}byTabibE
+Sun May 31 15:04:10 IDT 2020 PhilipeChas become team owner of : Maccabi Haifa
+Sun May 31 15:04:12 IDT 2020 ItayEhas become team manager of : Maccabi Haifa
+Sun May 31 15:04:14 IDT 2020 New HeadCoach class domain.users.coach has been added to team: Team{Name=Hapoel Tel Aviv}byNissanovBt
+Sun May 31 15:04:15 IDT 2020 New Player: class domain.users.player has been added to team: Team{Name=Hapoel Tel Aviv}byNissanovBt
+Sun May 31 15:04:16 IDT 2020 New HeadCoach class domain.users.coach has been added to team: Team{Name=Ironi Raanana}byArkadiG
+Sun May 31 15:04:17 IDT 2020 New Player: class domain.users.player has been added to team: Team{Name=Ironi Raanana}byArkadiG

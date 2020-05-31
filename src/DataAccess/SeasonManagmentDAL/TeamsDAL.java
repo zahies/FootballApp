@@ -55,7 +55,6 @@ public class TeamsDAL implements DAL<Team, String>  {
 
         new TeamOwnersDAL().update(objectToInsert.getOwner());
 
-        MySQLConnector.getInstance().disconnect();
 
         return true;
     }
@@ -85,7 +84,7 @@ public class TeamsDAL implements DAL<Team, String>  {
         preparedStatement.setBoolean(8, objectToUpdate.isClosed());
         int ans = preparedStatement.executeUpdate();
 
-        MySQLConnector.getInstance().disconnect();
+
 
         return ans ==1 ;
     }
@@ -125,8 +124,8 @@ public class TeamsDAL implements DAL<Team, String>  {
         preparedStatement.setString(1,objectIdentifier);
         rs = preparedStatement.executeQuery();
         while (rs.next()){
-            Field field = new FieldsDAL().select(rs.getInt("AssetID"), true);
-            fields.put(field.getAssetID(),field);
+            //Field field = new FieldsDAL().select(rs.getInt("AssetID"), true);
+            //fields.put(field.getAssetID(),field);
         }
 
         /**PLAYERS*/
@@ -205,7 +204,7 @@ public class TeamsDAL implements DAL<Team, String>  {
             ((TeamManager)teamManagers.get(key)).setMyTeam(team);
             teamManagers.get(key).getTeamOwnerAssignedThis().setTeam(team);
         }
-        MySQLConnector.getInstance().disconnect();
+
         return team;
     }
 

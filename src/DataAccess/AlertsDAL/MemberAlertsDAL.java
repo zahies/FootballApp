@@ -66,6 +66,8 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
             case "Team Management Alert":
                 new TeamManagementAlertsDAL().insert((TeamManagementAlert)objectToInsert.getKey().getValue());
                 break;
+            case "Registration Request":
+                new RegisterAlertDAL().insert((RegistrationRequestAlert)objectToInsert.getKey().getValue());
             default:
                 throw new SQLException();
         }
@@ -161,7 +163,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
         preparedStatement.setString(1, alertID);
         ResultSet rs = preparedStatement.executeQuery();
         boolean ans = rs.next();
-        connection.close();
+
         return ans;
 
     }

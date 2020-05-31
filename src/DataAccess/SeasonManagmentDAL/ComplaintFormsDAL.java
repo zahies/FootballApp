@@ -31,7 +31,7 @@ public class ComplaintFormsDAL implements DAL<ComplaintForm, String> {
         preparedStatement.setString(3, objectToInsert.getComplaint());
         preparedStatement.setString(4, objectToInsert.getResponse());
         preparedStatement.execute();
-        connection.close();
+
         return true;
 
     }
@@ -46,7 +46,7 @@ public class ComplaintFormsDAL implements DAL<ComplaintForm, String> {
         preparedStatement.setString(3,objectToUpdate.getResponse());
         preparedStatement.setString(4,objectToUpdate.getObjectID().toString());
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
         return ans==1;
     }
 

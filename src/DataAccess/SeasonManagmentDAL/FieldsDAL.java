@@ -37,7 +37,7 @@ public class FieldsDAL implements DAL<Field, Integer> {
             preparedStatement.setString(2, objectToInsert.getMyTeam().getId().toString());
         }
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

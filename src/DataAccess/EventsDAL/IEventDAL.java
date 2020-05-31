@@ -49,11 +49,11 @@ public class IEventDAL implements DAL<IEvent,String> {
             preparedStatement.setString(5,"Substitution");
             preparedStatement.execute();
             new SubstitutionDAL().insert((Substitution) objectToInsert);
-            connection.close();
+
             return true;
         }
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

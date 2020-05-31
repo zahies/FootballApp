@@ -4,6 +4,7 @@ import DataAccess.DAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.PasswordHash;
 import DataAccess.SeasonManagmentDAL.AssetsDAL;
 import DataAccess.SeasonManagmentDAL.ComplaintFormsDAL;
 import DataAccess.SeasonManagmentDAL.LeaguesDAL;
@@ -30,6 +31,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -162,6 +164,11 @@ public class FootballManagmentSystem extends TimerTask {
 
 
     public LinkedList<Member> login(String username, String password) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
+//        try {
+//            password = PasswordHash.getInstance().hash(password);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
         LinkedList<Member> logging = members.get(username);
         if (logging == null) {
             throw new UserInformationException();

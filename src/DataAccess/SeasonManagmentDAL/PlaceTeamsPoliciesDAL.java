@@ -31,7 +31,6 @@ public class PlaceTeamsPoliciesDAL implements DAL<IPlaceTeamsPolicy,String> {
         preparedStatement.setInt(2,objectToInsert.numOfGamesWithEachTeam());
         preparedStatement.execute();
 
-        connection.close();
         return true;
     }
 
@@ -43,7 +42,7 @@ public class PlaceTeamsPoliciesDAL implements DAL<IPlaceTeamsPolicy,String> {
         preparedStatement.setInt(1,objectToUpdate.numOfGamesWithEachTeam());
         preparedStatement.setString(2,objectToUpdate.getId().toString());
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
 
         return ans==1;
     }

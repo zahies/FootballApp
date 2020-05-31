@@ -2534,60 +2534,60 @@ TeamID</ColNames>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="615" parent="328" name="CurrentSeason">
+    <column id="615" parent="328" name="Owner">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="616" parent="328" name="PersonalPage">
+    <column id="616" parent="328" name="TeamStatus">
       <Position>4</Position>
-      <DataType>int|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="617" parent="328" name="Owner">
+    <column id="617" parent="328" name="ControlBudget">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="618" parent="328" name="TeamStatus">
+    <column id="618" parent="328" name="isClosed">
       <Position>6</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="619" parent="328" name="ControlBudget">
-      <Position>7</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="620" parent="328" name="isClosed">
-      <Position>8</Position>
       <DataType>tinyint|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="621" parent="328" name="PlayersFootballRate">
-      <Position>9</Position>
+    <column id="619" parent="328" name="PersonalPage">
+      <Position>7</Position>
+      <DataType>int|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="620" parent="328" name="PlayersFootballRate">
+      <Position>8</Position>
       <DataType>double|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="622" parent="328" name="SystemManagerCloser">
-      <Position>10</Position>
+    <column id="621" parent="328" name="SystemManagerCloser">
+      <Position>9</Position>
       <DataType>tinyint|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="623" parent="328" name="teamCurrentSeason_idx">
-      <ColNames>CurrentSeason</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="624" parent="328" name="teamPersonalPage_idx">
-      <ColNames>PersonalPage</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="625" parent="328" name="teams_teamowners_UserName_fk">
+    <column id="622" parent="328" name="CurrentSeason">
+      <Position>10</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="623" parent="328" name="teams_teamowners_UserName_fk">
       <ColNames>Owner</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="626" parent="328" name="teams_control_budgets_ObjectID_fk">
+    <index id="624" parent="328" name="teams_control_budgets_ObjectID_fk">
       <ColNames>ControlBudget</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="625" parent="328" name="teamPersonalPage_idx">
+      <ColNames>PersonalPage</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="626" parent="328" name="teamCurrentSeason_idx">
+      <ColNames>CurrentSeason</ColNames>
       <Type>btree</Type>
     </index>
     <key id="627" parent="328" name="PRIMARY">
@@ -2595,30 +2595,30 @@ TeamID</ColNames>
       <ColNames>TeamID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="628" parent="328" name="teamCurrentSeason">
-      <ColNames>CurrentSeason</ColNames>
-      <RefTableName>seasons</RefTableName>
-      <RefColNames>SeasonID</RefColNames>
+    <foreign-key id="628" parent="328" name="teams_teamowners_UserName_fk">
+      <ColNames>Owner</ColNames>
+      <RefTableName>teamowners</RefTableName>
+      <RefColNames>UserName</RefColNames>
       <OnUpdate>cascade</OnUpdate>
-      <OnDelete>set-null</OnDelete>
     </foreign-key>
-    <foreign-key id="629" parent="328" name="teamPersonalPage">
+    <foreign-key id="629" parent="328" name="teams_control_budgets_ObjectID_fk">
+      <ColNames>ControlBudget</ColNames>
+      <RefTableName>control_budgets</RefTableName>
+      <RefColNames>ObjectID</RefColNames>
+    </foreign-key>
+    <foreign-key id="630" parent="328" name="teamPersonalPage">
       <ColNames>PersonalPage</ColNames>
       <RefTableName>personal_pages</RefTableName>
       <RefColNames>PageID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="630" parent="328" name="teams_teamowners_UserName_fk">
-      <ColNames>Owner</ColNames>
-      <RefTableName>teamowners</RefTableName>
-      <RefColNames>UserName</RefColNames>
+    <foreign-key id="631" parent="328" name="teamCurrentSeason">
+      <ColNames>CurrentSeason</ColNames>
+      <RefTableName>seasons</RefTableName>
+      <RefColNames>SeasonID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
-    </foreign-key>
-    <foreign-key id="631" parent="328" name="teams_control_budgets_ObjectID_fk">
-      <ColNames>ControlBudget</ColNames>
-      <RefTableName>control_budgets</RefTableName>
-      <RefColNames>ObjectID</RefColNames>
+      <OnDelete>set-null</OnDelete>
     </foreign-key>
   </database-model>
 </dataSource>

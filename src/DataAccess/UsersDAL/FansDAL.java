@@ -45,7 +45,7 @@ public class FansDAL implements DAL<Fan, String> {
         for (PersonalInfo page : personalPagesFollowed.keySet()) {
             new FanFollowingPagesDAL().insert(new Pair<>(new Pair<>(objectToInsert.getName(), page.getPageID()), personalPagesFollowed.get(page)));
         }
-        connection.close();
+
         return true;
     }
 
@@ -58,7 +58,7 @@ public class FansDAL implements DAL<Fan, String> {
         for (PersonalInfo page : personalPagesFollowed.keySet()) {
             new FanFollowingPagesDAL().update(new Pair<>(new Pair<>(objectToUpdate.getName(), page.getPageID()), personalPagesFollowed.get(page)));
         }
-        connection.close();
+
         return true;
     }
 

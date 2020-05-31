@@ -34,7 +34,7 @@ public class FanFollowingPagesDAL implements DAL<Pair<Pair<String, Integer>, Boo
         preparedStatement.setInt(2, objectToInsert.getKey().getValue());
         preparedStatement.setBoolean(3, objectToInsert.getValue());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -52,7 +52,7 @@ public class FanFollowingPagesDAL implements DAL<Pair<Pair<String, Integer>, Boo
         }else{
             this.insert(objectToUpdate);
         }
-        connection.close();
+
         return true;
     }
 

@@ -32,7 +32,7 @@ public class GameEventAlertsDAL implements DAL<GameEventAlert,String> {
             preparedStatement.setString(3, objectToInsert.getEvent().getObjectID().toString());
         }
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

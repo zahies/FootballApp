@@ -42,7 +42,7 @@ public class SeasonRefereesDAL implements DAL<Pair<String,String>,Pair<String,St
         }else{
             this.insert(objectToUpdate);
         }
-        connection.close();
+
         return true;
     }
 

@@ -132,7 +132,7 @@ public class TeamOwnerRestController {
         succeeded = ownerController.sendRegisterRequestForNewTeam(ownerUsername,teamName,leagueId,year);
         if (succeeded){
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Sign Team Request Added Successfully ! ");
+            response.setStatus(HttpServletResponse.SC_OK, "Sign Team Request Added Successfully ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
@@ -185,15 +185,16 @@ public class TeamOwnerRestController {
 
     @CrossOrigin
     @GetMapping("/leagues")
-    public List<Integer> getLeagues(){
+    public List<String> getLeagues(){
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> leaugues = system.getAllLeagus();
-        List<Integer> leauguesID = new LinkedList<>();
+        List<String> leauguesID = new LinkedList<>();
         String message = "[";
         int i = 0;
         for (Leaugue league:leaugues) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("leagueID", league.getObjectID());
+            leauguesID.add(league.getObjectID().toString());
             message+= jsonObject.toString(2);
             i++;
             if (i<leaugues.size()){

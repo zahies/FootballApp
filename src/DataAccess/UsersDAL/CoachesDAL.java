@@ -57,7 +57,7 @@ public class CoachesDAL implements DAL<Coach, String> {
         preparedStatement.setString(5, ((Coach) objectToInsert).getTraining());
         preparedStatement.setString(6,objectToInsert.getRole().toString());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -84,7 +84,7 @@ public class CoachesDAL implements DAL<Coach, String> {
         preparedStatement.setString(5, ((Coach) objectToUpdate).getRole().toString());
 
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
         new AssetsDAL().update((IAsset)objectToUpdate);
         return ans ==1;
     }

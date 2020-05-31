@@ -34,7 +34,6 @@ public class BudgetsDAL implements DAL<Budget,String> {
         }
         preparedStatement.execute();
 
-        connection.close();
         return true;
     }
 
@@ -53,7 +52,6 @@ public class BudgetsDAL implements DAL<Budget,String> {
         }
         int ans = preparedStatement.executeUpdate();
 
-        connection.close();
         return ans ==1;
     }
 
