@@ -1,4 +1,4 @@
-package Domain.ExternalSystems;
+package ExternalSystems;
 
 import Domain.Users.Commissioner;
 import javafx.util.Pair;

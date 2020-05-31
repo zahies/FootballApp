@@ -17,12 +17,28 @@ import javax.mail.MessagingException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Main {
 
 
     public static void main(String[] args) throws ParseException, UnknownHostException, UserInformationException, NotEnoughTeamsInLeague, EventNotMatchedException, PersonalPageYetToBeCreatedException, TeamOwnerWithNoTeamException, InactiveTeamException, UnauthorizedTeamOwnerException, UserIsNotThisKindOfMemberException, MessagingException, DuplicatedPrimaryKeyException, SQLException, mightBeSQLInjectionException, NoPermissionException, NoConnectionException {
-//        MembersDAL membersDAL = new MembersDAL();
+
+        Timer timer = new Timer();
+        final int[] i = {0};
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.print(".");
+                i[0]++;
+                if (i[0] > 10){
+                    timer.cancel();
+                }
+            }
+        },0,500);
+
+        //        MembersDAL membersDAL = new MembersDAL();
 ////        AssetsDAL assetsDAL = new AssetsDAL();
 ////        TeamOwnersDAL teamOwnersDAL = new TeamOwnersDAL();
 ////        TeamsDAL teamsDAL = new TeamsDAL();
@@ -169,12 +185,11 @@ public class Main {
 //        timer.schedule(task, date3);
 //        timer.schedule(task, date4);
 
-        Commissioner commissioner = new Commissioner("Shira", 313, "222", "Tzahi");
+        //Commissioner commissioner = new Commissioner("Shira", 313, "222", "Tzahi");
         //commissioner.runPlacingAlgo(333,222);
-        FootballManagmentSystem footballManagmentSystem =  FootballManagmentSystem.getInstance();
+        //FootballManagmentSystem footballManagmentSystem =  FootballManagmentSystem.getInstance();
       //  footballManagmentSystem.sendInvitationByMail("shira.wert@gmail.com", "bla", "bla");
-        footballManagmentSystem.sendInvitationByMail("kaprizahi@gmail.com","hi there","nice");
-
+//
 
     }
 }

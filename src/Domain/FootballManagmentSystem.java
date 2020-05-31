@@ -20,6 +20,8 @@ import Domain.SeasonManagment.IAsset;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Team;
 import Domain.Users.*;
+import ExternalSystems.ProxyAccounting;
+import ExternalSystems.ProxyTaxLaws;
 import FootballExceptions.*;
 
 import javax.mail.*;
@@ -65,6 +67,8 @@ public class FootballManagmentSystem extends TimerTask {
     private List<ComplaintForm> allcomplaints = new ArrayList<>(); // username - complaints
     private Date upComingDateToCheck;
     private boolean restore=true;
+    private ProxyAccounting proxyAccounting;
+    private ProxyTaxLaws proxyTaxLaws;
     /**
      * constraint 7
      */
@@ -151,6 +155,10 @@ public class FootballManagmentSystem extends TimerTask {
         indexOfNextDateToCheck++;
         upComingDateToCheck = date1;
         timer.schedule(this, upComingDateToCheck);
+        proxyAccounting = new ProxyAccounting();
+        proxyTaxLaws = new ProxyTaxLaws();
+        proxyTaxLaws.connect();
+        proxyAccounting.connect();
 
     }
 

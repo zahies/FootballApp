@@ -29,4 +29,9 @@ public class MemberController {
     }
 
 
+    public void setViaMail(String Username, String mail) throws NoPermissionException, EmptyPersonalPageException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+        Member member = new MembersDAL().select(Username,true);
+        member.setAlertViaMail(true);
+        member.setMailAddress(mail);
+    }
 }

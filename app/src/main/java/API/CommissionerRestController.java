@@ -198,10 +198,50 @@ public class CommissionerRestController {
     }
 
 
+    @CrossOrigin
+    @PostMapping("/setViaMail")
+    public void setViaMail(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {
+        boolean succeeded=false;
+        String alert="";
+        String commissionerUsername = body.get("username");
+        String mail = body.get("mail");
+        try {
+            comController.setViaMail(commissionerUsername,mail);
+            succeeded = true;
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (EmptyPersonalPageException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+            alert = e.getMessage();
+        }
+        if (succeeded) {
+            /**pop up success*/
+            response.setStatus(HttpServletResponse.SC_ACCEPTED, "RECORDED");
+        } else {
+            /**pop up failed*/
+            response.sendError(HttpServletResponse.SC_CONFLICT, alert);
+            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
+        }
+    }
 
-    /**
-     * UC 9.8 - Define rules about BUDGET CONTROL
-     */
+
+
+        /**
+         * UC 9.8 - Define rules about BUDGET CONTROL
+         */
     @CrossOrigin
     @PostMapping("/addCommissionerRule")
     public void addCommissionerRule(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {

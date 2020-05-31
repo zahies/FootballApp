@@ -1,4 +1,4 @@
-package Domain.ExternalSystems;
+package ExternalSystems;
 
 public class TaxLawsSystem {
     private static int numOfTeams;
