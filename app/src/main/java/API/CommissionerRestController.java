@@ -198,10 +198,19 @@ public class CommissionerRestController {
     }
 
 
+    @CrossOrigin
+    @PostMapping("/setViaMail")
+    public void setViaMail(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {
+        boolean succeeded=false;
+        String commissionerUsername = body.get("username");
+        String mail = body.get("mail");
+    }
 
-    /**
-     * UC 9.8 - Define rules about BUDGET CONTROL
-     */
+
+
+        /**
+         * UC 9.8 - Define rules about BUDGET CONTROL
+         */
     @CrossOrigin
     @PostMapping("/addCommissionerRule")
     public void addCommissionerRule(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {
