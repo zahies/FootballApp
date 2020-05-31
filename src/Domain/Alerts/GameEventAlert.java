@@ -51,7 +51,10 @@ public class GameEventAlert implements IAlert {
     public String toString() {
         return "event minute = " + eventMin + ", event Type = " + event.getClass().getSimpleName();
     }
-
+    @Override
+    public void setNewID() {
+        objectID = UUID.randomUUID();
+    }
 
     public boolean isHadSent() {
         return hadSent;

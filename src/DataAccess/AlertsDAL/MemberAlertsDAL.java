@@ -43,6 +43,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
         preparedStatement.setString(2,objectToInsert.getKey().getValue().getObjectID().toString());
         preparedStatement.setString(3,objectToInsert.getValue());
         preparedStatement.setBoolean(4,objectToInsert.getKey().getValue().isHadSent());
+
         preparedStatement.execute();
 
         String type =  objectToInsert.getValue();
@@ -77,7 +78,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
 
         Connection connection = MySQLConnector.getInstance().connect();
         String statement ="";
-        if(checkExist(new Pair<String, String>(objectToUpdate.getKey().getKey(),objectToUpdate.getKey().getValue().getObjectID().toString()),"member_alerts","MemberUserName","AlertObjectID")){
+        if(checkExist(objectToUpdate.getKey().getValue().getObjectID().toString())){
             statement = " UPDATE member_alerts SET type = ?, Sent=? WHERE memberUserName = ? AND alertObjectID =? ";
             PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setString(1,objectToUpdate.getValue());
@@ -151,20 +152,17 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
         return false;
     }
 
-//    @Override
-//    public boolean checkExist(Pair<String, String> objectIdentifier, String tableName, String primaryKeyName,S) throws NoConnectionException, SQLException, mightBeSQLInjectionException {
-//        connection = connect();
-//        if (!allTablesName.contains(tableName) || !allPrimaryKeysName.contains(primaryKeyName)) {
-//            throw new mightBeSQLInjectionException();
-//        }
-//        String statement = "SELECT * FROM " + tableName + " Where " + primaryKeyName + " = ?";
-//        PreparedStatement preparedStatement = connection.prepareStatement(statement);
-//
-//        preparedStatement.setString(1, objectIdentifier.getValue());
-//        ResultSet rs = preparedStatement.executeQuery();
-//        boolean ans = rs.next();
-//        connection.close();
-//        return ans;
-//
-//    }
+
+    public boolean checkExist(String alertID) throws NoConnectionException, SQLException, mightBeSQLInjectionException {
+        Connection connection = MySQLConnector.getInstance().connect();
+        String statement = "SELECT * FROM member_alerts Where AlertObjectID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+        preparedStatement.setString(1, alertID);
+        ResultSet rs = preparedStatement.executeQuery();
+        boolean ans = rs.next();
+        connection.close();
+        return ans;
+
+    }
 }

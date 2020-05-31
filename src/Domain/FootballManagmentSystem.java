@@ -728,12 +728,7 @@ public class FootballManagmentSystem extends TimerTask {
     }
 
     public void addLeague(Leaugue leaugue) throws LeagueIDAlreadyExist {
-        for (Leaugue leag : allLeagus) {
-            if (leag.getID() == leaugue.getID()) {
-                throw new LeagueIDAlreadyExist("There is already league with the same ID !");
 
-            }
-        }
         allLeagus.add(leaugue);
     }
 

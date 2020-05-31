@@ -3,6 +3,7 @@ package Domain.Users;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.PasswordHash;
 import DataAccess.UsersDAL.MembersDAL;
 import Domain.Alerts.IAlert;
 import Domain.FootballManagmentSystem;
@@ -11,6 +12,7 @@ import FootballExceptions.UserInformationException;
 import FootballExceptions.UserIsNotThisKindOfMemberException;
 
 import java.net.UnknownHostException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -26,7 +28,7 @@ public abstract class Member extends GeneralUser {
 
     private String mailAddress;
 
-
+    /**DB CONSTRUCTOR*/
     public Member(String name, String password, String real_Name, Queue<IAlert> alertsList, boolean isActive, boolean alertViaMail, String mailAddress) {
         this.name = name;
         this.password = password;
@@ -40,7 +42,11 @@ public abstract class Member extends GeneralUser {
     public Member(String name, int id, String password, String real_name) {
         this.name = name;
         this.id = id;
-        this.password = password;
+        try {
+            this.password = PasswordHash.getInstance().hash(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         this.real_Name = real_name;
         isActive = false;
         alertViaMail = false;

@@ -91,8 +91,9 @@ public class MembersDAL implements DAL<Member, String> {
     public Member select(String userName, boolean  bidirectionalAssociation) throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException, EmptyPersonalPageException {
 
         Connection connection = MySQLConnector.getInstance().connect();
-        String statement ="SELECT UserName , Type FROM members";
+        String statement ="SELECT UserName , Type FROM members WHERE UserName=?";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,userName);
         ResultSet rs = preparedStatement.executeQuery();
         rs.next();
         String type = rs.getString("Type");
@@ -129,8 +130,14 @@ public class MembersDAL implements DAL<Member, String> {
     }
 
     @Override
-    public boolean delete(String userName) {
-        return false;
+    public boolean delete(String userName) throws NoConnectionException, SQLException {
+        Connection connection = MySQLConnector.getInstance().connect();
+
+        String statement = "DELETE FROM members WHERE UserName=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,userName);
+        preparedStatement.execute();
+        return true;
     }
 
     @Override

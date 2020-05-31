@@ -47,7 +47,10 @@ public class PersonalPageAlert implements IAlert {
         return "new content = " + newContent + " , personal page = " + personalPage.getPageContent();
     }
 
-
+    @Override
+    public void setNewID() {
+        objectID = UUID.randomUUID();
+    }
     public boolean isHadSent() {
         return hadSent;
     }

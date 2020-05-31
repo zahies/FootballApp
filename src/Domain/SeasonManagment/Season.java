@@ -5,6 +5,7 @@ import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.SeasonManagmentDAL.SeasonDAL;
+import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import Domain.FootballManagmentSystem;
 import Domain.Users.Referee;
 import FootballExceptions.NoPermissionException;
@@ -44,7 +45,7 @@ public class Season {
     }
 
 
-    public Season(int year) {
+    public Season(int year) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (year > 0) {
             this.year = year;
             DefaultIScorePolicy defaultIScorePolicy = new DefaultIScorePolicy();
@@ -60,10 +61,11 @@ public class Season {
             this.year = Integer.parseInt(null);
         }
         objectID = UUID.randomUUID();
+        new SeasonDAL().insert(this);
     }
 
 
-    public Season(IScorePolicy sp, IPlaceTeamsPolicy pp, int year) {
+    public Season(IScorePolicy sp, IPlaceTeamsPolicy pp, int year) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (sp == null) {
             DefaultIScorePolicy defaultIScorePolicy = new DefaultIScorePolicy();
             this.scorePolicy = defaultIScorePolicy;
@@ -83,6 +85,7 @@ public class Season {
         isItTheBeginningOfSeason = true;
         objectID = UUID.randomUUID();
 
+        new SeasonDAL().insert(this);
     }
 
     public boolean isItTheBeginningOfSeason() {
@@ -125,7 +128,7 @@ public class Season {
         return teams;
     }
 
-    public void setScore_teams(int score, Team team) {
+    public void setScore_teams(int score, Team team) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         for (Pair pair : teams) {
             if (((Team) pair.getValue()).getId() == team.getId()) {
                 teams.remove(pair);
@@ -133,6 +136,7 @@ public class Season {
                 teams.add(pair1);
             }
         }
+        new SeasonDAL().update(this);
     }
 
     public HashSet<Referee> getReferees() {
@@ -180,30 +184,33 @@ public class Season {
     /**
      * UC 9.4   (only comissioner can add)
      */
-    public void addRefereeToSeason(Referee rf) {
+    public void addRefereeToSeason(Referee rf) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (rf != null) {
             referees.add(rf);
         }
+        new SeasonDAL().update(this);
     }
 
 
     /**
      * UC 9.5   (only comissioner can add)
      */
-    public void setNewScorePolicy(IScorePolicy sp) {
+    public void setNewScorePolicy(IScorePolicy sp) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (sp != null) {
             this.scorePolicy = sp;
         }
+        new SeasonDAL().update(this);
     }
 
 
     /**
      * UC 9.6   (only comissioner can add)
      */
-    public void setNewTeamsPolicy(IPlaceTeamsPolicy pp) {
+    public void setNewTeamsPolicy(IPlaceTeamsPolicy pp) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (pp != null) {
             this.placeTeamsPolicy = pp;
         }
+        new SeasonDAL().update(this);
     }
 
 
@@ -215,10 +222,12 @@ public class Season {
     }
 
 
-    public void addTeamToSeason(Team t) {
+    public void addTeamToSeason(Team t) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         if (t != null) {
             Pair<Integer, Team> pair = new Pair<>(t.getScore(), t);
             teams.add(pair);
+            t.setCurrentSeason(this);
+            new SeasonDAL().update(this);
         }
     }
 
@@ -263,6 +272,7 @@ public class Season {
         } else {
             throw new NotEnoughTeamsInLeague("there is not enough teams in the season!");
         }
+        new SeasonDAL().update(this);
     }
 
     private boolean checkifGameScheduld(Team home, Team away) {

@@ -16,6 +16,7 @@ import javafx.util.Pair;
 import java.sql.*;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.UUID;
 
 public class SeasonDAL implements DAL<Season, String> {
 
@@ -23,7 +24,7 @@ public class SeasonDAL implements DAL<Season, String> {
     @Override
     public boolean insert(Season objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         Connection connection = MySQLConnector.getInstance().connect();
-        String statement =" INSERT INTO seasons (seasonID, year, IsItTheBeginningOfSeason, scorePolicy, placingPolicy) VALUES(?,?,?,?,?,?);";
+        String statement =" INSERT INTO seasons (seasonID, year, IsItTheBeginningOfSeason, scorePolicy, placingPolicy) VALUES(?,?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
         preparedStatement.setInt(2,objectToInsert.getYear());
@@ -96,7 +97,7 @@ public class SeasonDAL implements DAL<Season, String> {
         ResultSet rs = preparedStatement.executeQuery();
         rs.next();
         int year = rs.getInt("Year");
-        boolean isItBeginning = rs.getBoolean("IsItBeginningOfSeason");
+        boolean isItBeginning = rs.getBoolean("IsItTheBeginningOfSeason");
         IScorePolicy scorePolicy = new ScorePoliciesDAL().select(rs.getString("ScorePolicy"),false);
         IPlaceTeamsPolicy placeTeamsPolicy = new PlaceTeamsPoliciesDAL().select(rs.getString("PlacingPolicy"),false);
 
@@ -104,6 +105,7 @@ public class SeasonDAL implements DAL<Season, String> {
         HashSet<Referee> referees = new HashSet<>();
         statement = "SELECT Referee FROM season_referees WHERE Season=?";
         preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
         rs = preparedStatement.executeQuery();
         while (rs.next()){
             Referee referee = new RefereesDAL().select(rs.getString("Referee"),false);
@@ -113,12 +115,31 @@ public class SeasonDAL implements DAL<Season, String> {
         HashSet<Game> games = new HashSet<>();
         statement = "SELECT ObjectID FROM games WHERE Season=?";
         preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
         rs = preparedStatement.executeQuery();
         while (rs.next()){
-            Game game = new GamesDAL().select(rs.getString("ObjectID"),false);
+            Game game = new GamesDAL().select(rs.getString("ObjectID"),true);
             games.add(game);
         }
-        return null;
+
+        /**SEASON TEAMS*/
+        LinkedList<Pair<Integer, Team>> teams = new LinkedList<>();
+        statement = "SELECT * from season_teams WHERE SeasonID=?";
+        preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,objectIdentifier);
+        rs = preparedStatement.executeQuery();
+        while (rs.next()){
+            Team team = new TeamsDAL().select(rs.getString("TeamID"),false);
+            teams.add(new Pair<>(rs.getInt("Score"),team));
+        }
+
+        Season season = new Season(UUID.fromString(objectIdentifier),year,teams,referees,scorePolicy,placeTeamsPolicy,games,isItBeginning);
+
+        /****bidirectionalAssociation SETTERS*/
+        for (Pair<Integer, Team> teamPair : teams) {
+            teamPair.getValue().setCurrentSeason(season);
+        }
+        return season;
     }
 
     @Override

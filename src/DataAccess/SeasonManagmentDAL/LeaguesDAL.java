@@ -30,12 +30,12 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
 
         String statement ="INSERT INTO leauge (ObjectID) VALUES (?);";
         PreparedStatement preparedStatement =connection.prepareStatement(statement);
-        preparedStatement.setString(1,objectToInsert.getID().toString());
+        preparedStatement.setString(1,objectToInsert.getObjectID().toString());
         preparedStatement.execute();
 
         HashMap<Integer, Season> seasonHashMap = objectToInsert.getSeasons();
         for (int key: seasonHashMap.keySet()) {
-            new LeagueSeasonsDAL().insert(new Pair<>(new Pair<>(objectToInsert.getID().toString(),key),seasonHashMap.get(key).getObjectID().toString()));
+            new LeagueSeasonsDAL().insert(new Pair<>(new Pair<>(objectToInsert.getObjectID().toString(),key),seasonHashMap.get(key).getObjectID().toString()));
         }
         connection.close();
 
@@ -48,7 +48,7 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
 
         HashMap<Integer, Season> seasonHashMap = objectToUpdate.getSeasons();
         for (int key: seasonHashMap.keySet()) {
-            new LeagueSeasonsDAL().update(new Pair<>(new Pair<>(objectToUpdate.getID().toString(),key),seasonHashMap.get(key).getObjectID().toString()));
+            new LeagueSeasonsDAL().update(new Pair<>(new Pair<>(objectToUpdate.getObjectID().toString(),key),seasonHashMap.get(key).getObjectID().toString()));
         }
         connection.close();
 

@@ -9,6 +9,7 @@ public interface IAlert {
     public UUID getObjectID();
     public void setHadSent(boolean hadSent);
     public  boolean isHadSent();
+    public void setNewID();
 
 
 }
