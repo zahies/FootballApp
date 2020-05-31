@@ -60,7 +60,7 @@ public class AlertsRestController {
         } catch (NoConnectionException e) {
             e.printStackTrace();
         }
-        if (alertsJson.get("alerts content:").size() == 0){
+        if (alertsJson.get("num").size() == 0){
             response.sendError(HttpServletResponse.SC_CONFLICT,"No more alerts");
         }
         return alertsJson;

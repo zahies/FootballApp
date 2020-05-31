@@ -72,7 +72,7 @@ public class AlertsController {
         }else{
 
             size.add(String.valueOf(alerts.size()));
-            to.put("num of alerts:",size);
+            to.put("num",size);
             for (IAlert alert:alerts) {
                 if (!alert.isHadSent()){
                     content.add(alert.toString());
@@ -80,7 +80,7 @@ public class AlertsController {
                     alert.setHadSent(true);
                 }
             }
-            to.put("alerts content:", content);
+            to.put("notedata", content);
         }
         return to;
     }
