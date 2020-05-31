@@ -10,6 +10,7 @@ import DataAccess.UsersDAL.RefereesDAL;
 import Domain.Events.Event_Logger;
 import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.Team;
+import Domain.Users.Player;
 import Domain.Users.Referee;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -27,7 +28,7 @@ public class GamesDAL implements DAL<Game, String> {
     public boolean insert(Game objectToInsert) throws SQLException, NoConnectionException, UserInformationException, UserIsNotThisKindOfMemberException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
 
         Connection connection = MySQLConnector.getInstance().connect();
-        String statement = "INSERT INTO games (ObjectID, homeTeam, HomeTeamScore, awayTeam, awayScore, date, mainReferee, secondaryReferee, season, logger) VALUES (?,?,?,?,?,?,?,?,?,?);";
+        String statement = "INSERT INTO games (ObjectID, homeTeam, HomeTeamScore, awayTeam, AwayTeamScore, date, mainReferee, secondaryReferee, season, logger) VALUES (?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1, objectToInsert.getObjectId().toString());
         if (objectToInsert.getHome() == null) {
@@ -42,7 +43,13 @@ public class GamesDAL implements DAL<Game, String> {
             preparedStatement.setString(4, objectToInsert.getAway().getId().toString());
         }
         preparedStatement.setInt(5, objectToInsert.getScoreAway());
-        preparedStatement.setDate(6, (Date) objectToInsert.getDateGame());
+        java.util.Date date = objectToInsert.getDateGame();
+        if(date == null){
+            preparedStatement.setNull(6,Types.DATE);
+        }else {
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            preparedStatement.setDate(6, sqlDate);
+        }
         if (objectToInsert.getMainReferee() == null) {
             preparedStatement.setNull(7, Types.VARCHAR);
         } else {
@@ -68,7 +75,7 @@ public class GamesDAL implements DAL<Game, String> {
     @Override
     public boolean update(Game objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
         Connection connection = MySQLConnector.getInstance().connect();
-        String statement = "UPDATE games SET HomeTeam=?, HomeTeamScore=?,AwayTeam=?,AwayScore=?,Date=?,MainReferee=?,MainRefType=?,SecondaryReferee=?,SecRefType=?,Season=?,Logger=? WHERE ObjectID=?;";
+        String statement = "UPDATE games SET HomeTeam=?, HomeTeamScore=?,AwayTeam=?,AwayTeamScore=?,Date=?,MainReferee=?,MainRefType=?,SecondaryReferee=?,SecRefType=?,Season=?,Logger=? WHERE ObjectID=?;";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(10, objectToUpdate.getObjectId().toString());
         if (objectToUpdate.getHome() == null) {
@@ -83,7 +90,13 @@ public class GamesDAL implements DAL<Game, String> {
             preparedStatement.setString(3, objectToUpdate.getAway().getId().toString());
         }
         preparedStatement.setInt(4, objectToUpdate.getScoreAway());
-        preparedStatement.setDate(5, (Date) objectToUpdate.getDateGame());
+        java.util.Date date = objectToUpdate.getDateGame();
+        if(date == null){
+            preparedStatement.setNull(5,Types.DATE);
+        }else {
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            preparedStatement.setDate(5, sqlDate);
+        }
         if (objectToUpdate.getMainReferee() == null) {
             preparedStatement.setNull(6, Types.VARCHAR);
         } else {

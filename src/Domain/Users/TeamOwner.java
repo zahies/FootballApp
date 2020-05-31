@@ -201,7 +201,7 @@ public class TeamOwner extends Member {
      * @param amount
      * @return true if succeeded
      */
-    public boolean addBudgetActivity(Date date, BudgetActivity description, int amount) throws TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, InactiveTeamException {
+    public boolean addBudgetActivity(Date date, BudgetActivity description, int amount) throws TeamOwnerWithNoTeamException, UnauthorizedTeamOwnerException, InactiveTeamException, SQLException, NoConnectionException {
         if (team == null) {
             throw new TeamOwnerWithNoTeamException();
         }

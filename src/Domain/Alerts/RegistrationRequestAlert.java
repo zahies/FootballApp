@@ -26,7 +26,7 @@ public class RegistrationRequestAlert implements IAlert{
 
     @Override
     public String toString() {
-        return "team name = " + teamName + " , is willing to register to league = " + leaugue.getID() +" , inside season at year = " + year ;
+        return "team name = " + teamName + " , is willing to register to league = " + leaugue.getObjectID() +" , inside season at year = " + year ;
     }
 
     @Override
@@ -59,7 +59,10 @@ public class RegistrationRequestAlert implements IAlert{
     public TeamOwner getOwner(){
         return owner;
     }
-
+    @Override
+    public void setNewID() {
+        objectID = UUID.randomUUID();
+    }
 
     public boolean isHadSent() {
         return hadSent;

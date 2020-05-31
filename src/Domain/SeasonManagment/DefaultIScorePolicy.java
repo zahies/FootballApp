@@ -1,5 +1,14 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.ScorePoliciesDAL;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
+
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class DefaultIScorePolicy implements IScorePolicy {
@@ -18,8 +27,9 @@ public class DefaultIScorePolicy implements IScorePolicy {
         this.draw = draw;
     }
 
-    public DefaultIScorePolicy() {
+    public DefaultIScorePolicy() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         id = UUID.randomUUID();
+        new ScorePoliciesDAL().insert(this);
     }
 
     public UUID getId() {

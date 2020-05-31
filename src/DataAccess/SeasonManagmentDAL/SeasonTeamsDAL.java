@@ -38,16 +38,21 @@ public class SeasonTeamsDAL implements DAL<Pair<Pair<String, String>, Integer>, 
     }
 
     @Override
-    public boolean update(Pair<Pair<String, String>, Integer> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
+    public boolean update(Pair<Pair<String, String>, Integer> objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         Connection connection = MySQLConnector.getInstance().connect();
 
-        String statement = "UPDATE season_teams SET Score =? WHERE SeasonID=? and TeamID=?";
-        PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        preparedStatement.setInt(1,objectToUpdate.getValue());
-        preparedStatement.setString(2, objectToUpdate.getKey().getKey());
-        preparedStatement.setString(3, objectToUpdate.getKey().getValue());
-        int ans = preparedStatement.executeUpdate();
-        connection.close();
+        int ans;
+        if(checkExist(objectToUpdate.getKey(),"season_teams","SeasonID","TeamID")) {
+            String statement = "UPDATE season_teams SET Score =? WHERE SeasonID=? and TeamID=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, objectToUpdate.getValue());
+            preparedStatement.setString(2, objectToUpdate.getKey().getKey());
+            preparedStatement.setString(3, objectToUpdate.getKey().getValue());
+            ans = preparedStatement.executeUpdate();
+            connection.close();
+        }else {
+            return this.insert(objectToUpdate);
+        }
 
         return ans ==1;
     }

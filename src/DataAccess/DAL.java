@@ -29,7 +29,7 @@ public interface DAL<T, E> {
 
     public T select(E objectIdentifier, boolean  bidirectionalAssociation) throws SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException, EmptyPersonalPageException;
 
-    public boolean delete(E objectIdentifier);
+    public boolean delete(E objectIdentifier) throws NoConnectionException, SQLException;
 
     public default boolean checkExist(E objectIdentifier, String tableName, String primaryKeyName, String primaryKeyName2) throws NoConnectionException, SQLException, mightBeSQLInjectionException {
 

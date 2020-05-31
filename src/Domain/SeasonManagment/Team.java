@@ -552,6 +552,7 @@ public class Team {
                 system.removePersonalPage(info);
             }
             info = new PersonalInfo(teamManager);
+
             return true;
         }
         throw new UnauthorizedTeamManagerException();
@@ -641,13 +642,14 @@ public class Team {
      * @param i
      * @return true if succeeded
      */
-    public boolean addBudgetActivity(TeamOwner teamOwner, Date date, BudgetActivity ba, int i) throws UnauthorizedTeamOwnerException, InactiveTeamException {
+    public boolean addBudgetActivity(TeamOwner teamOwner, Date date, BudgetActivity ba, int i) throws UnauthorizedTeamOwnerException, InactiveTeamException, SQLException, NoConnectionException {
         if (!isActive()) {
             throw new InactiveTeamException();
         }
         if (isTeamOwner(teamOwner)) {
             if (controlBudget != null) {
                 controlBudget.addFinanceActivity(date, ba, i);
+                new TeamsDAL().update(this);
                 return true;
             }
         }
@@ -794,8 +796,10 @@ public class Team {
         return currentSeason;
     }
 
-    public void setCurrentSeason(Season currentSeason) {
+    public void setCurrentSeason(Season currentSeason) throws SQLException, NoConnectionException {
+
         this.currentSeason = currentSeason;
+        new TeamsDAL().update(this);
     }
 
     public PersonalInfo getInfo() {

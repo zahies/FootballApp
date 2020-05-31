@@ -46,7 +46,10 @@ public class FinancialAlert implements IAlert {
         return "FinancialAlert";
     }
 
-
+    @Override
+    public void setNewID() {
+        objectID = UUID.randomUUID();
+    }
     public boolean isHadSent() {
         return hadSent;
     }
