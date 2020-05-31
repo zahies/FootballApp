@@ -134,7 +134,7 @@ public class CommissionerRestController {
     public void addScorePolicy(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException, UserIsNotThisKindOfMemberException {
         boolean succeeded = false;
         String commissionerUsername = body.get("username");
-        int leagueId = Integer.parseInt(body.get("leagueID"));
+        String leagueId = (body.get("leagueID"));
         int year = Integer.parseInt(body.get("year"));
         int winVal = Integer.parseInt(body.get("winval"));
         int loseVal = Integer.parseInt(body.get("loseval"));
@@ -148,7 +148,7 @@ public class CommissionerRestController {
         } catch (UserInformationException e) {
             e.printStackTrace();
             alert = e.getMessage();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
             alert = e.getMessage();
         }
@@ -167,7 +167,7 @@ public class CommissionerRestController {
     public void addPlaceTeamsPolicy(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {
         boolean succeeded = false;
         String commissionerUsername = body.get("username");
-        int leagueId = Integer.parseInt(body.get("leagueID"));
+        String leagueId = body.get("leagueID");
         int year = Integer.parseInt(body.get("year"));
         int numGames = Integer.parseInt(body.get("numgames"));
         String alert = "";
@@ -182,7 +182,7 @@ public class CommissionerRestController {
         } catch (UserInformationException e) {
             e.printStackTrace();
             alert = e.getMessage();
-        } catch (NoConnectionException e) {
+        } catch (NoConnectionException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
             alert = e.getMessage();
         }
@@ -241,19 +241,11 @@ public class CommissionerRestController {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> leaugues = system.getAllLeagus();
         List<Integer> leauguesID = new LinkedList<>();
-        Leaugue leaugue = new Leaugue();
-        leaugue.setId(2);
-        Leaugue leaugue1 = new Leaugue();
-        leaugue1.setId(22);
-        leauguesID.add(leaugue.getID());
-        leauguesID.add(leaugue1.getID());
-        leaugues.add(leaugue1);
-
         String message = "[";
         int i = 0;
         for (Leaugue league:leaugues) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("leagueID", league.getID());
+            jsonObject.put("leagueID", league.getObjectID());
             message+= jsonObject.toString(2);
             i++;
             if (i<leaugues.size()){

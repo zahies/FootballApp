@@ -120,17 +120,6 @@ public class RefereeController extends MemberController {
         } catch (DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
         }
-//        } catch (EventNotMatchedException ee) {
-//            System.out.println(ee.getMessage());
-//        } catch (UserIsNotThisKindOfMemberException e) {
-//            e.printStackTrace();
-//        } catch (NoPermissionException e) {
-//            e.printStackTrace();
-//        } catch (UserInformationException e) {
-//            e.printStackTrace();
-//        } catch (NoConnectionException e) {
-//            e.printStackTrace();
-//        }
 
         return flag;
     }
@@ -151,13 +140,6 @@ public class RefereeController extends MemberController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//            catch (UserInformationException e) {
-//            e.printStackTrace();
-//        } catch (UserIsNotThisKindOfMemberException e) {
-//            e.printStackTrace();
-//        } catch (NoConnectionException e) {
-//            e.printStackTrace();
-//        }
             return flag;
         }
 
@@ -175,15 +157,6 @@ public class RefereeController extends MemberController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//         catch (NoPermissionException ne) {
-//            System.out.println(ne.getMessage());
-//        } catch (UserInformationException e) {
-//            e.printStackTrace();
-//        } catch (UserIsNotThisKindOfMemberException e) {
-//            e.printStackTrace();
-//        } catch (NoConnectionException e) {
-//            e.printStackTrace();
-//        }
         return flag;
     }
 

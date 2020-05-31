@@ -3,6 +3,7 @@ package SpringControllers;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.UsersDAL.CommissionersDAL;
 import Domain.FootballManagmentSystem;
 import Domain.Users.Commissioner;
 import Domain.Users.Member;
@@ -29,7 +30,7 @@ public class MemberControllerTest {
     @Before
     public void init() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         //teamowner = new TeamOwner("Moshe","DASD",123,"asd");
-        com = new Commissioner("zaza",12,"123","zahi zahi");
+        com = new CommissionersDAL().select("Ohana",true);
         memberController = new MemberController();
     }
 

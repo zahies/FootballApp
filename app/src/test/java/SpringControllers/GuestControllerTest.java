@@ -26,7 +26,7 @@ public class GuestControllerTest {
         name = "Alon";
         id = 222;
         password = "223";
-        commissioner = new Commissioner(name, id, password, "Tzahi");
+        //commissioner = new Commissioner(name, id, password, "Tzahi");
         guestController = new GuestController();
     }
 
