@@ -52,9 +52,9 @@ public class Commissioner extends Member {
     /**
      * UC 9.1 - Define league
      */
-    public void defineLeague(int id) throws LeagueIDAlreadyExist, IDWasNotEnterdException {
+    public void defineLeague(UUID id) throws LeagueIDAlreadyExist, IDWasNotEnterdException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         Leaugue leaugue = new Leaugue();
-        leaugue.setId(id);
+        leaugue.setObjectID(id);
         leaugue.setLeagueIntoSystem();
     }
 
@@ -62,7 +62,7 @@ public class Commissioner extends Member {
     /**
      * UC 9.2 - Adding season to league by year
      */
-    public void addSeasonToLeague(int year, Leaugue leaugue) throws SeasonYearAlreadyExist {
+    public void addSeasonToLeague(int year, Leaugue leaugue) throws SeasonYearAlreadyExist, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         leaugue.addSeasonToLeagueByYear(year);
     }
 
@@ -96,13 +96,13 @@ public class Commissioner extends Member {
     /**
      * UC 9.4 - Define Referee to specific season
      */
-    public void addRefereeToSeason(int idLeg, int year, Referee ref) throws LeagueNotFoundException {
+    public void addRefereeToSeason(UUID idLeg, int year, Referee ref) throws LeagueNotFoundException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> legs = system.getAllLeagus();
         Leaugue leaugue = new Leaugue();
         boolean found = false;
         for (int i = 0; i < legs.size(); i++) {
-            if (legs.get(i).getID() == idLeg) {
+            if (legs.get(i).getObjectID() == idLeg) {
                 leaugue = legs.get(i);
                 found = true;
                 break;
@@ -120,13 +120,13 @@ public class Commissioner extends Member {
     /**
      * UC 9.5 - Define new SCORE policy to specific season
      */
-    public void setNewScorePolicy(int idLeg, int year, IScorePolicy sp) {
+    public void setNewScorePolicy(UUID idLeg, int year, IScorePolicy sp) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> legs = system.getAllLeagus();
         Leaugue leaugue = new Leaugue();
         boolean found = false;
         for (int i = 0; i < legs.size(); i++) {
-            if (legs.get(i).getID() == idLeg) {
+            if (legs.get(i).getObjectID() == idLeg) {
                 leaugue = legs.get(i);
                 found = true;
                 break;
@@ -142,13 +142,13 @@ public class Commissioner extends Member {
     /**
      * UC 9.6 - Define new PLACING policy to specific season
      */
-    public void setNewPlaceTeamsPolicy(int idLeg, int year, IPlaceTeamsPolicy pp) {
+    public void setNewPlaceTeamsPolicy(UUID idLeg, int year, IPlaceTeamsPolicy pp) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> legs = system.getAllLeagus();
         Leaugue leaugue = new Leaugue();
         boolean found = false;
         for (int i = 0; i < legs.size(); i++) {
-            if (legs.get(i).getID() == idLeg) {
+            if (legs.get(i).getObjectID() == idLeg) {
                 leaugue = legs.get(i);
                 found = true;
                 break;
@@ -164,13 +164,13 @@ public class Commissioner extends Member {
     /**
      * UC 9.7 - Define new PLACING policy to specific season
      */
-    public void runPlacingAlgo(int idLeg, int year) throws NotEnoughTeamsInLeague, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+    public void runPlacingAlgo(UUID idLeg, int year) throws NotEnoughTeamsInLeague, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> legs = system.getAllLeagus();
         Leaugue leaugue = new Leaugue();
         boolean found = false;
         for (int i = 0; i < legs.size(); i++) {
-            if (legs.get(i).getID() == idLeg) {
+            if (legs.get(i).getObjectID() == idLeg) {
                 leaugue = legs.get(i);
                 found = true;
                 break;
@@ -180,6 +180,10 @@ public class Commissioner extends Member {
             Season season = leaugue.getSeasonByYear(year);
             season.runPlacingTeamsAlgorithm();
         }
+    }
+    public void runPlacingAlgo(Leaugue leaugue, int year) throws NotEnoughTeamsInLeague, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+        Season season = leaugue.getSeasonByYear(year);
+        season.runPlacingTeamsAlgorithm();
     }
 
 
@@ -200,9 +204,10 @@ public class Commissioner extends Member {
     /**
      * UC 9.9  manage finance Association activity
      */
-    public void addToFinanceAssociationActivity(String info, int amount) {
+    public void addToFinanceAssociationActivity(String info, int amount) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         Pair pair = new Pair(info, amount);
         financeAssociationActivity.add(pair);
+        new CommissionersDAL().update(this);
     }
 
     public void delFromFinanceAssociationActivity(Pair<String, Integer> pair) throws FinanceAssActivityNotFound {

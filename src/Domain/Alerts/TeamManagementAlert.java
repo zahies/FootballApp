@@ -61,7 +61,10 @@ public class TeamManagementAlert implements IAlert {
     public String getMessage() {
         return message;
     }
-
+    @Override
+    public void setNewID() {
+        objectID = UUID.randomUUID();
+    }
 
     public boolean isHadSent() {
         return hadSent;

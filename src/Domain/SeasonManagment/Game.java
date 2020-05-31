@@ -50,6 +50,7 @@ public class Game extends Observable {
     }
 
     public Game(Team away, Team home, Date dateGame, Referee mainReferee, Referee seconderyReferee, Season season) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+        objectId = UUID.randomUUID();
         this.away = away;
         this.home = home;
         this.dateGame = dateGame;
@@ -58,27 +59,24 @@ public class Game extends Observable {
         this.season = season;
         event_logger = new Event_Logger();
         referees = new LinkedList<>();
-        mainReferee.addToGameList(this);
-        seconderyReferee.addToGameList(this);
         referees.add(mainReferee);
         referees.add(seconderyReferee);
-        objectId = UUID.randomUUID();
         new GamesDAL().insert(this);
+        mainReferee.addToGameList(this);
+        seconderyReferee.addToGameList(this);
     }
 
     //todo - add option to  notify ref when upcoming match date
     public void changeDate(Date newDate) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
         this.dateGame = newDate;
         IAlert newAlart = new ChangedGameAlert(new Date(), this);
-        alert = newAlart;
         new GamesDAL().update(this);
-        notifyReferees(alert);
+        notifyReferees(newAlart);
     }
 
     public void notifyRefereesWithNewDate(Date newDate) {
         IAlert newAlart = new ChangedGameAlert(newDate, this);
-        alert = newAlart;
-        notifyReferees(alert);
+        notifyReferees(newAlart);
     }
 
 
@@ -114,6 +112,7 @@ public class Game extends Observable {
     public void notifyReferees(IAlert newAlert) {
         for (Observer O : referees) {
             O.update(this, newAlert);
+            newAlert.setNewID();
         }
     }
 

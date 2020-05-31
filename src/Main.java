@@ -170,7 +170,7 @@ public class Main {
 //        timer.schedule(task, date4);
 
         Commissioner commissioner = new Commissioner("Shira", 313, "222", "Tzahi");
-        commissioner.runPlacingAlgo(333,222);
+        //commissioner.runPlacingAlgo(333,222);
         FootballManagmentSystem footballManagmentSystem =  FootballManagmentSystem.getInstance();
       //  footballManagmentSystem.sendInvitationByMail("shira.wert@gmail.com", "bla", "bla");
         footballManagmentSystem.sendInvitationByMail("kaprizahi@gmail.com","hi there","nice");

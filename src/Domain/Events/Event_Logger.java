@@ -1,7 +1,9 @@
 package Domain.Events;
 
 import DataAccess.EventsDAL.EventLoggersDAL;
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.SeasonManagment.Game;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -23,9 +25,10 @@ public class Event_Logger {
         this.events = events;
     }
 
-    public Event_Logger() {
+    public Event_Logger() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         events = new LinkedList<>();
         objectID = UUID.randomUUID();
+        new EventLoggersDAL().insert(this);
     }
 
     public UUID getObjectID() {

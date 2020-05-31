@@ -27,7 +27,7 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.1
      */
-    public boolean defineLeague(String username, int id) {
+    public boolean defineLeague(String username, int id) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         boolean flag = false;
         try {
             //test
@@ -53,7 +53,7 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.2
      */
-    public boolean addSeasonToLeague(String username, int year, String leaugueString) {
+    public boolean addSeasonToLeague(String username, int year, String leaugueString) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         boolean flag = false;
         try {
             Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);
@@ -114,7 +114,7 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.4
      */
-    public boolean addRefereeToSeason(String comstring, int idLeg, int year, String refstring) {
+    public boolean addRefereeToSeason(String comstring, int idLeg, int year, String refstring) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         boolean flag = false;
         try {
             Commissioner commissioner = (Commissioner) new CommissionersDAL().select(comstring,true);
@@ -141,7 +141,7 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.5
      */
-    public boolean setNewScorePolicy(String username,int idLeg, int year,int winVal, int loseVal, int drawVal) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
+    public boolean setNewScorePolicy(String username,int idLeg, int year,int winVal, int loseVal, int drawVal) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         boolean succeeded = false;
         IScorePolicy sp = new IScorePolicy(){
             private UUID spID = UUID.randomUUID();
@@ -181,7 +181,7 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.6
      */
-    public boolean setNewPlaceTeamsPolicy(String username, int idLeg, int year, int numGames) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
+    public boolean setNewPlaceTeamsPolicy(String username, int idLeg, int year, int numGames) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         boolean succeeded = false;
         IPlaceTeamsPolicy pp = new IPlaceTeamsPolicy() {
 
@@ -278,7 +278,7 @@ public class CommissionerController extends MemberController {
     /**
      * UC 9.9  manage finance Association activity
      */
-    public boolean addToFinanceAssociationActivity(String username, String info, int amount) {
+    public boolean addToFinanceAssociationActivity(String username, String info, int amount) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         boolean flag = false;
         try {
             Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);

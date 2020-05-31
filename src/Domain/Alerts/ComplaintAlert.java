@@ -45,6 +45,10 @@ public class ComplaintAlert implements IAlert {
         return hadSent;
     }
 
+    @Override
+    public void setNewID() {
+        objectID = UUID.randomUUID();
+    }
     public void setHadSent(boolean hadSent) {
         this.hadSent = hadSent;
     }

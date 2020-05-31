@@ -1,5 +1,14 @@
 package Domain.SeasonManagment;
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.PlaceTeamsPoliciesDAL;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
+
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class DefaultTeamsPolicy implements IPlaceTeamsPolicy {
@@ -12,8 +21,9 @@ public class DefaultTeamsPolicy implements IPlaceTeamsPolicy {
         this.numOfGamesWithEachTeam = numOfGamesWithEachTeam;
     }
 
-    public DefaultTeamsPolicy() {
+    public DefaultTeamsPolicy() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         id = UUID.randomUUID();
+        new PlaceTeamsPoliciesDAL().insert(this);
     }
 
     public UUID getId() {

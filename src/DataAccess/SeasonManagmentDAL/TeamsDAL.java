@@ -179,12 +179,13 @@ public class TeamsDAL implements DAL<Team, String>  {
         PreparedStatement preparedStatement1 = connection.prepareStatement(string);
         preparedStatement1.setString(1,objectIdentifier);
         preparedStatement1.setString(2,objectIdentifier);
-        while (rs.next()){
-            Game game = new GamesDAL().select(rs.getString("ObjectID"),false);
+        ResultSet rs1 = preparedStatement1.executeQuery();
+        while (rs1.next()){
+            Game game = new GamesDAL().select(rs1.getString("ObjectID"),false);
             upcomingGames.add(game);
         }
 
-        Team team = new Team(null,name,personalInfo,owner,teamStatus,0, UUID.fromString(teamID),controlBudget,isClosed,secondaryTeamOwner,players,fields,teamManagers,coaches,playersRate,null,sysManClosed);
+        Team team = new Team(null,name,personalInfo,owner,teamStatus,0, UUID.fromString(teamID),controlBudget,isClosed,secondaryTeamOwner,players,fields,teamManagers,coaches,playersRate,upcomingGames,sysManClosed);
 
         /**Setters for bidirectional Association */
         team.getOwner().setTeam(team);
