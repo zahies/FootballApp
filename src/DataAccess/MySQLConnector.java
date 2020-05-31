@@ -13,6 +13,7 @@ public class MySQLConnector{
     private MySQLConnector(){
 
     }
+
     public static MySQLConnector getInstance()
     {
         if (single_instance == null)
@@ -27,7 +28,7 @@ public class MySQLConnector{
         String url = "jdbc:mysql://132.72.65.125:3306/footballappdb?useSSL=false";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url, "root", "ISE2424!");
+            connection = DriverManager.getConnection(url, "root", "ISE2424!");
             return connection;
         } catch (ClassNotFoundException | SQLException e) {
             throw new NoConnectionException();

@@ -38,7 +38,7 @@ public class ControlBudgetDAL implements DAL<ControlBudget, String> {
         new BudgetsDAL().insert(objectToInsert.getBudget_quarter_2());
         new BudgetsDAL().insert(objectToInsert.getBudget_quarter_3());
         new BudgetsDAL().insert(objectToInsert.getBudget_quarter_4());
-        connection.close();
+
         return true;
     }
 
@@ -54,7 +54,7 @@ public class ControlBudgetDAL implements DAL<ControlBudget, String> {
             preparedStatement.setString(1, (objectToUpdate.getCommissionerRule().getObjectID().toString()));
         } preparedStatement.setString(2, objectToUpdate.getObjectID().toString());
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
 
         return ans==1;
     }

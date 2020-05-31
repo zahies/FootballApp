@@ -30,7 +30,7 @@ public class ICommissionerRulesDAL implements DAL<ICommissionerRule,String> {
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
         preparedStatement.setString(2,objectToInsert.getDescription());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -43,7 +43,7 @@ public class ICommissionerRulesDAL implements DAL<ICommissionerRule,String> {
         preparedStatement.setString(1,objectToUpdate.getDescription());
         preparedStatement.setString(2,objectToUpdate.getObjectID().toString());
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
         return ans==1;
     }
 

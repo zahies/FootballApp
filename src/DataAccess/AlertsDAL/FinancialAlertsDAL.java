@@ -27,7 +27,7 @@ public class FinancialAlertsDAL implements DAL<FinancialAlert,String> {
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
         preparedStatement.setInt(2, objectToInsert.getMinus());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

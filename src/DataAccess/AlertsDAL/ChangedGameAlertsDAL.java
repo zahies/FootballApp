@@ -37,7 +37,7 @@ public class ChangedGameAlertsDAL implements DAL<ChangedGameAlert,String> {
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         preparedStatement.setDate(3, sqlDate);
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

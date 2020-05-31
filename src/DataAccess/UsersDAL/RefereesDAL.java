@@ -44,7 +44,7 @@ public class RefereesDAL implements DAL<Referee,String> {
         for (Game game: games) {
             new RefereeGamesDAL().insert(new Pair<>(objectToInsert.getName(),game.getObjectId().toString()));
         }
-        connection.close();
+
         return true;
 
     }
@@ -63,7 +63,7 @@ public class RefereesDAL implements DAL<Referee,String> {
         for (Game game: games) {
             new RefereeGamesDAL().update(new Pair<>(objectToUpdate.getName(),game.getObjectId().toString()));
         }
-        connection.close();
+
         return ans ==1;
 
     }

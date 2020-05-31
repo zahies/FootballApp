@@ -33,7 +33,7 @@ public class SystemManagerDAL implements DAL<SystemManager,String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getName());
         preparedStatement.execute();
-        connection.close();
+
         return true;
 
     }

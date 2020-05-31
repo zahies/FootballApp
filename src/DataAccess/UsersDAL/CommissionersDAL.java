@@ -41,7 +41,7 @@ public class CommissionersDAL implements DAL<Commissioner,String> {
         for (Pair<String,Integer> pair: list) {
             new FinancialActivitiesDAL().insert(new Pair<>(new Pair<>(objectToInsert.getName(),pair.getKey()),pair.getValue()));
         }
-        connection.close();
+
         return true;
     }
 
@@ -54,7 +54,7 @@ public class CommissionersDAL implements DAL<Commissioner,String> {
         for (Pair<String,Integer> pair: list) {
             new FinancialActivitiesDAL().update(new Pair<>(new Pair<>(objectToUpdate.getName(),pair.getKey()),pair.getValue()));
         }
-        connection.close();
+
         return true;
     }
 

@@ -67,7 +67,6 @@ public class GamesDAL implements DAL<Game, String> {
         }
         preparedStatement.setString(10,objectToInsert.event_logger.getObjectID().toString());
         preparedStatement.execute();
-        connection.close();
 
         return true;
     }
@@ -114,7 +113,7 @@ public class GamesDAL implements DAL<Game, String> {
         }
         preparedStatement.setString(9,objectToUpdate.event_logger.getObjectID().toString());
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
 
         return ans==1;
     }

@@ -29,11 +29,7 @@ import java.util.Date;
 public class AppApplication {
 
     public static void main(String[] args) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException, EmptyPersonalPageException {
-        Member mem = new MembersDAL().select("Roni23",true);
-        //Member member = new Player("zazaTEST","FSAF",416,"123",214,"GSDG",null);
-
-        //system.addMember(com);
-
+        FootballManagmentSystem fms = FootballManagmentSystem.getInstance();
         SpringApplication app = new SpringApplication(AppApplication.class);
         app.setDefaultProperties(Collections
                 .singletonMap("server.port", "8080"));

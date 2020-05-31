@@ -60,7 +60,7 @@ public class MembersDAL implements DAL<Member, String> {
         for (IAlert alert : memberAlerts) {
             new MemberAlertsDAL().insert(new Pair<>(new Pair<>(member.getName(),alert),alert.getType()));
         }
-        connection.close();
+
         return true;
     }
 
@@ -80,10 +80,12 @@ public class MembersDAL implements DAL<Member, String> {
 
         Queue<IAlert> memberAlerts = member.getAlertsList();
         for (IAlert alert : memberAlerts) {
-            new MemberAlertsDAL().update(new Pair<>(new Pair<>(member.getName(),alert),alert.getType()));
+            if(alert!=null) {
+                new MemberAlertsDAL().update(new Pair<>(new Pair<>(member.getName(), alert), alert.getType()));
+            }
         }
 
-        connection.close();
+
         return ans ==1;
     }
 
@@ -152,7 +154,7 @@ public class MembersDAL implements DAL<Member, String> {
         preparedStatement.setString(2,primaryKeyName2);
         ResultSet rs = preparedStatement.executeQuery();
         boolean ans = rs.next();
-        connection.close();
+
         return ans;
     }
 

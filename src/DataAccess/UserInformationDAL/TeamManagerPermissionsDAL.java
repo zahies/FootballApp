@@ -34,7 +34,7 @@ public class TeamManagerPermissionsDAL implements DAL<Pair<Pair<String, String>,
         preparedStatement.setString(2, objectToInsert.getKey().getValue());
         preparedStatement.setBoolean(3, objectToInsert.getValue());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -52,7 +52,7 @@ public class TeamManagerPermissionsDAL implements DAL<Pair<Pair<String, String>,
         }else{
             this.insert(objectToUpdate);
         }
-        connection.close();
+
         return true;
     }
 
@@ -65,7 +65,7 @@ public class TeamManagerPermissionsDAL implements DAL<Pair<Pair<String, String>,
         preparedStatement.setString(1, objectIdentifier.getValue());
         preparedStatement.setString(2, objectIdentifier.getKey());
         ResultSet rs = preparedStatement.executeQuery();
-        connection.close();
+
         if (!rs.next()) {
             throw new NoPermissionException("No such Permission for this Team Manager");
         }

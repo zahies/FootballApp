@@ -37,7 +37,7 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
         for (int key: seasonHashMap.keySet()) {
             new LeagueSeasonsDAL().insert(new Pair<>(new Pair<>(objectToInsert.getObjectID().toString(),key),seasonHashMap.get(key).getObjectID().toString()));
         }
-        connection.close();
+
 
         return true;
     }
@@ -50,7 +50,7 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
         for (int key: seasonHashMap.keySet()) {
             new LeagueSeasonsDAL().update(new Pair<>(new Pair<>(objectToUpdate.getObjectID().toString(),key),seasonHashMap.get(key).getObjectID().toString()));
         }
-        connection.close();
+
 
         return true;
     }
@@ -89,7 +89,7 @@ public class LeaguesDAL implements DAL<Leaugue,String> {
         while (rs.next()){
             allLeagus.add(this.select(rs.getString("ObjectID"),true));
         }
-        connection.close();
+
         return allLeagus;
     }
 }

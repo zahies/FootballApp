@@ -32,7 +32,7 @@ public class FinancialActivitiesDAL implements DAL<Pair<Pair<String,String>,Inte
         preparedStatement.setString(2, objectToInsert.getKey().getValue());
         preparedStatement.setInt(3, objectToInsert.getValue());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -50,7 +50,7 @@ public class FinancialActivitiesDAL implements DAL<Pair<Pair<String,String>,Inte
         }else{
             this.insert(objectToUpdate);
         }
-        connection.close();
+
         return true;
     }
 

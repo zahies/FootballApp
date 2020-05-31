@@ -32,7 +32,7 @@ public class LeagueSeasonsDAL implements DAL<Pair<Pair<String,Integer>,String>,P
         preparedStatement.setString(2,objectToInsert.getValue());
         preparedStatement.setInt(3, objectToInsert.getKey().getValue());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -52,7 +52,7 @@ public class LeagueSeasonsDAL implements DAL<Pair<Pair<String,Integer>,String>,P
         }else{
             this.insert(objectToUpdate);
         }
-        connection.close();
+
 
         return ans==1;
     }

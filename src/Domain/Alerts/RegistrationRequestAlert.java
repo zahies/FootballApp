@@ -15,6 +15,15 @@ public class RegistrationRequestAlert implements IAlert{
     private TeamOwner owner;
     private boolean hadSent;
 
+    public RegistrationRequestAlert(Leaugue leaugue, String teamName, int year, UUID objectID, TeamOwner owner, boolean hadSent) {
+        this.leaugue = leaugue;
+        this.teamName = teamName;
+        this.year = year;
+        this.objectID = objectID;
+        this.owner = owner;
+        this.hadSent = hadSent;
+    }
+
     public RegistrationRequestAlert(String teamName, Leaugue leaugue, int year, TeamOwner owner) {
         this.leaugue = leaugue;
         this.year = year;
@@ -36,7 +45,7 @@ public class RegistrationRequestAlert implements IAlert{
 
     @Override
     public String getType() {
-        return getClass().getName();
+        return "Registration Request";
     }
 
     @Override

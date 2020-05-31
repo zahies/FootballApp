@@ -25,7 +25,7 @@ public class AssetsDAL implements DAL<IAsset, Integer> {
         preparedStatement.setInt(1, objectToInsert.getAssetID());
         preparedStatement.setInt(2, objectToInsert.getValue());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -40,7 +40,7 @@ public class AssetsDAL implements DAL<IAsset, Integer> {
         preparedStatement.setInt(2, objectToUpdate.getAssetID());
         int ans = preparedStatement.executeUpdate();
 
-        connection.close();
+
         return ans ==1;
     }
 

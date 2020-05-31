@@ -63,7 +63,7 @@ public class PlayersDAL implements DAL<Player, String> {
         preparedStatement.setInt(6, ((Player) member).getAssetID());
         preparedStatement.setDouble(7, ((Player) member).getFootballRate());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -104,7 +104,6 @@ public class PlayersDAL implements DAL<Player, String> {
         preparedStatement.setString(7,member.getName());
         int ans = preparedStatement.executeUpdate();
         new AssetsDAL().update(((IAsset) member));
-        connection.close();
         return ans==1;
     }
 
@@ -174,7 +173,7 @@ public class PlayersDAL implements DAL<Player, String> {
         int assetVal = rs.getInt(1);
 
         Player member = new Player(userName,password,realName,memberAlerts,isActive,AlertsViaMail,mail,assetVal,assetID,team,role,page,dateOfBirth,rate);
-        connection.close();
+
         return member;
     }
 

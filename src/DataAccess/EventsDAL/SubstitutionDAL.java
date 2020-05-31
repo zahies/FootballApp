@@ -32,7 +32,7 @@ public class SubstitutionDAL implements DAL<Substitution,String> {
         preparedStatement.setString(2,objectToInsert.getGoesIn().getName());
         preparedStatement.setString(3,objectToInsert.getGoesOut().getName());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -46,7 +46,7 @@ public class SubstitutionDAL implements DAL<Substitution,String> {
         preparedStatement.setString(2,objectToUpdate.getGoesOut().getName());
         preparedStatement.setString(3,objectToUpdate.getObjectID().toString());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

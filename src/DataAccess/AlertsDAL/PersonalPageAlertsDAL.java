@@ -28,7 +28,7 @@ public class PersonalPageAlertsDAL implements DAL<PersonalPageAlert,String> {
         preparedStatement.setInt(2, objectToInsert.getPersonalPage().getPageID());
         preparedStatement.setString(3, objectToInsert.getNewContent().getObjectID().toString());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

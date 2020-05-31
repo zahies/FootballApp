@@ -33,7 +33,7 @@ public class SeasonTeamsDAL implements DAL<Pair<Pair<String, String>, Integer>, 
         preparedStatement.setString(2, objectToInsert.getKey().getValue());
         preparedStatement.setInt(3,objectToInsert.getValue());
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 
@@ -49,7 +49,7 @@ public class SeasonTeamsDAL implements DAL<Pair<Pair<String, String>, Integer>, 
             preparedStatement.setString(2, objectToUpdate.getKey().getKey());
             preparedStatement.setString(3, objectToUpdate.getKey().getValue());
             ans = preparedStatement.executeUpdate();
-            connection.close();
+
         }else {
             return this.insert(objectToUpdate);
         }

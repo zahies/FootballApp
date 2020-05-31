@@ -53,7 +53,6 @@ public class TeamManagerDAL implements DAL<TeamManager, String> {
             new TeamManagerPermissionsDAL().insert(new Pair<>(new Pair<>(permission, objectToInsert.getName()), permissions.get(permission)));
         }
 
-        connection.close();
         return true;
 
     }
@@ -89,7 +88,7 @@ public class TeamManagerDAL implements DAL<TeamManager, String> {
             preparedStatement.setString(3, ((TeamManager) objectToUpdate).getTeamOwnerAssignedThis().getName());
         }
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
         return ans ==1;
     }
 
@@ -152,7 +151,7 @@ public class TeamManagerDAL implements DAL<TeamManager, String> {
         }
 
         TeamManager member = new TeamManager(objectIdentifier, password, realName, assetVal, assetID, team, ownerAssigning, permissions);
-        connection.close();
+
         return member;
     }
 

@@ -42,7 +42,7 @@ public class TeamOwnersDAL implements DAL<TeamOwner, String> {
                 preparedStatement.setString(2, member.getTeam().getId().toString());
             }
             preparedStatement.execute();
-            connection.close();
+
             return true;
         } else {
             throw new UserInformationException();
@@ -62,7 +62,7 @@ public class TeamOwnersDAL implements DAL<TeamOwner, String> {
         preparedStatement.setString(2, member.getName());
 
         int ans = preparedStatement.executeUpdate();
-        connection.close();
+
         return ans ==1;
     }
 
@@ -110,7 +110,7 @@ public class TeamOwnersDAL implements DAL<TeamOwner, String> {
         }
 
         TeamOwner member = new TeamOwner(userName,password,realName,memberAlerts,isActive,AlertsViaMail,mail,team);
-        connection.close();
+
         return member;
     }
 

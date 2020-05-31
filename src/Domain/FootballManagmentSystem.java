@@ -156,11 +156,11 @@ public class FootballManagmentSystem extends TimerTask {
 
 
     public LinkedList<Member> login(String username, String password) throws UserInformationException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserIsNotThisKindOfMemberException, NoConnectionException {
-        try {
-            password = PasswordHash.getInstance().hash(password);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            password = PasswordHash.getInstance().hash(password);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
         LinkedList<Member> logging = members.get(username);
         if (logging == null) {
             throw new UserInformationException();

@@ -39,7 +39,7 @@ public class PersonalPagesDAL implements DAL<PersonalInfo, Integer> {
         for (APersonalPageContent content : contents) {
             new PersonalPageContentDAL().insert(content);
         }
-        connection.close();
+
 
         return true;
     }

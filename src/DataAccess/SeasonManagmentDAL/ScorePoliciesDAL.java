@@ -31,7 +31,7 @@ public class ScorePoliciesDAL implements DAL<IScorePolicy,String> {
         preparedStatement.setInt(4,objectToInsert.drowVal());
         preparedStatement.execute();
 
-        connection.close();
+
         return true;
     }
 
@@ -45,7 +45,6 @@ public class ScorePoliciesDAL implements DAL<IScorePolicy,String> {
         preparedStatement.setInt(2,objectToUpdate.looseVal());
         preparedStatement.setInt(3,objectToUpdate.drowVal());
         int ans = preparedStatement.executeUpdate();
-        connection.close();
 
         return ans==1;
     }

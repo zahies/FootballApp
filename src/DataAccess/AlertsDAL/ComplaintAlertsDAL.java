@@ -31,7 +31,7 @@ public class ComplaintAlertsDAL implements DAL<ComplaintAlert,String> {
             preparedStatement.setString(2, objectToInsert.getComplaintResponse().getObjectID().toString());
         }
         preparedStatement.execute();
-        connection.close();
+
         return true;
     }
 

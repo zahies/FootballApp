@@ -31,7 +31,6 @@ public class EventLoggersDAL implements DAL<Event_Logger,String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
         preparedStatement.execute();
-        connection.close();
         return true;
     }
 
