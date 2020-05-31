@@ -189,19 +189,12 @@ public class TeamOwnerRestController {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> leaugues = system.getAllLeagus();
         List<Integer> leauguesID = new LinkedList<>();
-        Leaugue leaugue = new Leaugue();
-        leaugue.setId(2);
-        Leaugue leaugue1 = new Leaugue();
-        leaugue1.setId(22);
-        leauguesID.add(leaugue.getID());
-        leauguesID.add(leaugue1.getID());
-        leaugues.add(leaugue1);
 
         String message = "[";
         int i = 0;
         for (Leaugue league:leaugues) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("leagueID", league.getID());
+            jsonObject.put("leagueID", league.getObjectID());
             message+= jsonObject.toString(2);
             i++;
             if (i<leaugues.size()){

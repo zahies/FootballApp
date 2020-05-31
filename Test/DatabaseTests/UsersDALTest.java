@@ -9,6 +9,7 @@ import DataAccess.UsersDAL.CommissionersDAL;
 import DataAccess.UsersDAL.FansDAL;
 import DataAccess.UsersDAL.PlayersDAL;
 import DataAccess.UsersDAL.TeamManagerDAL;
+import Domain.FootballManagmentSystem;
 import Domain.Users.*;
 import FootballExceptions.*;
 import javafx.util.Pair;
@@ -22,6 +23,10 @@ import static org.junit.Assert.assertTrue;
 public class UsersDALTest {
 
 
+    @Test
+    public void login() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+        FootballManagmentSystem.getInstance().login("aviluzon","12345678");
+    }
     @Test
     public void alertsTest() throws SQLException, mightBeSQLInjectionException, NoConnectionException {
             boolean ans =new MemberAlertsDAL().checkExist(new Pair<>("ref4","79199029-e703-4772-b728-09813e630197"),"member_alerts","MemberUserName","AlertObjectID");
