@@ -24,7 +24,7 @@ public class PasswordHash {
         random.nextBytes(salt);
 
         MessageDigest md = MessageDigest.getInstance("SHA-512");
-        md.update(salt);
+
         byte[] hashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
 
         return new String(hashedPassword);
