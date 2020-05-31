@@ -3,6 +3,10 @@ package SpringControllers;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.LeaguesDAL;
+import DataAccess.SeasonManagmentDAL.TeamsDAL;
+import DataAccess.UsersDAL.CommissionersDAL;
+import DataAccess.UsersDAL.TeamOwnersDAL;
 import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.Leaugue;
 import Domain.SeasonManagment.Season;
@@ -52,18 +56,12 @@ public class RefereeControllerTest {
     public void init() throws LeagueIDAlreadyExist, IDWasNotEnterdException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         name = "Tzah";
         id = 3333;
-        commissioner = new Commissioner(name, id, "222", "Tzahi");
-        leaugue = new Leaugue();
-        leaugue.setId(111);
-        leaugue2 = new Leaugue();
-        leaugue2.setId(222);
-        leaugue2.setLeagueIntoSystem();
-        leaugue3 = new Leaugue();
-        leaugue3.setId(333);
+        commissioner = new CommissionersDAL().select("Shino",true);
+        //leaugue = new LeaguesDAL().select("");
         // leaugue3.setLeagueIntoSystem();
         season = new Season(2020);
-        refereeMain = new Referee("Jhon", "Snow", 111, "Stark", RefereeType.Main);
-        refereeSec = new Referee("Hola", "Choco", 121, "Hi", RefereeType.Secondary);
+        //refereeMain = new Referee("Jhon", "Snow", 111, "Stark", RefereeType.Main);
+        //refereeSec = new Referee("Hola", "Choco", 121, "Hi", RefereeType.Secondary);
         id1 = UUID.randomUUID();
         id2 = UUID.randomUUID();
         name1 = "Jamie";
@@ -72,13 +70,13 @@ public class RefereeControllerTest {
         name1 = "Aria";
         realName1 = "Stark";
         teamName1= "The Starks";
-        teamOwner1 = new TeamOwner(name1, realName1, 789, "kingsLanding", id1);
-        teamAway = new Team(teamName1, teamOwner1);
-        teamAway = new Team(teamName1, teamOwner1);
+        teamOwner1 = new TeamOwnersDAL().select("Ohana",true);
+        //teamAway = new TeamsDAL().select()
+        //teamAway = new Team(teamName1, teamOwner1);
         refereeController = new RefereeController();
-        referee = new Referee("bla", "blabla", 333, "123", RefereeType.Secondary);
-        game = new Game(teamAway, teamHome, new Date(), refereeMain, refereeSec, season);
-        Player player = new Player("Romi", "mi", 5,"sss", 111, "back", new Date());
+        //referee = new Referee("bla", "blabla", 333, "123", RefereeType.Secondary);
+        //game = new Game(teamAway, teamHome, new Date(), refereeMain, refereeSec, season);
+        //Player player = new Player("Romi", "mi", 5,"sss", 111, "back", new Date());
     }
 
     @Test
@@ -101,4 +99,7 @@ public class RefereeControllerTest {
         int size = ans.size();
         assertEquals(1, ans.size());
     }
+
+
+
 }

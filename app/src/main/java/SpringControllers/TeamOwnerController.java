@@ -13,10 +13,7 @@ import Domain.Users.*;
 import FootballExceptions.*;
 
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class TeamOwnerController extends MemberController {
 
@@ -329,11 +326,11 @@ public class TeamOwnerController extends MemberController {
     }
 
 
-    public boolean sendRegisterRequestForNewTeam(String username, String teamName, int leaugueID, int year){
+    public boolean sendRegisterRequestForNewTeam(String username, String teamName, String leaugueID, int year){
         boolean succeeded = false;
         try {
             TeamOwner teamOwner = (TeamOwner) new TeamOwnersDAL().select(username, true);
-            Leaugue league = (Leaugue) new LeaguesDAL().select(String.valueOf(leaugueID), true);
+            Leaugue league = (Leaugue) new LeaguesDAL().select(leaugueID, true);
             teamOwner.sendRegisterRequestForNewTeam(teamName,league,year);
             succeeded = true;
         } catch (SQLException throwables) {

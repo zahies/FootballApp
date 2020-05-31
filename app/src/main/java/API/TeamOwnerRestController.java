@@ -126,7 +126,7 @@ public class TeamOwnerRestController {
     public void signUpTeam(@RequestBody Map<String,String> body, final HttpServletResponse response) throws IOException {
         boolean succeeded;
         String ownerUsername = body.get("username");
-        int leagueId = Integer.parseInt(body.get("leagueID"));
+        String leagueId = (body.get("leagueID"));
         int year = Integer.parseInt(body.get("year"));
         String teamName = (body.get("team_name"));
         succeeded = ownerController.sendRegisterRequestForNewTeam(ownerUsername,teamName,leagueId,year);
@@ -189,7 +189,6 @@ public class TeamOwnerRestController {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> leaugues = system.getAllLeagus();
         List<Integer> leauguesID = new LinkedList<>();
-
         String message = "[";
         int i = 0;
         for (Leaugue league:leaugues) {
