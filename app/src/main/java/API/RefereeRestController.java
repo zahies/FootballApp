@@ -17,14 +17,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
+@CrossOrigin
 @RequestMapping("footballapp/referee")
 @RestController
 public class RefereeRestController {
 
     private final RefereeController refereeController;
-
-
-
 
     @Autowired
     public RefereeRestController() {
@@ -36,9 +34,9 @@ public class RefereeRestController {
     public void addEventToGame(@RequestBody Map<String, String> body, final HttpServletResponse response) throws IOException, PersonalPageYetToBeCreatedException {
         boolean flag = false;
         String refereeUserName = body.get("username");
-        String eventType = body.get("eventType");
+        String eventType = body.get("eventtype").toLowerCase();
         double minute = Double.parseDouble(body.get("minute"));
-        int gameID = Integer.parseInt(body.get("gameID"));
+        String gameID = body.get("gameID");
         String playerUserName = body.get("playerusername");
         String alert = "";
         try {
@@ -63,7 +61,7 @@ public class RefereeRestController {
             alert = e.getMessage();
         }
         if (flag) { //todo pop up success
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Adding event to dame successfully!");
+            response.setStatus(HttpServletResponse.SC_OK, "Adding event to dame successfully!");
 
         } else {
             response.sendError(HttpServletResponse.SC_CONFLICT, alert);
@@ -73,7 +71,7 @@ public class RefereeRestController {
 
 
     @GetMapping("/players/{gameid}")
-    public HashMap<String, String> testGame(@PathVariable String gameid) {
+    public HashMap<String, String> getPlayerFromGame(@PathVariable String gameid) {
         HashMap<String, String> ans = null;
         try {
             ans = refereeController.gamePlayers(gameid);
@@ -91,44 +89,25 @@ public class RefereeRestController {
     }
 
 
-    /**
-     * input: teamID
-     * @return key: username
-     *         value: teamname + realname
-     */
-    @GetMapping("/players/{teamid}")
-    public HashMap<String, String> testPlayers(@PathVariable String teamid) {
-
-//        Member teamowner = new TeamOwner("Moshe","DASD",123,"asd");
-//        Team team = new Team("Bet",((TeamOwner)teamowner));
-//        team.getId();
-//        Player player = new Player("Jamie", "Lanister", 666, "Sarsei", 222, "bla", new Date());
-//        Player player2 = new Player("Apolo", "The King", 234, "Sarsei", 555, "bla", new Date());
-//        HashMap<Integer, IAsset> teamList = new HashMap<>();
-//        teamList.put(666, player);
-//        teamList.put(234, player2);
-//        team.setTeamPlayers(teamList);
-
-
-        UUID teamUUID = UUID.fromString(teamid);
-
-        Team team = (Team)FootballManagmentSystem.getInstance().getTeamByID(teamUUID);
-        String teamName = team.getName();
-        HashMap<Integer, IAsset> playerList = team.getTeamPlayers();
-
-        HashMap<String, String> ans = new HashMap<>();
-
-        for (Map.Entry curr: playerList.entrySet()){
-            String playerUsertName = ((Player)curr.getValue()).getName();
-            String playerRealName = ((Player)curr.getValue()).getReal_Name();
-            String value = teamName + " - " + playerRealName;
-            ans.put(playerUsertName, value);
+    @GetMapping("/games/{refereeName}")
+    public Map<String, String> getAllRefGames(@PathVariable String refereeName){
+        Map <String,String> gamesID = new HashMap<>();
+        try {
+            gamesID = refereeController.getAllTeamFromGames(refereeName);
+        } catch (UserIsNotThisKindOfMemberException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (UserInformationException e) {
+            e.printStackTrace();
+        } catch (NoConnectionException e) {
+            e.printStackTrace();
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
 
-        return ans;
+        return gamesID;
     }
-
-
 
 
 
@@ -137,7 +116,7 @@ public class RefereeRestController {
     public boolean addReportToGame(@RequestBody Map<String, String> body, final HttpServletResponse response) throws PersonalPageYetToBeCreatedException, IOException {
         boolean flag = false;
         String refereeUserName = body.get("username");
-        int gameID = Integer.parseInt(body.get("gameID"));
+        String  gameID = body.get("gameID");
         String alert = "";
         try {
             flag = refereeController.addReportForGame(refereeUserName, gameID);
@@ -155,7 +134,7 @@ public class RefereeRestController {
             alert = e.getMessage();
         }
         if (flag) { //todo
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Your report Added Successfully ! ");
+            response.setStatus(HttpServletResponse.SC_OK, "Your report Added Successfully ! ");
         } else {
             response.sendError(HttpServletResponse.SC_CONFLICT, "Incorrect Login Details");
             ErrorLog.getInstance().UpdateLog("The error is: " + alert);
@@ -196,7 +175,7 @@ public class RefereeRestController {
         }
         if (succeeded) {
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "RECORDED");
+            response.setStatus(HttpServletResponse.SC_OK, "RECORDED");
         } else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT, alert);

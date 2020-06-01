@@ -240,7 +240,7 @@ public class TeamOwnerRestController {
         }
         if (succeeded) {
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "RECORDED");
+            response.setStatus(HttpServletResponse.SC_OK, "RECORDED");
         } else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT, alert);

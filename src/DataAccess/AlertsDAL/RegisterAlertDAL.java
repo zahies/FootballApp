@@ -64,8 +64,6 @@ public class RegisterAlertDAL implements DAL<RegistrationRequestAlert,String> {
         rs2.next();
 
         return new RegistrationRequestAlert(new LeaguesDAL().select(rs.getString("League"),false),rs.getString("Team"),rs.getInt("Year"),UUID.fromString(objectIdentifier),new TeamOwnersDAL().select(rs.getString("Owner"),false),rs2.getBoolean("Sent"));
-
-
     }
 
     @Override

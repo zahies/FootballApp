@@ -4,10 +4,7 @@ import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.UsersDAL.MembersDAL;
-import Domain.Alerts.ChangedGameAlert;
-import Domain.Alerts.GameEventAlert;
-import Domain.Alerts.IAlert;
-import Domain.Alerts.PersonalPageAlert;
+import Domain.Alerts.*;
 import Domain.Events.Foul;
 import Domain.Events.IEvent;
 import Domain.FootballManagmentSystem;
@@ -33,7 +30,7 @@ public class AlertsController {
 
 
     /** alert for online user */
-    public Map<String, List<String>> showAlerts(String username) throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException, EmptyPersonalPageException {
+    public Map<String, List<String>> showAlerts(String username) throws UserInformationException, SQLException, NoPermissionException, NoConnectionException, UserIsNotThisKindOfMemberException, EmptyPersonalPageException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
 
         Member member = new MembersDAL().select(username,true);
 
@@ -50,8 +47,8 @@ public class AlertsController {
 
 
 
-        IEvent foul = new Foul(32);
-        GameEventAlert al = new GameEventAlert(2,foul);
+//        IEvent foul = new Foul(32);
+//        GameEventAlert al = new GameEventAlert(2,foul);
 
         Queue<IAlert> alerts = member.getAlertsList();
 
@@ -70,18 +67,23 @@ public class AlertsController {
             }
         /** via APP */
         }else{
+            int counter=0;
 
-            size.add(String.valueOf(alerts.size()));
-            to.put("num",size);
             for (IAlert alert:alerts) {
                 if (!alert.isHadSent()){
                     content.add(alert.toString());
-                  // member.deleteSpecificAlert(alert);
-                    alert.setHadSent(true);
+                    // member.deleteSpecificAlert(alert);
+                    if(!(alert instanceof RegistrationRequestAlert)) {
+                        alert.setHadSent(true);
+                    }
+                    counter++;
                 }
             }
+            size.add(String.valueOf(counter));
+            to.put("num",size);
             to.put("notedata", content);
         }
+        new MembersDAL().update(member);
         return to;
     }
 

@@ -1,7 +1,15 @@
 package Domain.Alerts;
 
+import DataAccess.AlertsDAL.GameEventAlertsDAL;
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
+import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.Events.IEvent;
+import FootballExceptions.NoPermissionException;
+import FootballExceptions.UserInformationException;
+import FootballExceptions.UserIsNotThisKindOfMemberException;
 
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class GameEventAlert implements IAlert {
@@ -18,7 +26,7 @@ public class GameEventAlert implements IAlert {
         this.hadSent = hadSent;
     }
 
-    public GameEventAlert(double eventMin, IEvent event) {
+    public GameEventAlert(double eventMin, IEvent event) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         this.eventMin = eventMin;
         this.event = event;
         objectID = UUID.randomUUID();

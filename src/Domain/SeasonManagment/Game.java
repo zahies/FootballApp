@@ -125,6 +125,7 @@ public class Game extends Observable {
     //part of UC - 10.3 + alerting to followers
     public void addEventToEventLog(AGameEvent event) throws PersonalPageYetToBeCreatedException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         event.getPlayerWhocommit().changePlayerRate(event);
+        event.setEvent_logger(event_logger);
         event_logger.addEvent(event);
         IAlert alert = new GameEventAlert(event.getGameMinute(), event);
         notifyTeamfans(alert);
@@ -132,7 +133,7 @@ public class Game extends Observable {
 
 
     //part of UC - 10.3 + alerting to followers
-    public void addSubtitutionEventToEventLog(AGameEvent event) throws PersonalPageYetToBeCreatedException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
+    public void addSubtitutionEventToEventLog(AGameEvent event) throws PersonalPageYetToBeCreatedException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         event_logger.addEvent(event);
         IAlert alert = new GameEventAlert(event.getGameMinute(), event);
         notifyTeamfans(alert);

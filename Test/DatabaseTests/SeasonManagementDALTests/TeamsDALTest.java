@@ -5,13 +5,16 @@ import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.SeasonManagmentDAL.TeamsDAL;
 import DataAccess.UsersDAL.CommissionersDAL;
+import DataAccess.UsersDAL.PlayersDAL;
+import DataAccess.UsersDAL.TeamManagerDAL;
+import DataAccess.UsersDAL.TeamOwnersDAL;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Team;
 import Domain.Users.Commissioner;
 import Domain.Users.Player;
-import FootballExceptions.NoPermissionException;
-import FootballExceptions.UserInformationException;
-import FootballExceptions.UserIsNotThisKindOfMemberException;
+import Domain.Users.TeamManager;
+import Domain.Users.TeamOwner;
+import FootballExceptions.*;
 import org.junit.Test;
 
 import java.sql.Date;
@@ -30,5 +33,16 @@ public class TeamsDALTest {
     public void select() throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
         Team team = new TeamsDAL().select("8c408231-664c-4b6a-ab91-e837ac913ef7",true);
         System.out.println("DASD");
+    }
+
+    @Test
+    public void createPersonalPage() throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, InactiveTeamException, DuplicatedPrimaryKeyException, UnauthorizedTeamOwnerException, PersonalPageYetToBeCreatedException, UnauthorizedPageOwnerException, TeamOwnerWithNoTeamException, mightBeSQLInjectionException, UnauthorizedTeamManagerException, MemberIsAlreadyTeamOwnerException, MemberIsAlreadyTeamManagerException {
+        Team team = new TeamsDAL().select("cf59254f-46b1-41c0-84fc-ba054fae5da8",true);
+        Player player = new PlayersDAL().select("Kapi",true);
+        TeamOwner teamOwner = new TeamOwnersDAL().select("NissanovBt",true);
+        //teamOwner.assignNewTeamManager(player,4777);
+        TeamManager teamManager = new TeamManagerDAL().select("Kapi",true);
+        teamOwner.editManagerPermissions(teamManager,"Create Personal Page",true);
+        team.createPersonalPage(teamManager);
     }
 }

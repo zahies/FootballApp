@@ -18,8 +18,9 @@ public class Foul extends AGameEvent implements IEvent {
      * @param gameMinute
      * @param playerWhocommit
      * @param objectID*/
-    public Foul(double gameMinute, Player playerWhocommit, UUID objectID) {
-        super(gameMinute, playerWhocommit, objectID);
+    public Foul(double gameMinute, Player playerWhocommit, UUID objectID,Event_Logger event_logger) {
+        super(gameMinute, playerWhocommit, objectID,event_logger);
+
     }
 
     @Override

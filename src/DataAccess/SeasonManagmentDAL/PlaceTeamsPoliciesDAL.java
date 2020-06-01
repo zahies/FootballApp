@@ -55,7 +55,9 @@ public class PlaceTeamsPoliciesDAL implements DAL<IPlaceTeamsPolicy,String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectIdentifier);
         ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
+        if(!rs.next()){
+            return null;
+        }
 
         return new DefaultTeamsPolicy(UUID.fromString(objectIdentifier),rs.getInt("numOfGamesWithEachTeam"));
     }

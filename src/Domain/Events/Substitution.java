@@ -19,8 +19,8 @@ public class Substitution extends AGameEvent implements IEvent {
      * @param gameMinute
      * @param playerWhocommit
      * @param objectID*/
-    public Substitution(double gameMinute, Player playerWhocommit, UUID objectID, Player goesOut, Player goesIn) {
-        super(gameMinute, playerWhocommit, objectID);
+    public Substitution(double gameMinute, Player playerWhocommit, UUID objectID, Player goesOut, Player goesIn, Event_Logger ev) {
+        super(gameMinute, playerWhocommit, objectID,ev);
         this.goesOut = goesOut;
         this.goesIn = goesIn;
     }

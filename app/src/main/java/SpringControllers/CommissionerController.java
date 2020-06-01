@@ -3,8 +3,7 @@ package SpringControllers;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
-import DataAccess.SeasonManagmentDAL.GamesDAL;
-import DataAccess.SeasonManagmentDAL.LeaguesDAL;
+import DataAccess.SeasonManagmentDAL.*;
 import DataAccess.UsersDAL.CoachesDAL;
 import DataAccess.UsersDAL.CommissionersDAL;
 import DataAccess.UsersDAL.RefereesDAL;
@@ -141,7 +140,7 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.5
      */
-    public boolean setNewScorePolicy(String username,String idLeg, int year,int winVal, int loseVal, int drawVal) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+    public boolean setNewScorePolicy(String username,String idLeg, int year,int winVal, int loseVal, int drawVal) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, SQLException {
         boolean succeeded = false;
         IScorePolicy sp = new IScorePolicy(){
             private UUID spID = UUID.randomUUID();
@@ -166,7 +165,7 @@ public class CommissionerController extends MemberController {
                 return drawVal;
             }
         };
-
+        new ScorePoliciesDAL().insert(sp);
         try {
             Commissioner commissioner = new CommissionersDAL().select(username,true);
             commissioner.setNewScorePolicy(UUID.fromString(idLeg), year, sp);
@@ -181,7 +180,7 @@ public class CommissionerController extends MemberController {
     /**
      * uc 9.6
      */
-    public boolean setNewPlaceTeamsPolicy(String username, String idLeg, int year, int numGames) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+    public boolean setNewPlaceTeamsPolicy(String username, String idLeg, int year, int numGames) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, SQLException {
         boolean succeeded = false;
         IPlaceTeamsPolicy pp = new IPlaceTeamsPolicy() {
 
@@ -197,6 +196,7 @@ public class CommissionerController extends MemberController {
                 return ppID;
             }
         };
+        new PlaceTeamsPoliciesDAL().insert(pp);
         try {
             Commissioner commissioner = new CommissionersDAL().select(username,true);
             commissioner.setNewPlaceTeamsPolicy(UUID.fromString(idLeg), year, pp);
@@ -241,7 +241,7 @@ public class CommissionerController extends MemberController {
     /**
      * UC 9.8 - Define rules about BUDGET CONTROL
      */
-    public boolean defineBudgetControl(String username, int ruleAmount,String desc) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
+    public boolean defineBudgetControl(String username, int ruleAmount,String desc) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, SQLException {
         boolean succeeded = false;
         ICommissionerRule newRule = new ICommissionerRule() {
             private UUID newruleID = UUID.randomUUID();
@@ -260,8 +260,9 @@ public class CommissionerController extends MemberController {
             public String getDescription() {
                 return desc;
             }
-        };
 
+        };
+        new ICommissionerRulesDAL().insert(newRule);
         try {
             Commissioner commissioner = new CommissionersDAL().select(username,true);
             commissioner.defineBudgetControl(newRule);
@@ -334,6 +335,7 @@ public class CommissionerController extends MemberController {
         }
 
 
+
         return flag;
     }
 
@@ -342,10 +344,11 @@ public class CommissionerController extends MemberController {
         Queue<IAlert> alerts = commissioner.getAlertsList();   /** change to commissioner */
         LinkedList<Map<String,String>> returnto = new LinkedList<>();
         for (IAlert alert: alerts) {
-            if (alert instanceof RegistrationRequestAlert){
+            if (alert instanceof RegistrationRequestAlert && !alert.isHadSent()){
                 Map<String,String> map = new HashMap<>();
                 map.put("teamname",((RegistrationRequestAlert) alert).getTeamName());
                 map.put("username", ((RegistrationRequestAlert) alert).getOwner().getName());
+
                 returnto.add(map);
             }
         }

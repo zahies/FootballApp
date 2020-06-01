@@ -1,10 +1,13 @@
 package Domain.Users;
 
+import DataAccess.AlertsDAL.MemberAlertsDAL;
 import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
+import DataAccess.SeasonManagmentDAL.LeaguesDAL;
 import DataAccess.UsersDAL.CoachesDAL;
 import DataAccess.UsersDAL.CommissionersDAL;
+import DataAccess.UsersDAL.MembersDAL;
 import Domain.Alerts.IAlert;
 import Domain.Alerts.RegistrationRequestAlert;
 import Domain.FootballManagmentSystem;
@@ -123,19 +126,18 @@ public class Commissioner extends Member {
     public void setNewScorePolicy(UUID idLeg, int year, IScorePolicy sp) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> legs = system.getAllLeagus();
-        Leaugue leaugue = new Leaugue();
+        Leaugue leaugue = new LeaguesDAL().select(idLeg.toString(),false);
+
         boolean found = false;
-        for (int i = 0; i < legs.size(); i++) {
-            if (legs.get(i).getObjectID() == idLeg) {
-                leaugue = legs.get(i);
-                found = true;
-                break;
-            }
-        }
-        if (found) {
+//        for (int i = 0; i < legs.size(); i++) {
+//            if (legs.get(i).getObjectID() == idLeg) {
+//                leaugue = legs.get(i);
+//                found = true;
+//                break;
+//            }
+//        }
             Season season = leaugue.getSeasonByYear(year);
             season.setNewScorePolicy(sp);
-        }
     }
 
 
@@ -145,19 +147,19 @@ public class Commissioner extends Member {
     public void setNewPlaceTeamsPolicy(UUID idLeg, int year, IPlaceTeamsPolicy pp) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> legs = system.getAllLeagus();
-        Leaugue leaugue = new Leaugue();
+        Leaugue leaugue =  new LeaguesDAL().select(idLeg.toString(),false);
         boolean found = false;
-        for (int i = 0; i < legs.size(); i++) {
-            if (legs.get(i).getObjectID() == idLeg) {
-                leaugue = legs.get(i);
-                found = true;
-                break;
-            }
-        }
-        if (found) {
+//        for (int i = 0; i < legs.size(); i++) {
+//            if (legs.get(i).getObjectID() == idLeg) {
+//                leaugue = legs.get(i);
+//                found = true;
+//                break;
+//            }
+//        }
+//        if (found) {
             Season season = leaugue.getSeasonByYear(year);
             season.setNewTeamsPolicy(pp);
-        }
+        //}
     }
 
 
@@ -230,7 +232,9 @@ public class Commissioner extends Member {
             if (alert instanceof RegistrationRequestAlert){
                 if (teamName.equals(((RegistrationRequestAlert) alert).getTeamName())){
                     Team newTeam = new Team(((RegistrationRequestAlert) alert).getTeamName(),((RegistrationRequestAlert) alert).getOwner());
-                    alertsList.remove(alert);
+                    //alertsList.remove(alert);
+                    alert.setHadSent(true);
+                    new MemberAlertsDAL().update(new Pair<>(new Pair<String,IAlert>(name,alert),"Registration Request"));
                     return true;
                 }
             }

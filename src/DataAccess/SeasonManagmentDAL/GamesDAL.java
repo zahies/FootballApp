@@ -150,7 +150,7 @@ public class GamesDAL implements DAL<Game, String> {
         LinkedList<Observer> referees = new LinkedList<>();
         referees.add(mainRef);
         referees.add(secRef);
-        Event_Logger event_logger = new EventLoggersDAL().select(rs.getString("Logger"),false);
+        Event_Logger event_logger = new EventLoggersDAL().select(rs.getString("Logger"),true);
 
         return new Game(UUID.fromString(objectIdentifier),awayTeam,homeTeam,date,mainRef,secRef,homeScore,awayScore,null,referees,event_logger);
 

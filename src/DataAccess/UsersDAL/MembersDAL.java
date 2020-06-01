@@ -162,13 +162,14 @@ public class MembersDAL implements DAL<Member, String> {
         HashMap<String, LinkedList<Member>> allMembers = new HashMap<>();
 
         Connection connection = MySQLConnector.getInstance().connect();
-        String statement ="SELECT UserName , Type FROM members";
+        String statement ="SELECT UserName , Type FROM members ";
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()){
             String type = rs.getString("Type");
             String userName = rs.getString("UserName");
-            Member member = this.select(userName,true);
+            Member member = this.selectByType(userName,type,true);
             if(!allMembers.containsKey(userName)){
                 LinkedList <Member> memberAccounts = new LinkedList<>();
                 memberAccounts.add(member);
@@ -180,5 +181,47 @@ public class MembersDAL implements DAL<Member, String> {
             }
         }
         return allMembers;
+    }
+
+
+
+    public Member selectByType(String userName,String type, boolean  bidirectionalAssociation) throws NoConnectionException, SQLException, NoPermissionException, UserInformationException, UserIsNotThisKindOfMemberException, EmptyPersonalPageException {
+
+        Connection connection = MySQLConnector.getInstance().connect();
+        String statement ="SELECT UserName , Type FROM members WHERE UserName=? and Type=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.setString(1,userName);
+        preparedStatement.setString(2,type);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        Member member = null;
+        switch (type) {
+            case "Coach":
+                member = new CoachesDAL().select(userName, true);
+                break;
+            case "Commissioner":
+                member = new CommissionersDAL().select(userName, true);
+                break;
+            case "Fan":
+                member = new FansDAL().select(userName, true);
+                break;
+            case "Player":
+                member = new PlayersDAL().select(userName, true);
+                break;
+            case "Referee":
+                member = new RefereesDAL().select(userName, true);
+                break;
+            case "SystemManager":
+                member = new SystemManagerDAL().select(userName, true);
+                break;
+            case "TeamManager":
+                member = new TeamManagerDAL().select(userName, true);
+                break;
+            case "TeamOwner":
+                member = new TeamOwnersDAL().select(userName, true);
+                break;
+        }
+
+        return member;
     }
 }

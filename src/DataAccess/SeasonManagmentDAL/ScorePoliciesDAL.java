@@ -57,7 +57,9 @@ public class ScorePoliciesDAL implements DAL<IScorePolicy,String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectIdentifier);
         ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
+        if(!rs.next()){
+            return null;
+        }
 
         return new DefaultIScorePolicy(UUID.fromString(objectIdentifier),rs.getInt("winValue"),rs.getInt("loseValue"),rs.getInt("drawValue"));
     }

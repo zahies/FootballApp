@@ -6,6 +6,7 @@ import DataAccess.Exceptions.NoConnectionException;
 import DataAccess.Exceptions.mightBeSQLInjectionException;
 import DataAccess.MySQLConnector;
 import DataAccess.UsersDAL.PlayersDAL;
+import Domain.Events.Event_Logger;
 import Domain.Events.Substitution;
 import Domain.Users.Player;
 import FootballExceptions.NoPermissionException;
@@ -62,8 +63,9 @@ public class SubstitutionDAL implements DAL<Substitution,String> {
         double eventMin = rs.getDouble("EventMinute");
         Player playerIn= new PlayersDAL().select(rs.getString("PlayerIn"),false);
         Player playerOut= new PlayersDAL().select(rs.getString("PlayerOut"),false);
+        Event_Logger event_logger = new EventLoggersDAL().select(rs.getString("Logger"),false);
 
-        return new Substitution(eventMin,null, UUID.fromString(objectIdentifier),playerOut,playerIn);
+        return new Substitution(eventMin,null, UUID.fromString(objectIdentifier),playerOut,playerIn,event_logger);
 
     }
 

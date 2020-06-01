@@ -1,7 +1,9 @@
 package API;
 
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import FootballExceptions.EmptyPersonalPageException;
 import FootballExceptions.NoPermissionException;
 import FootballExceptions.UserInformationException;
@@ -44,7 +46,7 @@ public class AlertsRestController {
     /** alert for online user */
     @GetMapping("/myalerts/{username}")
     public Map<String, List<String>> sendAlerts(@PathVariable String username,final HttpServletResponse response) throws IOException {
-        Map<String, List<String>> alertsJson = null;
+        Map<String, List<String>> alertsJson = new HashMap<>();
         try{
            alertsJson = alertsController.showAlerts(username);
         } catch (UserIsNotThisKindOfMemberException e) {
@@ -59,8 +61,12 @@ public class AlertsRestController {
             e.printStackTrace();
         } catch (NoConnectionException e) {
             e.printStackTrace();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
-        if (alertsJson.get("num").size() == 0){
+        if (alertsJson.get("num").size() == 0 || alertsJson.get("num")==null){
             response.sendError(HttpServletResponse.SC_CONFLICT,"No more alerts");
         }
         return alertsJson;

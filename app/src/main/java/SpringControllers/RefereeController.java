@@ -7,6 +7,7 @@ import DataAccess.SeasonManagmentDAL.GamesDAL;
 import DataAccess.UsersDAL.PlayersDAL;
 import DataAccess.UsersDAL.RefereesDAL;
 import Domain.Events.AGameEvent;
+import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Game;
 import Domain.SeasonManagment.IAsset;
 import Domain.SeasonManagment.Team;
@@ -18,6 +19,8 @@ import FootballExceptions.*;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class RefereeController extends MemberController {
@@ -105,7 +108,7 @@ public class RefereeController extends MemberController {
     /**
      * 10.3
      */
-    public boolean addEventToGame(String username, String eventType, double minute, Integer gameID, String playerusername) throws PersonalPageYetToBeCreatedException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, EventNotMatchedException {
+    public boolean addEventToGame(String username, String eventType, double minute, String gameID, String playerusername) throws PersonalPageYetToBeCreatedException, UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, EventNotMatchedException {
         boolean flag = false;
         try {
             Member referee = new RefereesDAL().select(username,true);
@@ -128,7 +131,7 @@ public class RefereeController extends MemberController {
     /**
      * 10.4
      */
-        public boolean editEventsAfterGame(String username, Integer gameID, AGameEvent oldEvent, AGameEvent newEvent) throws UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+        public boolean editEventsAfterGame(String username, String gameID, AGameEvent oldEvent, AGameEvent newEvent) throws UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
             boolean flag = false;
             try {
             Member referee = new RefereesDAL().select(username,true);
@@ -147,7 +150,7 @@ public class RefereeController extends MemberController {
     /**
      * 10.4
      */
-    public boolean addReportForGame(String username, Integer gameID) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
+    public boolean addReportForGame(String username, String gameID) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException {
         boolean flag = false;
         try {
             Member referee = new RefereesDAL().select(username,true);
@@ -199,4 +202,17 @@ public class RefereeController extends MemberController {
     }
 
 
+    public Map<String,String> getAllTeamFromGames(String refID) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
+        List <Game> allGames = new LinkedList<>();
+        Referee referee = new RefereesDAL().select(refID,true);
+        allGames = referee.getGames();
+       //Game game = new GamesDAL().select(allGames.get(0).getObjectId().toString(),true);
+        HashMap <String,String> allGamesTeams = new HashMap<>();
+
+        for (Game game : allGames) {
+            Game fullGame = new GamesDAL().select(game.getObjectId().toString(),true);
+            allGamesTeams.put(fullGame.getObjectId().toString(),fullGame.getHome().getName() + " - " + fullGame.getAway().getName());
+        }
+        return allGamesTeams;
+    }
 }

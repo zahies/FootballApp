@@ -16,6 +16,8 @@ import javafx.util.Pair;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -35,6 +37,8 @@ public class UsersDALTest {
     @Test
     public void fanSelect() throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, AlreadyFollowThisPageException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, EmptyPersonalPageException {
         Fan fan = new FansDAL().select("Ozi9",true);
+        PersonalInfo personalInfo = new PersonalPagesDAL().select(31528149,true);
+        fan.turnAlertForPersonalPageOn(personalInfo);
         assertEquals("Ozi Gofia",fan.getReal_Name());
     }
 
@@ -42,6 +46,25 @@ public class UsersDALTest {
     public void test() throws NoPermissionException, EmptyPersonalPageException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         PersonalInfo personalInfo = new PersonalPagesDAL().select(28745299,true);
         System.out.println("FAS");
+    }
+
+    @Test
+    public void test2() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+        TeamOwner teamOwner = new TeamOwner("ASD","SAD",0,"asd");
+    }
+    @Test
+    public void teamOwnerWithoutTeam() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+        TeamOwner teamOwner = new TeamOwner("Hogeg","Moshe Hogeg",0,"Hogeg");
+    }
+
+    @Test
+    public void fanInsert() throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, AlreadyFollowThisPageException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, EmptyPersonalPageException {
+        Fan fan = new Fan("Ozi9","Ozi Gofia",0,"asd");
+        List<PersonalInfo> list = new LinkedList<>();
+        PersonalInfo personalInfo = new PersonalPagesDAL().select(31528149,true);
+        list.add(personalInfo);
+        fan.addPersonalPagesToFollow(list);
+
     }
 
     @Test

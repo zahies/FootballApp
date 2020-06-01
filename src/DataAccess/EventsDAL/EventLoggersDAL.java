@@ -35,8 +35,13 @@ public class EventLoggersDAL implements DAL<Event_Logger,String> {
     }
 
     @Override
-    public boolean update(Event_Logger objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
+    public boolean update(Event_Logger objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
 
+        Connection connection = MySQLConnector.getInstance().connect();
+        List<IEvent> allEvents= objectToUpdate.getEvents();
+        for (IEvent event: allEvents) {
+            new IEventDAL().update(event);
+        }
         return true;
     }
 
@@ -49,9 +54,10 @@ public class EventLoggersDAL implements DAL<Event_Logger,String> {
         preparedStatement.setString(1,objectIdentifier);
         ResultSet rs = preparedStatement.executeQuery();
         List<IEvent> events = new LinkedList<>();
-
-        while (rs.next()){
-            events.add(new IEventDAL().select(rs.getString("ObjectID"),false));
+        if(bidirectionalAssociation) {
+            while (rs.next()) {
+                events.add(new IEventDAL().select(rs.getString("ObjectID"), false));
+            }
         }
 
         return new Event_Logger(UUID.fromString(objectIdentifier),events);

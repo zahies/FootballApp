@@ -35,7 +35,7 @@ public class Event_Logger {
         return objectID;
     }
 
-    public void addEvent(IEvent event) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException {
+    public void addEvent(IEvent event) throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         events.add(event);
         new EventLoggersDAL().update(this);
     }

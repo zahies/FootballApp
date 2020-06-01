@@ -17,8 +17,8 @@ public class OffSide extends AGameEvent implements IEvent {
      * @param gameMinute
      * @param playerWhocommit
      * @param objectID*/
-    public OffSide(double gameMinute, Player playerWhocommit, UUID objectID) {
-        super(gameMinute, playerWhocommit, objectID);
+    public OffSide(double gameMinute, Player playerWhocommit, UUID objectID, Event_Logger ev) {
+        super(gameMinute, playerWhocommit, objectID,ev);
     }
 
     @Override

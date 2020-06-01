@@ -150,8 +150,8 @@ public class Referee extends Member implements Observer {
      * 10.4 add report for game
      */
     public void addReportForGame(Game game) throws NoPermissionException {
-        game.getHome().addToGamesHistory(game.getAway(), game);
-        game.getAway().addToGamesHistory(game.getHome(), game);
+        //game.getHome().addToGamesHistory(game.getAway(), game);
+        //game.getAway().addToGamesHistory(game.getHome(), game);
         Date gameDate = game.getDateGame();
         Calendar cal = Calendar.getInstance();
         cal.setTime(gameDate);

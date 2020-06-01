@@ -55,10 +55,12 @@ public class ICommissionerRulesDAL implements DAL<ICommissionerRule,String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectIdentifier);
         ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
+        if(!rs.next()){
+            return null;
+        }
 
-        //return new DefaultCommissionerRule(UUID.fromString(objectIdentifier),rs.getString("Description"));
-        return null;
+        return new DefaultCommissionerRule(UUID.fromString(objectIdentifier),rs.getString("Description"));
+
     }
 
     @Override

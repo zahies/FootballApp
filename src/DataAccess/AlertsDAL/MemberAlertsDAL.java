@@ -69,6 +69,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
                 break;
             case "Registration Request":
                 new RegisterAlertDAL().insert((RegistrationRequestAlert)objectToInsert.getKey().getValue());
+                break;
             default:
                 throw new SQLException();
         }
@@ -152,7 +153,7 @@ public class MemberAlertsDAL implements DAL<Pair<Pair<String, IAlert>,String>, P
                 rs = preparedStatement.executeQuery();
                 rs.next();
                 IEvent event= new IEventDAL().select(rs.getString("EventID"),false);
-                alert = new GameEventAlert(UUID.fromString(objectIdentifier.getValue()),rs.getDouble("EventMin"),event,sent);
+                alert = new GameEventAlert(UUID.fromString(objectIdentifier.getValue()),rs.getDouble("EventMinute"),event,sent);
         }
         return  new Pair<>(new Pair<>("",alert),"");
     }

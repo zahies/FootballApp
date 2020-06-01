@@ -16,8 +16,8 @@ import java.util.*;
 
 public interface DAL<T, E> {
 
-    public static final Set<String> allPrimaryKeysName = new HashSet<>(Arrays.asList("UserName", "objectID", "gameID", "AssetID","Info","Commissioner","BudgetActivity","Budget","MemberUserName","PersonalPageID","League","Season","AlertObjectID","PageID","Description","TeamManager","Referee","Game","Season","Referee","SeasonID","TeamID"));
-    public static final Set<String> allTablesName = new HashSet<>(Arrays.asList("assets","association_financial_activities","budget_finance_activity","budgets","coaches","commissioner_rules","commissioners","complaint_forms","control_budgets","events","events_logger","events_substitutions","fan_following_pages","fans","fields","games","leagues_seasons","leauge","member_alerts","member_alerts_changed_game","member_alerts_complaints","member_alerts_financial","member_alerts_game_alert","member_alerts_management","member_alerts_personal_page","members","page_content","page_content_career","page_content_profile","permissions","personal_pages","place_teams_policies","players","referee_games","referees","score_policies","season_referees","seasons_teams","seasons","system_managers","teammanagers","teamowners","teams"));
+    public static final Set<String> allPrimaryKeysName = new HashSet<>(Arrays.asList("ObjectID","","UserName", "objectID", "gameID", "AssetID","Info","Commissioner","BudgetActivity","Budget","MemberUserName","PersonalPageID","League","Season","AlertObjectID","PageID","Description","TeamManager","Referee","Game","Season","Referee","SeasonID","TeamID","Year"));
+    public static final Set<String> allTablesName = new HashSet<>(Arrays.asList("assets","association_financial_activities","budget_finance_activity","budgets","coaches","commissioner_rules","commissioners","complaint_forms","control_budgets","events","events_logger","events_substitutions","fan_following_pages","fans","fields","games","leagues_seasons","leagues_seasons","leauge","member_alerts","member_alerts_changed_game","member_alerts_complaints","member_alerts_financial","member_alerts_game_alert","member_alerts_management","member_alerts_personal_page","members","page_content","page_content_career","page_content_profile","permissions","personal_pages","place_teams_policies","players","referee_games","referees","score_policies","season_referees","season_teams","seasons","system_managers","teammanagers","teamowners","teams"));
 
     /**
      * TO PREVENT SQL INJECTION
@@ -55,7 +55,6 @@ public interface DAL<T, E> {
         }
         ResultSet rs = preparedStatement.executeQuery();
         boolean ans = rs.next();
-        MySQLConnector.getInstance().disconnect();
         return ans;
     }
 

@@ -146,7 +146,7 @@ public class PersonalInfo extends Observable {
      */
     public void notifyInfo(IAlert newAlert, Game game) { /// notify for game alert
         for (Fan f : followers) {
-            f.update(game, newAlert);
+            f.handleAlert(newAlert);
             newAlert.setNewID();
         }
     }

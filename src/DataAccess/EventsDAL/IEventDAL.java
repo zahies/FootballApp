@@ -31,8 +31,8 @@ public class IEventDAL implements DAL<IEvent,String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectToInsert.getObjectID().toString());
         preparedStatement.setDouble(2,objectToInsert.getGameMinute());
-        preparedStatement.setString(3,objectToInsert.getEvent_logger().getObjectID().toString());
-        preparedStatement.setString(4,objectToInsert.getPlayerWhocommit().getName());
+        preparedStatement.setString(4,objectToInsert.getEvent_logger().getObjectID().toString());
+        preparedStatement.setString(3,objectToInsert.getPlayerWhocommit().getName());
         if(objectToInsert instanceof Foul){
             preparedStatement.setString(5,"Foul");
         }else if(objectToInsert instanceof Goal){
@@ -58,21 +58,29 @@ public class IEventDAL implements DAL<IEvent,String> {
     }
 
     @Override
-    public boolean update(IEvent objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException {
+    public boolean update(IEvent objectToUpdate) throws SQLException, UserIsNotThisKindOfMemberException, UserInformationException, NoConnectionException, NoPermissionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         Connection connection = MySQLConnector.getInstance().connect();
 
-        if(objectToUpdate instanceof Substitution){
-            new SubstitutionDAL().update((Substitution) objectToUpdate);
+        int ans = 0;
+        if (checkExist(objectToUpdate.getObjectID().toString(), "events", "ObjectID", "")) {
+            if (objectToUpdate instanceof Substitution) {
+                return new SubstitutionDAL().update((Substitution) objectToUpdate);
+            }
+            String statement = "UPDATE events SET EventMinute=?,PlayerCommitted=?,Logger=? WHERE ObjectID=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setDouble(1, objectToUpdate.getGameMinute());
+            preparedStatement.setString(2, objectToUpdate.getPlayerWhocommit().getName());
+            preparedStatement.setString(3, objectToUpdate.getEvent_logger().getObjectID().toString());
+            preparedStatement.setString(4, objectToUpdate.getObjectID().toString());
+            ans = preparedStatement.executeUpdate();
+        } else {
+            if (objectToUpdate instanceof Substitution) {
+                new SubstitutionDAL().insert((Substitution) objectToUpdate);
+            } else {
+                new IEventDAL().insert(objectToUpdate);
+            }
         }
-        String statement = "UPDATE events SET EventMinute=?,PlayerCommitted=?,Logger=?,Type=? WHERE ObjectID=?";
-        PreparedStatement preparedStatement = connection.prepareStatement(statement);
-        preparedStatement.setDouble(1,objectToUpdate.getGameMinute());
-        preparedStatement.setString(2,objectToUpdate.getPlayerWhocommit().getName());
-        preparedStatement.setString(3,objectToUpdate.getEvent_logger().getObjectID().toString());
-        preparedStatement.setString(4,objectToUpdate.getObjectID().toString());
-
-        int ans = preparedStatement.executeUpdate();
-        return ans==1;
+        return ans == 1;
     }
 
     @Override
@@ -83,25 +91,29 @@ public class IEventDAL implements DAL<IEvent,String> {
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         preparedStatement.setString(1,objectIdentifier);
         ResultSet rs = preparedStatement.executeQuery();
+        if(!rs.next()){
+            return null;
+        }
         String type= rs.getString("Type");
         if(type.equals("Substitution")){
             return new SubstitutionDAL().select(rs.getString("ObjectID"),false);
         }
         double eventMin = rs.getDouble("EventMinute");
         Player playerCommitted = new PlayersDAL().select(rs.getString("PlayerCommitted"),false);
+        Event_Logger event_logger = new EventLoggersDAL().select(rs.getString("Logger"),false);
         switch (type){
             case "Foul":
-                return new Foul(eventMin,playerCommitted, UUID.fromString(objectIdentifier));
+                return new Foul(eventMin,playerCommitted, UUID.fromString(objectIdentifier),event_logger);
             case "Goal":
-                return new Goal(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+                return new Goal(eventMin,playerCommitted,UUID.fromString(objectIdentifier),event_logger);
             case "Injury":
-                return new Injury(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+                return new Injury(eventMin,playerCommitted,UUID.fromString(objectIdentifier),event_logger);
             case "Offside":
-                return new OffSide(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+                return new OffSide(eventMin,playerCommitted,UUID.fromString(objectIdentifier),event_logger);
             case "RedCard":
-                return new RedCard(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+                return new RedCard(eventMin,playerCommitted,UUID.fromString(objectIdentifier),event_logger);
             case "YellowCard":
-                return new YellowCard(eventMin,playerCommitted,UUID.fromString(objectIdentifier));
+                return new YellowCard(eventMin,playerCommitted,UUID.fromString(objectIdentifier),event_logger);
         }
         return null;
     }

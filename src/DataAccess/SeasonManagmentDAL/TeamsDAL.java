@@ -224,7 +224,6 @@ public class TeamsDAL implements DAL<Team, String>  {
         while (rs.next()){
             teamsIDs.add(rs.getString("TeamID"));
         }
-        MySQLConnector.getInstance().disconnect();
         for (String string : teamsIDs) {
             Team team = this.select(string,true);
             allTeams.put(team.getId(),team);

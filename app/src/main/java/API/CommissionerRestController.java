@@ -58,6 +58,8 @@ public class CommissionerRestController {
         try{
             if (commissionerDecision.equals("true")){    /** the commissioner decided to confirm the registration request */
                 succeeded = comController.responseToRegistrationRequest(commissionerUsername,teamName);
+            }else{
+                response.setStatus(HttpServletResponse.SC_OK, "Score Policy Added Successfully ! ");
             }
         } catch (UserIsNotThisKindOfMemberException e) {
             e.printStackTrace();
@@ -80,7 +82,7 @@ public class CommissionerRestController {
         }
         if (succeeded){
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_OK, "Score Policy Added Successfully ! ");
+            response.setStatus(HttpServletResponse.SC_OK, "dhdf ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,alert);
@@ -151,10 +153,12 @@ public class CommissionerRestController {
         } catch (NoConnectionException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
             alert = e.getMessage();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         if (succeeded){
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Score Policy Added Successfully ! ");
+            response.setStatus(HttpServletResponse.SC_OK, "Score Policy Added Successfully ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,alert);
@@ -185,10 +189,12 @@ public class CommissionerRestController {
         } catch (NoConnectionException | mightBeSQLInjectionException | DuplicatedPrimaryKeyException e) {
             e.printStackTrace();
             alert = e.getMessage();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         if (succeeded) {
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Place Teams Policy Added Successfully ! ");
+            response.setStatus(HttpServletResponse.SC_OK, "Place Teams Policy Added Successfully ! ");
         } else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT, alert);
@@ -229,7 +235,7 @@ public class CommissionerRestController {
         }
         if (succeeded) {
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "RECORDED");
+            response.setStatus(HttpServletResponse.SC_OK, "RECORDED");
         } else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT, alert);
@@ -264,10 +270,12 @@ public class CommissionerRestController {
         } catch (NoConnectionException e) {
             e.printStackTrace();
             alert = e.getMessage();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         if (succeeded){
             /**pop up success*/
-            response.setStatus(HttpServletResponse.SC_ACCEPTED, "Your Rule Added Successfully ! ");
+            response.setStatus(HttpServletResponse.SC_OK, "Your Rule Added Successfully ! ");
         }else {
             /**pop up failed*/
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
@@ -277,15 +285,16 @@ public class CommissionerRestController {
 
     @CrossOrigin
     @GetMapping("/leagues")
-    public List<Integer> getLeagues(){
+    public List<String> getLeagues(){
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> leaugues = system.getAllLeagus();
-        List<Integer> leauguesID = new LinkedList<>();
+        List<String> leauguesID = new LinkedList<>();
         String message = "[";
         int i = 0;
         for (Leaugue league:leaugues) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("leagueID", league.getObjectID());
+            leauguesID.add(league.getObjectID().toString());
             message+= jsonObject.toString(2);
             i++;
             if (i<leaugues.size()){
@@ -319,6 +328,9 @@ public class CommissionerRestController {
             e.printStackTrace();
         }
         if (!succeeded){
+            response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
+        }
+        if (map.size() == 0){
             response.sendError(HttpServletResponse.SC_CONFLICT,"Incorrect Details");
         }
         return map;
