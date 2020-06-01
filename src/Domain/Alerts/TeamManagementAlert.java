@@ -17,6 +17,7 @@ public class TeamManagementAlert implements IAlert {
         this.objectID = objectID;
         this.teamStatus = teamStatus;
         this.message = message;
+        this.hadSent = hadSent;
     }
 
 

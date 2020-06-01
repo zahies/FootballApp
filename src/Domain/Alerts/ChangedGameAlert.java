@@ -18,6 +18,7 @@ public class ChangedGameAlert implements IAlert {
         this.objectID = objectID;
         this.matchDate = matchDate;
         this.game = game;
+        this.hadSent= hadSent;
     }
 
     public ChangedGameAlert(Date matchDate, Game game) {

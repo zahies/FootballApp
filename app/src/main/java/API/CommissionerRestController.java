@@ -57,8 +57,9 @@ public class CommissionerRestController {
         String teamName = body.get("teamname");
         try{
             if (commissionerDecision.equals("true")){    /** the commissioner decided to confirm the registration request */
-                succeeded = comController.responseToRegistrationRequest(commissionerUsername,teamName);
+                succeeded = comController.responseToRegistrationRequest(commissionerUsername,teamName,true);
             }else{
+                succeeded = comController.responseToRegistrationRequest(commissionerUsername,teamName,false);
                 response.setStatus(HttpServletResponse.SC_OK, "Score Policy Added Successfully ! ");
             }
         } catch (UserIsNotThisKindOfMemberException e) {
@@ -83,11 +84,6 @@ public class CommissionerRestController {
         if (succeeded){
             /**pop up success*/
             response.setStatus(HttpServletResponse.SC_OK, "dhdf ! ");
-        }else {
-            /**pop up failed*/
-            response.sendError(HttpServletResponse.SC_CONFLICT,alert);
-            ErrorLog.getInstance().UpdateLog("The error is: " + alert);
-
         }
     }
 
@@ -232,6 +228,10 @@ public class CommissionerRestController {
         } catch (NoConnectionException e) {
             e.printStackTrace();
             alert = e.getMessage();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
         if (succeeded) {
             /**pop up success*/

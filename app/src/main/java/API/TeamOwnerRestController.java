@@ -88,7 +88,9 @@
 package API;
 
 
+import DataAccess.Exceptions.DuplicatedPrimaryKeyException;
 import DataAccess.Exceptions.NoConnectionException;
+import DataAccess.Exceptions.mightBeSQLInjectionException;
 import Domain.ErrorLog;
 import Domain.FootballManagmentSystem;
 import Domain.SeasonManagment.Leaugue;
@@ -237,6 +239,10 @@ public class TeamOwnerRestController {
         } catch (NoConnectionException e) {
             e.printStackTrace();
             alert = e.getMessage();
+        } catch (mightBeSQLInjectionException e) {
+            e.printStackTrace();
+        } catch (DuplicatedPrimaryKeyException e) {
+            e.printStackTrace();
         }
         if (succeeded) {
             /**pop up success*/

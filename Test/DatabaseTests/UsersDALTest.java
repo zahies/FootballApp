@@ -53,18 +53,18 @@ public class UsersDALTest {
         TeamOwner teamOwner = new TeamOwner("ASD","SAD",0,"asd");
     }
     @Test
-    public void teamOwnerWithoutTeam() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
-        TeamOwner teamOwner = new TeamOwner("Hogeg","Moshe Hogeg",0,"Hogeg");
+    public void teamOwnerWithoutTeam() throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, NoPermissionException {
+        TeamOwner teamOwner = new TeamOwner("Hogeg1","Moshe Hogeg",0,"Hogeg1");
     }
 
     @Test
     public void fanInsert() throws UserIsNotThisKindOfMemberException, SQLException, UserInformationException, NoConnectionException, NoPermissionException, AlreadyFollowThisPageException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, EmptyPersonalPageException {
         Fan fan = new Fan("Ozi9","Ozi Gofia",0,"asd");
         List<PersonalInfo> list = new LinkedList<>();
-        PersonalInfo personalInfo = new PersonalPagesDAL().select(31528149,true);
+        PersonalInfo personalInfo = new PersonalPagesDAL().select(81665556,true);
         list.add(personalInfo);
         fan.addPersonalPagesToFollow(list);
-
+        fan.turnAlertForPersonalPageOn(personalInfo);
     }
 
     @Test

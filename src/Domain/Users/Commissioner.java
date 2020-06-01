@@ -102,21 +102,9 @@ public class Commissioner extends Member {
     public void addRefereeToSeason(UUID idLeg, int year, Referee ref) throws LeagueNotFoundException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         List<Leaugue> legs = system.getAllLeagus();
-        Leaugue leaugue = new Leaugue();
-        boolean found = false;
-        for (int i = 0; i < legs.size(); i++) {
-            if (legs.get(i).getObjectID() == idLeg) {
-                leaugue = legs.get(i);
-                found = true;
-                break;
-            }
-        }
-        if (found) {
+        Leaugue leaugue = new LeaguesDAL().select(idLeg.toString(),true);
             Season season = leaugue.getSeasonByYear(year);
             season.addRefereeToSeason(ref);
-        } else {
-            throw new LeagueNotFoundException("there is not league with this id " + idLeg);
-        }
     }
 
 
@@ -225,13 +213,15 @@ public class Commissioner extends Member {
         return financeAssociationActivity;
     }
 
-    public boolean responseToRegisterTeamByAlert(String teamName) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+    public boolean responseToRegisterTeamByAlert(String teamName,boolean commissionerDes) throws mightBeSQLInjectionException, DuplicatedPrimaryKeyException, NoPermissionException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
         Queue<IAlert> alerts = getAlertsList();
         FootballManagmentSystem system = FootballManagmentSystem.getInstance();
         for (IAlert alert : alerts) {
             if (alert instanceof RegistrationRequestAlert){
                 if (teamName.equals(((RegistrationRequestAlert) alert).getTeamName())){
-                    Team newTeam = new Team(((RegistrationRequestAlert) alert).getTeamName(),((RegistrationRequestAlert) alert).getOwner());
+                    if(commissionerDes) {
+                        Team newTeam = new Team(((RegistrationRequestAlert) alert).getTeamName(), ((RegistrationRequestAlert) alert).getOwner());
+                    }
                     //alertsList.remove(alert);
                     alert.setHadSent(true);
                     new MemberAlertsDAL().update(new Pair<>(new Pair<String,IAlert>(name,alert),"Registration Request"));

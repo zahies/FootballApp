@@ -29,9 +29,10 @@ public class MemberController {
     }
 
 
-    public void setViaMail(String Username, String mail) throws NoPermissionException, EmptyPersonalPageException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException {
+    public void setViaMail(String Username, String mail) throws NoPermissionException, EmptyPersonalPageException, SQLException, UserInformationException, UserIsNotThisKindOfMemberException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         Member member = new MembersDAL().select(Username,true);
         member.setAlertViaMail(true);
         member.setMailAddress(mail);
+        new MembersDAL().update(member);
     }
 }

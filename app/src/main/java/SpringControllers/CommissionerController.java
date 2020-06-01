@@ -325,11 +325,11 @@ public class CommissionerController extends MemberController {
         return flag;
     }
 
-    public boolean responseToRegistrationRequest(String username,String teamName) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
+    public boolean responseToRegistrationRequest(String username,String teamName,boolean commissionerDes) throws UserIsNotThisKindOfMemberException, NoPermissionException, UserInformationException, NoConnectionException, mightBeSQLInjectionException, DuplicatedPrimaryKeyException {
         boolean flag = false;
         try {
             Commissioner commissioner = (Commissioner) new CommissionersDAL().select(username,true);
-            flag = commissioner.responseToRegisterTeamByAlert(teamName);
+            flag = commissioner.responseToRegisterTeamByAlert(teamName,commissionerDes);
         }catch (SQLException e) {
         e.printStackTrace();
         }
