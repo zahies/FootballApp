@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fan</title>
+    <script src="jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Permanent+Marker:400' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <script src="jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <link rel="stylesheet" href="commissioner.css">
+    <script src="AlertControl.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="Fan.js"></script>
+</head>
+
+<ul class="navigation">
+    <li class="nav-item"><a href="#" onclick="switchdivs('FanHomePage')">Home</a></li>
+    <li class="nav-item"><a href="#" class="notification" onclick="switchdivs('notify')">
+        <span>Inbox</span>
+        <span id="note" class="badge">Empty</span>
+    </a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('contactus')">Contact us</a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('byEmail')">Get updates by email</a></li>
+    <li class="nav-item"><a href="#" onclick="logout()">log out</a></li>
+
+</ul>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger"/>
+<label for="nav-trigger"></label>
+<div class="site-wrap">
+    <div id="FanHomePage" style="text-align: center;">
+        <img src="kisspng-israel-national-football-team-israeli-premier-leag-5bf48e956c4444.7978273715427539414435.png">
+    </div>
+
+
+    <div id="contactus" style="display: none;text-align:center">
+        <FORM METHOD = "POST" ACTION = "MAILTO:footballappteam@gmail.com" method="post">
+            <h2 style="color: blue">CONTACT US</h2>
+            <p type="Name:" style="text-align: left"><input placeholder="Write your name here.."></input></p>
+            <p type="Email:" style="text-align: left" ><input placeholder="Let us know how to contact you back.."></input></p>
+            <p type="Message:" style="text-align: left" ><input placeholder="What would you like to tell us.."></input></p>
+            <input type="submit" value="Send" />
+        </form>
+    </div>
+
+    <div id="byEmail" style="display: none;text-align:center" >
+        <br>
+        <br>
+        <form>
+            <label for="emails" style=" font-family: 'Aclonica';align-content: center"><h1 style="border-bottom: 3px solid #78788c;">If you would like to receive the updates by email, please add your email address here!</h1></label>
+            <br>
+            <br>
+            <input type="email" id="emails" multiple style=" font-family: 'Aclonica';align-content: center">
+            <br><br>
+            <input style=" font-family: 'Aclonica'" onclick="byEmail()" value="Yes I want!!">
+        </form>
+    </div>
+
+
+
+
+    <div id="notify" style="display: none">
+    </div>
+</div>
+
+
+</body>
+</html>

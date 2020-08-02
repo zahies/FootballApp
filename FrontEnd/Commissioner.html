@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commissioner</title>
+
+    <script src="jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Permanent+Marker:400' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <script src="jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="Commissioner.js"></script>
+    <link rel="stylesheet" href="commissioner.css">
+    <script src="AlertControl.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<ul class="navigation">
+    <li class="nav-item"><a href="#" onclick="switchdivs('CommissionerPage')">Home</a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('runPlacingAlgoPage')">Team policies</a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('setNewScorePolicyPage')">Scoring policies</a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('defineBudgetControlPage')">Budget control</a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('seechoosenleague')">Leagues</a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('proveTeams')">Team requests</a></li>
+    <li class="nav-item"><a href="#" class="notification" onclick="switchdivs('notify')">
+        <span>Inbox</span>
+        <span id="note" class="badge">Empty</span>
+    </a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('contactus')">Contact us</a></li>
+    <li class="nav-item"><a href="#" onclick="switchdivs('byEmail')">Get updates by email</a></li>
+    <li class="nav-item"><a href="#" onclick="logout()">log out</a></li>
+</ul>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger"/>
+<label for="nav-trigger"></label>
+
+<div class="site-wrap">
+    <div id="CommissionerPage" style="text-align: center">
+        <img src="kisspng-israel-national-football-team-israeli-premier-leag-5bf48e956c4444.7978273715427539414435.png">
+    </div>
+
+
+    <div id="byEmail" style="display: none;text-align:center">
+        <br>
+        <br>
+        <form >
+            <label for="emails" style=" font-family: 'Aclonica';align-content: center"><h1 style="border-bottom: 3px solid #78788c;">If you would like to receive the updates by email, please add your email address here!</h1></label>
+            <br>
+            <br>
+            <input type="email" id="emails" multiple style=" font-family: 'Aclonica';align-content: center">
+            <br><br>
+            <input style=" font-family: 'Aclonica'" onclick="byEmail()"  value="Yes I want!!">
+        </form>
+    </div>
+
+
+    <div id="contactus" style="display: none;text-align:center">
+        <FORM METHOD = "POST" ACTION = "MAILTO:footballappteam@gmail.com" method="post">
+            <h2 style="color: blue">CONTACT US</h2>
+            <p type="Name:" style="text-align: left"><input placeholder="Write your name here.."></input></p>
+            <p type="Email:" style="text-align: left" ><input placeholder="Let us know how to contact you back.."></input></p>
+            <p type="Message:" style="text-align: left" ><input placeholder="What would you like to tell us.."></input></p>
+            <input type="submit" value="Send" />
+        </form>
+    </div>
+
+    <div id="runPlacingAlgoPage" style="display: none;text-align: center">
+        <form id="registerpage2" class="logeditor">
+            <h1 style="font-size: 18px">Define new placing policy to specific season</h1>
+            <br>
+            <h1>Enter an even number </h1>
+            <input style=" font-family: 'Aclonica';align-content: center" type="text" id="number" name="number"
+                   placeholder="Write here">
+            <br>
+            <br>
+            <h1>Enter the year of the season : </h1>
+            <input style=" font-family: 'Aclonica';align-content: center" type="text" id="year2" name="year2"
+                   placeholder="Write here">
+
+            <h1>Enter the ID of the league : </h1>
+
+            <select style=" font-family: 'Aclonica'" id="leagueID2">Chosse league</select>
+            <br>
+            <br>
+        </form>
+        <button style=" font-family: 'Aclonica';" onclick="addTeamPolicy()">Send</button>
+    </div>
+
+
+    <div id="seechoosenleague" style="display: none;text-align: center" onsubmit="getleagues()">
+
+        <select style=" font-family: 'Aclonica'" id="leagueID3"onchange="leaguechoosen()">Chosse league</select>
+        <br>
+        <br>
+        <table >
+            <caption>Leagues</caption>
+            <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Team</th>
+                <th scope="col">Score</th>
+            </tr>
+            </thead>
+            <tbody id="leagueTable">
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <div id="setNewScorePolicyPage" style="display: none;text-align: center">
+        <form id="registerpage" class="logeditor">
+            <h1 style="font-size: 18px">set new score policy</h1>
+            <br>
+            <h1>Enter the year of the season : </h1>
+            <input style=" font-family: 'Aclonica';align-content: center" type="text" id="year" name="year"
+                   placeholder="Write here">
+
+            <h1>Enter the ID of the league : </h1>
+            <select style=" font-family: 'Aclonica'" id="leagueID">Chosse league</select>
+
+            <h1>Enter the win value of the policy : </h1>
+            <input style=" font-family: 'Aclonica';align-content: center" type="text" id="winval" name="winVal"
+                   placeholder="Write here">
+
+            <h1>Enter the lose value of the policy : </h1>
+            <input style=" font-family: 'Aclonica';align-content: center" type="text" id="loseval" name="loseVal"
+                   placeholder="Write here">
+
+            <h1>Enter the draw value of the policy : </h1>
+            <input style=" font-family: 'Aclonica';align-content: center" type="text" id="drawval" name="dropVal"
+                   placeholder="Write here">
+
+            <br>
+            <br>
+        </form>
+        <button style=" font-family: 'Aclonica';" onclick="addScorePolicy()">Send</button>
+    </div>
+
+
+    <div id="defineBudgetControlPage" style="display: none;text-align: center">
+        <form class="logeditor">
+            <h1 style="font-size: 18px">Define rules about budget control</h1>
+            <h1>Enter payment amount :</h1>
+            <input style=" font-family: 'Aclonica';align-content: center" type="text" id="payment" name="payment"
+                   placeholder="Write here">
+            <h1>Enter description amount :</h1>
+            <input style=" font-family: 'Aclonica';align-content: center" type="text" id="descri" name="payment"
+                   placeholder="Write here">
+            <br>
+
+        </form>
+        <button style=" font-family: 'Aclonica';" onclick="defineBudget()">Send</button>
+    </div>
+
+    <div id = proveTeams style="display: none;text-align: center ">
+        <table>
+            <caption>Approved table</caption>
+            <thead>
+            <tr>
+                <th scope="col">Team Owner name</th>
+                <th scope="col">Team name</th>
+                <th scope="col">Accept</th>
+                <th scope="col">Decline</th>
+            </tr>
+            </thead>
+            <tbody id="teamTable">
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="notify" style="display: none">
+
+
+    </div>
+
+</div>
+
+</body>
+</html>

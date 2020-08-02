@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Manager</title>
+
+    <script src="jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Permanent+Marker:400' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+
+
+    <script src="jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+    <script type="text/javascript" src="TeamManager.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+</head>
+<body>
+<div id="main">
+<div id="TeamManagerPage">
+    <form id="TeamManager" method="get" action="" onsubmit="submitTeamManager()" role="form">
+        <br>
+        <h2>Hello Dear TeamManager, what would you like to do?</h2>
+        <div>
+            <input style=" font-family: 'Aclonica';" type="checkbox" id="Createnewteam" name="Createnewteam">
+            <label for="Createnewteam"> Create new team</label>
+        </div>
+
+        <input style=" font-family: 'Aclonica';" type="submit" value="do it!">
+    </form>
+
+</div>
+
+
+<div id="CreatenewteamPage" style="display: none;text-align: center" onsubmit="submitTeamManager()">
+    <br>
+    <h1 style="font-size: 18px">Create new team</h1>
+    <br>
+    </div>
+
+</div>
+</body>
+</html>
